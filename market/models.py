@@ -56,6 +56,7 @@ def pre_save_company_receiver(sender, instance, *args, **kwargs):
     if instance.cmp <= Decimal(0.00):
         instance.cmp = Decimal(0.01)
 
+
 pre_save.connect(pre_save_company_receiver, sender=Company)
 
 
@@ -65,9 +66,8 @@ def post_save_company_receiver(sender, instance, created, *args, **kwargs):
         for user in user_qs:
             obj, create= InvestmentRecord.objects.get_or_create(user=user, company=instance)
 
+
 post_save.connect(post_save_company_receiver, sender=Company)
-
-
 
 
 class InvestmentRecordQueryset(models.query.QuerySet):
@@ -87,6 +87,8 @@ class InvestmentRecordManager(models.Manager):
 
     def get_by_company(self, company):
         return self.get_queryset().get_by_company(company=company)
+
+
 class InvestmentRecord(models.Model):
     user = models.ForeignKey(User, on_delete=True)
     company = models.ForeignKey(Company, on_delete=True)

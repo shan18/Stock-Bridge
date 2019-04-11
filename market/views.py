@@ -5,12 +5,6 @@ from .models import Company, InvestmentRecord
 from django.http import Http404
 from stock_bridge.mixins import LoginRequiredMixin
 
-# Create your views here.
-
-
-class CompanySelectionView(View):
-    pass
-
 
 class ProfileView(DetailView):
     template_name = 'market/profile.html'
@@ -42,10 +36,5 @@ class CompanyTransactionView(LoginRequiredMixin, View):
             'company_list': Company.objects.all(),
             'stocks_owned': stocks_owned
         }
-
-        # if company.exists():
-        #
-        #     stocks_owned = company.stocks
-
         return render(request, 'market/transaction_market.html',context)
 
