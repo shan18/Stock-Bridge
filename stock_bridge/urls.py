@@ -6,6 +6,7 @@ from django.contrib.auth.views import LogoutView
 
 from .views import HomeView
 from accounts.views import RegisterView, LoginView
+from market.views import ProfileView
 
 
 urlpatterns = [
@@ -14,6 +15,7 @@ urlpatterns = [
     url(r'^register/$', RegisterView.as_view(), name='register'),
     url(r'^logout/$', LogoutView.as_view(), name='logout'),
     url(r'^stocks/', include('market.urls', namespace='market')),
+    url(r'^profile/', ProfileView.as_view(), name='profile'),
     url(r'^admin/', admin.site.urls),
 ]
 

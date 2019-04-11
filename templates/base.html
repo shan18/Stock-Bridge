@@ -1,20 +1,17 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Aldrich"
-      rel="stylesheet"
-    />
-    {% block base_head %}{% endblock %}
-  </head>
-
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}">
+		<link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
+		{% include 'base/css.html' %}
+		{% include 'base/js.html' %}
+		{% block base_head %}{% endblock %}
+	</head>
   <body>
+  {% include 'base/navbar.html' with brand_name='Stock Bridge' %}
     <div id="wrap">
       <div id="main" class="clear-top">
         {% if messages %}
@@ -42,5 +39,9 @@
     </div>
 
     {% block home_content %}{% endblock %}
+
+	{% include 'base/footer.html' %}
+
+	{% block javascript %}{% endblock %}
   </body>
 </html>
