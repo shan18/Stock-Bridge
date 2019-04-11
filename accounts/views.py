@@ -1,13 +1,14 @@
 from django.shortcuts import redirect
 from django.contrib import messages
-from django.views.generic import FormView, CreateView
+from django.views.generic import FormView, CreateView, DetailView
 from django.utils.safestring import mark_safe
-
+from market.models import Company
 from .forms import LoginForm, RegisterForm
 from stock_bridge.mixins import (
     AnonymousRequiredMixin,
     RequestFormAttachMixin,
-    NextUrlMixin
+    NextUrlMixin,
+    LoginRequiredMixin
 )
 
 
@@ -37,3 +38,11 @@ class RegisterView(AnonymousRequiredMixin, CreateView):
         super(RegisterView, self).form_valid(form)
         messages.success(self.request, 'Verification link sent! Please check your email.')
         return redirect(self.success_url)
+
+
+# class ProfileView(LoginRequiredMixin, DetailView):
+#     template_name = 'accounts/profile.html'
+
+
+
+
