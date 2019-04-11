@@ -40,9 +40,6 @@ class RegisterView(AnonymousRequiredMixin, CreateView):
         return redirect(self.success_url)
 
 
-# class ProfileView(LoginRequiredMixin, DetailView):
-#     template_name = 'accounts/profile.html'
-
 
 
 
