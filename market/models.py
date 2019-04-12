@@ -51,6 +51,21 @@ class Company(models.Model):
     def get_absolute_url(self):
         return reverse('market:transaction',kwargs={'code':self.code})
 
+    def user_buy_stocks(self, quantity):
+        if quantity <= self.stocks_remaining:
+            self.stocks_remaining -= quantity
+            self.temp_stocks_bought += quantity
+            self.save()
+            return True
+        return False
+
+    def user_sell_stocks(self, quantity):
+        if quantity <= self.stocks_offered:
+            self.stocks_remaining += quantity
+            self.temp_stocks_sold += quantity
+            self.save()
+            return True
+        return False
 
 def pre_save_company_receiver(sender, instance, *args, **kwargs):
     if instance.cmp <= Decimal(0.00):
@@ -68,6 +83,84 @@ def post_save_company_receiver(sender, instance, created, *args, **kwargs):
 
 
 post_save.connect(post_save_company_receiver, sender=Company)
+
+
+class TransactionQueryset(models.query.QuerySet):
+    def get_by_user(self, user):
+        return self.filter(user=user)
+
+    def get_by_company(self, company):
+        return self.filter(company=company)
+
+    def get_by_user_and_company(self, user, company):
+        return self.filter(user=user, company=company)
+
+
+class TransactionManager(models.Manager):
+    def get_queryset(self):
+        return TransactionQueryset(self.model, using=self._db)
+
+    def get_by_user(self, user):
+        return self.get_queryset().get_by_user(user=user)
+
+    def get_by_company(self, company):
+        return self.get_queryset().get_by_company(company=company)
+
+    def get_by_user_and_company(self, user, company):
+        return self.get_queryset().get_by_user_and_company(user=user, company=company)
+
+
+class Transaction(models.Model):
+    user = models.ForeignKey(User, on_delete=True)
+    company = models.ForeignKey(Company, on_delete=True)
+    num_stocks = models.IntegerField(default=0)
+    price = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
+    mode = models.CharField(max_length=10, choices=TRANSACTION_MODES)
+    user_net_worth = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    updated  = models.DateTimeField(auto_now=True)
+
+    objects = TransactionManager()
+
+    class Meta:
+        ordering = ['-timestamp']
+
+    def __str__(self):
+        return '{user}: {company} - {time}'.format(
+            user=self.user.username, company=self.company.name, time=self.timestamp
+        )
+
+
+def pre_save_transaction_receiver(sender, instance, *args, **kwargs):
+    amount = InvestmentRecord.objects.calculate_net_worth(instance.user)
+    instance.user_net_worth = amount
+
+    investment_obj , obj_created = InvestmentRecord.objects.get_or_create(user=instance.user,
+                                                                          company=instance.company)
+
+    if instance.mode == 'buy':
+        instance.user.buy_stocks(instance.num_stocks, instance.price)
+        instance.company.user_buy_stocks(instance.num_stocks)
+        investment_obj.add_stocks(instance.num_stocks)
+    elif instance.mode == 'sell':
+        instance.user.sell_stocks(instance.num_stocks, instance.price)
+        instance.company.user_sell_stocks(instance.num_stocks)
+        investment_obj.reduce_stocks(instance.num_stocks)
+
+
+pre_save.connect(pre_save_transaction_receiver, sender=Transaction)
+
+
+def post_save_transaction_create_receiver(sender, instance, created, *args, **kwargs):
+    if created:
+        net_worth_list = [
+            instance.user_net_worth for transaction in Transaction.objects.filter(user=instance.user)
+        ]
+
+        instance.user.update_cv(net_worth_list)
+
+
+post_save.connect(post_save_transaction_create_receiver, sender=Transaction)
 
 
 class InvestmentRecordQueryset(models.query.QuerySet):
@@ -88,6 +181,15 @@ class InvestmentRecordManager(models.Manager):
     def get_by_company(self, company):
         return self.get_queryset().get_by_company(company=company)
 
+    def calculate_net_worth(self, user):
+        qs = self.get_by_user(user)
+        amount = Decimal(0.00)
+        for inv in qs:
+            amount += Decimal(inv.stocks) * inv.company.cmp
+        return amount + user.cash
+
+
+
 
 class InvestmentRecord(models.Model):
     user = models.ForeignKey(User, on_delete=True)
@@ -102,6 +204,15 @@ class InvestmentRecord(models.Model):
 
     def __str__(self):
         return self.user.username + ' - ' + self.company.code
+
+    def add_stocks(self, num_stocks):
+        self.stocks += num_stocks
+        self.save()
+
+    def reduce_stocks(self, num_stocks):
+        if self.stocks >= num_stocks:
+            self.stocks -= num_stocks
+            self.save()
 
 
 def post_save_user_create_receiver(sender, instance, created, *args, **kwargs):
