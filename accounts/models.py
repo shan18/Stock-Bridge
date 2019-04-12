@@ -104,6 +104,7 @@ class User(AbstractBaseUser):
         self.cash += Decimal(quantity) * price
         self.save()
 
+    # TODO: This Leader board ranking method may change in future
     def update_cv(self, net_worth_list):
         self.coeff_of_variation = Decimal(np.std(net_worth_list) / np.mean(net_worth_list))
         self.save()

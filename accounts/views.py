@@ -38,8 +38,3 @@ class RegisterView(AnonymousRequiredMixin, CreateView):
         super(RegisterView, self).form_valid(form)
         messages.success(self.request, 'Verification link sent! Please check your email.')
         return redirect(self.success_url)
-
-
-
-
-
