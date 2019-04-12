@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from datetime import datetime
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +27,10 @@ SECRET_KEY = 'els1jz5jpo^v36tlmyewgg99!$j5seejmq@*$byri!iza#qk_j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost']
+
+START_TIME = datetime(2019, 4, 12, 4, 00, 0)
+STOP_TIME = datetime(2020, 5, 5, 2, 00, 0)
 
 
 # Application definition
