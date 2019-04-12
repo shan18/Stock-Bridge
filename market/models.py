@@ -67,6 +67,7 @@ class Company(models.Model):
             return True
         return False
 
+
 def pre_save_company_receiver(sender, instance, *args, **kwargs):
     if instance.cmp <= Decimal(0.00):
         instance.cmp = Decimal(0.01)
@@ -118,7 +119,7 @@ class Transaction(models.Model):
     mode = models.CharField(max_length=10, choices=TRANSACTION_MODES)
     user_net_worth = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
     timestamp = models.DateTimeField(auto_now_add=True)
-    updated  = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField(auto_now=True)
 
     objects = TransactionManager()
 
@@ -187,8 +188,6 @@ class InvestmentRecordManager(models.Manager):
         for inv in qs:
             amount += Decimal(inv.stocks) * inv.company.cmp
         return amount + user.cash
-
-
 
 
 class InvestmentRecord(models.Model):
