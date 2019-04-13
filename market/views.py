@@ -87,7 +87,7 @@ class CompanyTransactionView(LoginRequiredMixin, View):
                         else:
                             messages.error(request, 'You have Insufficient Balance for this transaction!')
                     else:
-                        messages.error(request, "You can own only " + str(company.max_stocks_sell) + " from this company!")
+                        messages.error(request, "You can own only " + str(company.max_stocks_sell) + "stocks from this company!")
 
                 elif mode == 'sell':
                     if quantity <= investment_obj.stocks and quantity <= company.stocks_offered:
