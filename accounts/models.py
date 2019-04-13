@@ -69,6 +69,9 @@ class User(AbstractBaseUser):
     email = models.EmailField(unique=True, max_length=255)
     full_name = models.CharField(max_length=255, blank=True, null=True)
     cash = models.DecimalField(max_digits=20, decimal_places=2, default=DEFAULT_LOAN_AMOUNT)
+    loan = models.DecimalField(max_digits=20, decimal_places=2, default=DEFAULT_LOAN_AMOUNT)
+    loan_count = models.IntegerField(default=1)  # For arithmetic interest calculation
+    loan_count_absolute = models.IntegerField(default=1)  # For overall loan issue count
     is_active = models.BooleanField(default=True)
     coeff_of_variation = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
     staff = models.BooleanField(default=False)
