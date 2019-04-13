@@ -27,11 +27,9 @@ class Company(models.Model):
     change = models.DecimalField(max_digits=10, decimal_places=2,default=0.00)
     stocks_offered = models.IntegerField(default=0)
     stocks_remaining = models.IntegerField(default=stocks_offered)
-    max_stocks_sell = models.IntegerField(default=100)
     cap_type = models.CharField(max_length=20, choices=CAP_TYPES, blank=True, null=True)
+    max_stocks_sell = models.IntegerField(default=100)
     industry = models.CharField(max_length=120, blank=True, null=True)
-    temp_stocks_bought = models.IntegerField(default=0)
-    temp_stocks_sold = models.IntegerField(default=0)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -55,7 +53,6 @@ class Company(models.Model):
     def user_buy_stocks(self, quantity):
         if quantity <= self.stocks_remaining:
             self.stocks_remaining -= quantity
-            self.temp_stocks_bought += quantity
             self.save()
             return True
         return False
@@ -63,13 +60,21 @@ class Company(models.Model):
     def user_sell_stocks(self, quantity):
         if quantity <= self.stocks_offered:
             self.stocks_remaining += quantity
-            self.temp_stocks_sold += quantity
             self.save()
             return True
         return False
 
 
 def pre_save_company_receiver(sender, instance, *args, **kwargs):
+
+    # Setting the maximum stocks that a user can own for a company
+    if instance.cap_type == 'small':
+        instance.max_stocks_sell = float(instance.stocks_offered) * 0.18
+    elif instance.cap_type == 'mid':
+        instance.max_stocks_sell = float(instance.stocks_offered) * 0.12
+    elif instance.cap_type == 'large':
+        instance.max_stocks_sell = float(instance.stocks_offered) * 0.08
+
     if instance.cmp <= Decimal(0.00):
         instance.cmp = Decimal(0.01)
 
