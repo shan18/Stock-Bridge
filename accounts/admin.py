@@ -4,6 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .forms import UserAdminCreationForm, UserAdminChangeForm
+from .models import EmailActivation
 
 
 User = get_user_model()
@@ -22,7 +23,7 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),
         # would have data we had fields like 'full_name'
-        ('Personal info', {'fields': ('full_name',)}),
+        ('Personal info', {'fields': ('full_name', 'cash', 'coeff_of_variation')}),
         ('Permissions', {'fields': ('is_superuser', 'staff', 'is_active')}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -31,7 +32,7 @@ class UserAdmin(BaseUserAdmin):
         (None, {
             'classes': ('wide',),
             'fields': (
-                'username', 'email', 'full_name', 'password1', 'password2'
+                'username', 'email', 'full_name', 'cash', 'coeff_of_variation', 'password1', 'password2'
             )}
          ),
     )
@@ -44,3 +45,13 @@ admin.site.register(User, UserAdmin)
 
 # Remove Group Model from admin. We're not using it.
 admin.site.unregister(Group)
+
+
+class EmailActivationAdmin(admin.ModelAdmin):
+    search_fields = ['email']   # Search guest users by email in admin panel
+
+    class Meta:
+        model = EmailActivation
+
+
+admin.site.register(EmailActivation, EmailActivationAdmin)

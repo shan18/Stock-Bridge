@@ -6,8 +6,24 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
+from .models import EmailActivation
+
 
 User = get_user_model()
+
+
+class ReactivateEmailForm(forms.Form):
+    email = forms.EmailField()
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        qs = EmailActivation.objects.email_exists(email)
+        if not qs.exists():
+            register_link = reverse('register')
+            msg = """This email does not exist.
+            Would you like to <a href="{link}">register</a>?""".format(link=register_link)
+            raise forms.ValidationError(mark_safe(msg))
+        return email
 
 
 class UserAdminCreationForm(forms.ModelForm):
@@ -41,7 +57,8 @@ class UserAdminChangeForm(forms.ModelForm):
     class Meta:
         model = User
         fields = (
-            'username', 'email', 'full_name', 'password', 'is_active'
+            'username', 'email', 'full_name', 'password', 'is_active',
+            'cash', 'coeff_of_variation', 'is_superuser'
         )
 
     def clean_password(self):
@@ -73,6 +90,28 @@ class LoginForm(forms.Form):
             'success': False,
             'message': 'Login failed.'
         }
+
+        user_qs = User.objects.filter(username=username, is_active=False)
+        if user_qs.exists():
+            # email is registered but not active
+            email = user_qs.first().email
+            link = reverse('account:resend-activation')
+            reconfirm_msg = """Go to <a href="{resend_link}">resend confirmation email</a>.
+            """.format(resend_link=link)
+            is_email_confirmable = EmailActivation.objects.filter(email=email).confirmable().exists()
+            email_activation_exists = EmailActivation.objects.email_exists(email).exists()
+            if is_email_confirmable:
+                msg1 = 'Please check your email to confirm your account or ' + reconfirm_msg.lower()
+                response['message'] = msg1
+                # raise forms.ValidationError(mark_safe(msg1))
+            elif email_activation_exists:
+                msg2 = 'Email not confirmed. ' + reconfirm_msg
+                response['message'] = msg2
+                # raise forms.ValidationError(mark_safe(msg2))
+            else:
+                response['message'] = 'This user is inactive.'
+                # raise forms.ValidationError('This user is inactive.')
+            return response
 
         user = authenticate(request, username=username, password=password)
         # If the is_active field is false, then the authenticate() method by default returns None
@@ -125,7 +164,7 @@ class RegisterForm(forms.ModelForm):
         """ Save the provided password in hashed format """
         user = super(RegisterForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
-        # user.is_active = False
+        user.is_active = False
         if commit:
             user.save()
         return user
