@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block base_head %}
+<title>Bank</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-12 mt-3 mb-5">
+        <h1 class="heading">World Bank</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-md-6 text-center">
+        <h3>Credit Loan</h3>
+        <p class="lead">Amount: &#8377; 5,000</p>
+        <form method="POST" action="{% url 'account:loan' %}"> {% csrf_token %}
+            <input type="hidden" name="mode" value="issue">
+            <button type="submit" class="btn btn-success">Issue</button>
+        </form>
+    </div>
+    <div class="col-12 col-md-6 text-center">
+        <h3>Loan Due</h3>
+        <p class="lead">Amount Due: &#8377; {{ user.loan }}<br>
+            Balance Available: &#8377; {{ user.cash }}<br>
+            Pay an installment of &#8377; 5,000</p>
+        <form method="POST" action="{% url 'account:loan' %}"> {% csrf_token %}
+            <input type="number" class="form-control" id="repay_amount" name='repay_amount' placeholder="Enter repay amount">
+            <input type="hidden" name="mode" value="pay">
+            <button type="submit" class="btn btn-success">Repay</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
