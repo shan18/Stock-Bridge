@@ -17,6 +17,8 @@ from stock_bridge.utils import unique_key_generator
 
 DEFAULT_ACTIVATION_DAYS = getattr(settings, 'DEFAULT_ACTIVATION_DAYS', 1)
 DEFAULT_LOAN_AMOUNT = getattr(settings, 'DEFAULT_LOAN_AMOUNT', Decimal(10000.00))
+RATE_OF_INTEREST = getattr(settings, 'RATE_OF_INTEREST', Decimal(0.15))
+MAX_LOAN_ISSUE = getattr(settings, 'MAX_LOAN_ISSUE')
 
 
 class UserManager(BaseUserManager):
@@ -117,6 +119,38 @@ class User(AbstractBaseUser):
 
     def sell_stocks(self, quantity, price):
         self.cash += Decimal(quantity) * price
+        self.save()
+
+    def issue_loan(self):
+        if self.loan_count_absolute < MAX_LOAN_ISSUE:
+            self.loan_count += 1
+            self.loan_count_absolute += 1
+            self.loan += DEFAULT_LOAN_AMOUNT
+            self.cash += DEFAULT_LOAN_AMOUNT
+            self.save()
+            return True
+        return False
+
+    def pay_installment(self):
+        if self.loan >= DEFAULT_LOAN_AMOUNT and self.cash >= DEFAULT_LOAN_AMOUNT and self.loan_count > 0:
+            self.loan_count -= 1
+            self.loan -= DEFAULT_LOAN_AMOUNT
+            self.cash -= DEFAULT_LOAN_AMOUNT
+            self.save()
+            return True
+        return False
+
+    def cancel_loan(self):
+        self.loan_count = 0
+        self.loan_count_absolute = 0
+        self.cash = self.cash - self.loan
+        self.loan = Decimal(0.00)
+        self.save()
+
+    def deduct_interest(self):
+        amount = (self.loan * (Decimal(1.0) + RATE_OF_INTEREST))  # After 1 year
+        compound_interest = abs(amount - self.loan)
+        self.cash -= compound_interest
         self.save()
 
     # TODO: This Leader board ranking method may change in future
