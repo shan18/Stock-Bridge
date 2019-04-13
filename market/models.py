@@ -27,6 +27,7 @@ class Company(models.Model):
     change = models.DecimalField(max_digits=10, decimal_places=2,default=0.00)
     stocks_offered = models.IntegerField(default=0)
     stocks_remaining = models.IntegerField(default=stocks_offered)
+    max_stocks_sell = models.IntegerField(default=100)
     cap_type = models.CharField(max_length=20, choices=CAP_TYPES, blank=True, null=True)
     industry = models.CharField(max_length=120, blank=True, null=True)
     temp_stocks_bought = models.IntegerField(default=0)

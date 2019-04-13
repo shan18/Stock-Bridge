@@ -38,7 +38,6 @@ BOTTOMLINE_NET_WORTH = Decimal(1000.00)
 MAX_LOAN_ISSUE = 5
 RATE_OF_INTEREST = Decimal(0.15)  # 15%
 TAX_RATE = Decimal(0.40)  # 40%
-
 START_TIME = datetime(2019, 4, 12, 4, 00, 0)
 STOP_TIME = datetime(2020, 5, 5, 2, 00, 0)
 
