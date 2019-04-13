@@ -64,25 +64,30 @@ class CompanyTransactionView(LoginRequiredMixin, View):
 
             if quantity > 0:
                 if mode == 'buy':
-                    purchase_amount = Decimal(quantity)*price
-                    if user.cash >= purchase_amount:
-                        if company.stocks_remaining >= quantity:
-                            obj = Transaction.objects.create(
-                                user=user,
-                                company=company,
-                                num_stocks=quantity,
-                                price=price,
-                                mode=mode,
-                                user_net_worth=InvestmentRecord.objects.calculate_net_worth(user)
-                            )
+                    # Checking with max stocks a user can purchase for a company
+                    total_quantity = investment_obj.stocks + quantity
+                    if not total_quantity > company.max_stocks_sell:
+                        purchase_amount = Decimal(quantity)*price
+                        if user.cash >= purchase_amount:
+                            if company.stocks_remaining >= quantity:
+                                obj = Transaction.objects.create(
+                                    user=user,
+                                    company=company,
+                                    num_stocks=quantity,
+                                    price=price,
+                                    mode=mode,
+                                    user_net_worth=InvestmentRecord.objects.calculate_net_worth(user)
+                                )
 
-                            messages.success(request, 'Transaction Complete!')
+                                messages.success(request, 'Transaction Complete!')
+
+                            else:
+                                messages.error(request, 'The company does not have that many stocks left!')
 
                         else:
-                            messages.error(request, 'The company does not have that many stocks left!')
-
+                            messages.error(request, 'You have Insufficient Balance for this transaction!')
                     else:
-                        messages.error(request, 'You have Insufficient Balance for this transaction!')
+                        messages.error(request, "You can own only " + str(company.max_stocks_sell) + " from this company!")
 
                 elif mode == 'sell':
                     if quantity <= investment_obj.stocks and quantity <= company.stocks_offered:
