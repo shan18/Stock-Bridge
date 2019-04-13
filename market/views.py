@@ -17,7 +17,7 @@ START_TIME = timezone.make_aware(getattr(settings, 'START_TIME'))
 STOP_TIME = timezone.make_aware(getattr(settings, 'STOP_TIME'))
 
 
-class ProfileView(DetailView):
+class ProfileView(LoginRequiredMixin, DetailView):
     template_name = 'market/profile.html'
 
     def get_object(self, *args, **kwargs):

@@ -19,6 +19,7 @@ DEFAULT_ACTIVATION_DAYS = getattr(settings, 'DEFAULT_ACTIVATION_DAYS', 1)
 DEFAULT_LOAN_AMOUNT = getattr(settings, 'DEFAULT_LOAN_AMOUNT', Decimal(10000.00))
 RATE_OF_INTEREST = getattr(settings, 'RATE_OF_INTEREST', Decimal(0.15))
 MAX_LOAN_ISSUE = getattr(settings, 'MAX_LOAN_ISSUE')
+BOTTOMLINE_NET_WORTH = getattr(settings, 'BOTTOMLINE_NET_WORTH', 1000)
 
 
 class UserManager(BaseUserManager):
@@ -121,28 +122,31 @@ class User(AbstractBaseUser):
         self.cash += Decimal(quantity) * price
         self.save()
 
-    def issue_loan(self):
-        if self.loan_count_absolute < MAX_LOAN_ISSUE:
+    def issue_loan(self, net_worth):
+        if self.loan_count < MAX_LOAN_ISSUE and net_worth < BOTTOMLINE_NET_WORTH:
             self.loan_count += 1
-            self.loan_count_absolute += 1
             self.loan += DEFAULT_LOAN_AMOUNT
             self.cash += DEFAULT_LOAN_AMOUNT
             self.save()
-            return True
-        return False
+            return 'success'
+        elif self.loan_count >= MAX_LOAN_ISSUE:
+            return 'loan_count_exceeded'
+        elif net_worth >= BOTTOMLINE_NET_WORTH:
+            return 'bottomline_not_reached'
+        else:
+            return 'no_loan'
 
-    def pay_installment(self):
-        if self.loan >= DEFAULT_LOAN_AMOUNT and self.cash >= DEFAULT_LOAN_AMOUNT and self.loan_count > 0:
-            self.loan_count -= 1
-            self.loan -= DEFAULT_LOAN_AMOUNT
-            self.cash -= DEFAULT_LOAN_AMOUNT
+    def pay_installment(self, repay_amount):
+        print(repay_amount)
+        if self.cash >= repay_amount and self.loan >= repay_amount:
+            self.cash -= repay_amount
+            self.loan -= repay_amount
             self.save()
             return True
         return False
 
     def cancel_loan(self):
         self.loan_count = 0
-        self.loan_count_absolute = 0
         self.cash = self.cash - self.loan
         self.loan = Decimal(0.00)
         self.save()
@@ -254,6 +258,7 @@ def pre_save_email_activation_receiver(sender, instance, *args, **kwargs):
     if not instance.activated and not instance.forced_expire and not instance.key:
         instance.key = unique_key_generator(instance)
 
+
 pre_save.connect(pre_save_email_activation_receiver, sender=EmailActivation)
 
 
@@ -261,5 +266,6 @@ def post_save_user_create_receiver(sender, instance, created, *args, **kwargs):
     if created:
         email_obj = EmailActivation.objects.create(user=instance, email=instance.email)
         email_obj.send_activation()
+
 
 post_save.connect(post_save_user_create_receiver, sender=User)

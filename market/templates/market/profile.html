@@ -1,29 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Company Profiles</title>
-    <style>
-        table {
-          font-family: arial, sans-serif;
-          border-collapse: collapse;
-          width: 100%;
-        }
 
-        td, th {
-          border: 1px solid #dddddd;
-          text-align: left;
-          padding: 8px;
-        }
+{% extends 'base.html' %}
 
-        tr:nth-child(even) {
-          background-color: #dddddd;
-        }
-    </style>
-</head>
+{% block base_head %}
+<title>MARKET</title>
+    {% include 'market/css/profile.html' %}
+{% endblock %}
 
-
-<h1>Company Profiles</h1>
+{% block content %}
+<h1>MARKET</h1>
 <body>
 <table>
     {% for company in companies %}
@@ -34,5 +18,4 @@
   </tr>
      {% endfor %}
 </table>
-</body>
-</html>
+{% endblock content %}
