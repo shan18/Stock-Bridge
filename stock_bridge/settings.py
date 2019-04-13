@@ -1,4 +1,5 @@
 import os
+from decimal import Decimal
 from datetime import datetime
 from decouple import config
 
@@ -13,6 +14,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost']
+
 
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
@@ -29,6 +31,13 @@ MANAGERS = (
     ('Morphosis NITMZ', 'morphosis@nitmz.ac.in'),
 )
 ADMINS = MANAGERS
+
+# Bank Data
+DEFAULT_LOAN_AMOUNT = Decimal(5000.00)
+BOTTOMLINE_NET_WORTH = Decimal(1000.00)
+MAX_LOAN_ISSUE = 5
+RATE_OF_INTEREST = Decimal(0.15)  # 15%
+TAX_RATE = Decimal(0.40)  # 40%
 
 START_TIME = datetime(2019, 4, 12, 4, 00, 0)
 STOP_TIME = datetime(2020, 5, 5, 2, 00, 0)

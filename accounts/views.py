@@ -1,19 +1,97 @@
-from django.shortcuts import redirect, render
+from datetime import datetime
+
+from django.conf import settings
+from django.shortcuts import render, redirect
+from django.http import Http404, HttpResponse
 from django.contrib import messages
-from django.views.generic import FormView, CreateView, DetailView, View
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView, DetailView, FormView, CreateView, View
 from django.views.generic.edit import FormMixin
 from django.utils.safestring import mark_safe
+from django.utils import timezone
+from django.utils.decorators import method_decorator
 from django.urls import reverse
-
 from .forms import LoginForm, RegisterForm, ReactivateEmailForm
 from .models import EmailActivation
-from market.models import Company
+from market.models import InvestmentRecord
 from stock_bridge.mixins import (
     AnonymousRequiredMixin,
     RequestFormAttachMixin,
     NextUrlMixin,
     LoginRequiredMixin
 )
+
+
+User = get_user_model()
+
+START_TIME = timezone.make_aware(getattr(settings, 'START_TIME'))
+STOP_TIME = timezone.make_aware(getattr(settings, 'STOP_TIME'))
+BOTTOMLINE_NET_WORTH = getattr(settings, 'BOTTOMLINE_NET_WORTH', 1000)
+
+
+@login_required
+def cancel_loan(request):
+    """ Deduct entire loan amount from user's balance """
+    if request.user.is_superuser:
+        for user in User.objects.all():
+            user.cancel_loan()
+        return HttpResponse('Loan Deducted', status=200)
+    return redirect('home')
+
+
+@login_required
+def deduct_interest(request):
+    """ Deduct interest from user's balance """
+    if request.user.is_superuser:
+        for user in User.objects.all():
+            user.deduct_interest()
+        return HttpResponse('Interest Deducted', status=200)
+    return redirect('home')
+
+
+class LoanView(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'accounts/loan.html', {
+            'user': request.user
+        })
+
+    def post(self, request, *args, **kwargs):
+        current_time = timezone.make_aware(datetime.now())
+
+        if current_time >= START_TIME and current_time <= STOP_TIME:
+            mode = request.POST.get('mode')
+            user = request.user
+            if mode == 'issue':
+                net_worth = InvestmentRecord.objects.calculate_net_worth(user)
+                print(net_worth)
+                decision = user.issue_loan(net_worth)
+                if decision == 'success':
+                    messages.success(request, 'Loan has been issued.')
+                elif decision == 'loan_count_exceeded':
+                    messages.error(request, 'You can issue loan only 5 times!')
+                elif decision == 'bottomline_not_reached':
+                    messages.error(request, 'Net worth must be less than ' + str(BOTTOMLINE_NET_WORTH))
+                else:
+                    messages.error(request, 'Cannot Issue loan right now.')
+
+            elif mode == 'pay':
+                repay_amount = int(request.POST.get('repay_amount'))
+                if repay_amount <= 0 or repay_amount > user.cash:
+                    messages.error(request, 'Enter a valid amount.')
+                elif user.pay_installment(repay_amount):
+                    messages.success(request, 'Installment paid!')
+                else:
+                    messages.error(
+                        request,
+                        'You should have sufficient balance!'
+                    )
+            else:
+                msg = 'The market is closed!'
+                messages.info(msg)
+
+        return redirect('account:loan')
 
 
 class AccountEmailActivateView(FormMixin, View):
