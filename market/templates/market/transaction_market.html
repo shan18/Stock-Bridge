@@ -4,6 +4,56 @@
 {% block base_head %}
 <title>Transaction</title>
 {% endblock %}
+{% block javascript %}
+    <script>
+    $(document).ready(function () {
+        var endpoint = '{% url "market:cmp_api_data" object.code %}';
+        var defaultData = [];
+        var labels = [];
+
+        $.ajax({
+            method: 'GET',
+            url: endpoint,
+            success: function (data) {
+                labels = data.labels;
+                defaultData = data.cmp_data;
+                setChart();
+            },
+            error: function (error_data) {
+                console.log("error");
+                console.log(error_data);
+            }
+        });
+
+        function setChart() {
+            var ctx = document.getElementById("cmp_chart");
+            var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Current Market Price',
+                    data: defaultData,
+                    backgroundColor: 'rgba(122, 242, 14, 0.2)',
+                    borderColor: 'rgba(10, 12, 12, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        }
+
+    })
+    </script>
+{% endblock %}
 {% block content %}
 
 <nav class="navbar navbar-expand-lg navbar-light mt-3 mb-4" style="background-color: #dcdce1; font-color: #000000;">
@@ -29,8 +79,8 @@
 </nav>
 
 {#Progress bar#}
-<div class="progress">
-  <div class="progress-bar bg-success" role="progressbar" style="width: {{ stock_percentage }}%;border-radius: 10px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+<div class="progress border border-danger" style="height: 20px !important;">
+  <div class="progress-bar bg-success" role="progressbar" style="width: {{ stock_percentage }}%;border-radius: 10px;border-color: red" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
         {{ stocks_owned }}
   </div>
   <div align="center" style="width:{{ percentage_difference }}%;border-radius: 10px;">
@@ -54,7 +104,7 @@
 </div>
 <div class="row">
     <div class="col-12 col-md-8 my-5 mr-auto">
-        <canvas id="cmpChart" width="400" height="200"></canvas>
+        <canvas id="cmp_chart" width="400" height="200"></canvas>
     </div>
     <div class="col-12 col-md-4 my-5 ml-auto text-center">
         <h3>{{ object.code }}</h3>

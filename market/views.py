@@ -1,17 +1,27 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import get_user_model
 from django.views import View
 from django.views.generic import DetailView
-from .models import Company, InvestmentRecord, Transaction
+from .models import Company, InvestmentRecord, Transaction, CompanyCMPRecord
 from django.http import Http404
 from stock_bridge.mixins import LoginRequiredMixin
-from .forms import StockTransactionForm
+from .forms import StockTransactionForm, CompanyChangeForm
 from datetime import datetime
 from django.utils import timezone
+from django.utils.timezone import localtime
 from django.conf import settings
 from decimal import Decimal
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
+from stock_bridge.mixins import LoginRequiredMixin, AdminRequiredMixin
+
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+User = get_user_model()
 
 START_TIME = timezone.make_aware(getattr(settings, 'START_TIME'))
 STOP_TIME = timezone.make_aware(getattr(settings, 'STOP_TIME'))
@@ -34,6 +44,56 @@ class ProfileView(LoginRequiredMixin, DetailView):
         }
 
         return context
+
+
+@login_required
+def deduct_tax(request):
+    if request.user.is_superuser:
+        for user in User.objects.all():
+            tax = user.cash * Decimal(0.4)
+            user.cash -= tax
+            user.save()
+        return HttpResponse('success')
+    return redirect('/')
+
+
+@login_required
+def update_market(request):
+    if request.user.is_superuser:
+        company_qs = Company.objects.all()
+        for company in company_qs:
+            company.update_cmp()
+            obj = CompanyCMPRecord.objects.create(company=company, cmp=company.cmp)
+        return HttpResponse('cmp updated')
+    return redirect('/')
+
+
+class CompanyAdminCompanyUpdateView(AdminRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        company = Company.objects.get(code=kwargs.get('code'))
+        return render(request, 'market/admin_company_change.html', {
+            'object': company,
+            'company_list': Company.objects.all(),
+            'form': CompanyChangeForm()
+        })
+
+    def post(self, request, *args, **kwargs):
+        company = Company.objects.get(code=kwargs.get('code'))
+        price = request.POST.get('price')
+        old_price = company.cmp
+        company.cmp = Decimal(int(price))
+        company.save()
+        company.calculate_change(old_price)
+        print('price', int(price))
+        url = reverse('market:admin', kwargs={'code': company.code})
+        return HttpResponseRedirect(url)
+
+
+class CompanyCMPCreateView(View):
+    def get(self, request, *args, **kwargs):
+        for company in Company.objects.all():
+            obj = CompanyCMPRecord.objects.create(company=company, cmp=company.cmp)
+        return HttpResponse('success')
 
 
 class CompanyTransactionView(LoginRequiredMixin, View):
@@ -124,4 +184,30 @@ class CompanyTransactionView(LoginRequiredMixin, View):
         url = reverse('market:transaction', kwargs={'code': company.code})
         return HttpResponseRedirect(url)
 
+
+# For Chart
+class CompanyCMPChartData(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None, *args, **kwargs):
+        qs = CompanyCMPRecord.objects.filter(company__code=kwargs.get('code'))
+        if qs.count() > 15:
+            qs = qs[:15]
+        qs = reversed(qs)
+        labels = []
+        cmp_data = []
+        for cmp_record in qs:
+            labels.append(localtime(cmp_record.timestamp).strftime('%H:%M'))
+            cmp_data.append(cmp_record.cmp)
+        current_cmp = Company.objects.get(code=kwargs.get('code')).cmp
+        if cmp_data[-1] != current_cmp:
+            labels.append(timezone.make_aware(datetime.now()).strftime('%H:%M'))
+            cmp_data.append(current_cmp)
+
+        data = {
+            "labels": labels,
+            "cmp_data": cmp_data,
+        }
+        return Response(data)
 

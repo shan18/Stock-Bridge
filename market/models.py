@@ -1,3 +1,4 @@
+import random
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.db.models.signals import pre_save, post_save
@@ -64,9 +65,22 @@ class Company(models.Model):
             return True
         return False
 
+    def calculate_change(self, old_price):
+        self.change = ((self.cmp - old_price) / old_price) * Decimal(100.00)
+        self.save()
+
+    def update_cmp(self):
+        old_price = self.cmp
+        temp_stocks_bought = random.randint(100,150)
+        temp_stocks_sold = random.randint(100,150)
+        self.cmp += (
+            self.cmp * Decimal(temp_stocks_bought) - self.cmp * Decimal(temp_stocks_sold)
+        ) / Decimal(self.stocks_offered)
+        self.calculate_change(old_price)
+        self.save()
+
 
 def pre_save_company_receiver(sender, instance, *args, **kwargs):
-
     # Setting the maximum stocks that a user can own for a company
     if instance.cap_type == 'small':
         instance.max_stocks_sell = instance.stocks_offered * 0.18
