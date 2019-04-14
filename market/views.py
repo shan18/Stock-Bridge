@@ -42,10 +42,17 @@ class CompanyTransactionView(LoginRequiredMixin, View):
         company = Company.objects.get(code=company_code)
         obj, created = InvestmentRecord.objects.get_or_create(user=request.user, company=company)
         stocks_owned = obj.stocks
+        max_stocks_sell = company.max_stocks_sell
+        stock_percentage = (stocks_owned/max_stocks_sell)*100
+        percentage_difference = 100-stock_percentage
+        difference = max_stocks_sell - stocks_owned
         context = {
             'object': company,
             'company_list': Company.objects.all(),
             'stocks_owned': stocks_owned,
+            'stock_percentage':stock_percentage,
+            'difference':difference,
+            'percentage_difference':percentage_difference,
             'form': StockTransactionForm()
         }
         return render(request, 'market/transaction_market.html',context)
@@ -64,25 +71,30 @@ class CompanyTransactionView(LoginRequiredMixin, View):
 
             if quantity > 0:
                 if mode == 'buy':
-                    purchase_amount = Decimal(quantity)*price
-                    if user.cash >= purchase_amount:
-                        if company.stocks_remaining >= quantity:
-                            obj = Transaction.objects.create(
-                                user=user,
-                                company=company,
-                                num_stocks=quantity,
-                                price=price,
-                                mode=mode,
-                                user_net_worth=InvestmentRecord.objects.calculate_net_worth(user)
-                            )
+                    # Checking with max stocks a user can purchase for a company
+                    total_quantity = investment_obj.stocks + quantity
+                    if total_quantity <= company.max_stocks_sell:
+                        purchase_amount = Decimal(quantity)*price
+                        if user.cash >= purchase_amount:
+                            if company.stocks_remaining >= quantity:
+                                obj = Transaction.objects.create(
+                                    user=user,
+                                    company=company,
+                                    num_stocks=quantity,
+                                    price=price,
+                                    mode=mode,
+                                    user_net_worth=InvestmentRecord.objects.calculate_net_worth(user)
+                                )
 
-                            messages.success(request, 'Transaction Complete!')
+                                messages.success(request, 'Transaction Complete!')
+
+                            else:
+                                messages.error(request, 'The company does not have that many stocks left!')
 
                         else:
-                            messages.error(request, 'The company does not have that many stocks left!')
-
+                            messages.error(request, 'You have Insufficient Balance for this transaction!')
                     else:
-                        messages.error(request, 'You have Insufficient Balance for this transaction!')
+                        messages.error(request, "This company allows each user to hold a maximum of " + str(company.max_stocks_sell) + " stocks")
 
                 elif mode == 'sell':
                     if quantity <= investment_obj.stocks and quantity <= company.stocks_offered:
