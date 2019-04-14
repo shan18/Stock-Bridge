@@ -41,6 +41,10 @@ TAX_RATE = Decimal(0.40)  # 40%
 START_TIME = datetime(2019, 4, 12, 4, 00, 0)
 STOP_TIME = datetime(2020, 5, 5, 2, 00, 0)
 
+# use session management attributes
+FORCE_ONE_SESSION = True
+FORCE_INACTIVE_USER_END_SESSION = True
+
 
 # Application definition
 
@@ -54,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'accounts',
     'market',
+    'analytics'
 ]
 
 # Replace the built-in values
