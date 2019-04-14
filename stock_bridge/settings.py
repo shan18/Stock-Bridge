@@ -13,7 +13,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', '192.168.89.114']
 
 
 EMAIL_HOST = 'smtp.sendgrid.net'
@@ -41,6 +41,10 @@ TAX_RATE = Decimal(0.40)  # 40%
 START_TIME = datetime(2019, 4, 12, 4, 00, 0)
 STOP_TIME = datetime(2020, 5, 5, 2, 00, 0)
 
+# use session management attributes
+FORCE_ONE_SESSION = True
+FORCE_INACTIVE_USER_END_SESSION = True
+
 
 # Application definition
 
@@ -55,6 +59,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'accounts',
     'market',
+    'analytics'
 ]
 
 # Replace the built-in values

@@ -1,164 +1,164 @@
 [
-{
-  "model": "market.company",
-  "pk": 1,
-  "fields": {
-    "code": "NCSFT",
-    "name": "Nicrosoft",
-    "cap": "100000000000.00",
-    "cmp": "115.78",
-    "change": "0.00",
-    "stocks_offered": 100000,
-    "stocks_remaining": 100000,
-    "cap_type": "large",
-    "industry": "IT Sector",
-    "max_stocks_sell": 0,
-    "timestamp": "2018-04-28T05:10:03.092Z",
-    "updated": "2018-05-04T13:20:42.457Z"
+  {
+    "model": "market.company",
+    "pk": 1,
+    "fields": {
+      "code": "NCSFT",
+      "name": "Nicrosoft",
+      "cap": "100000000000.00",
+      "cmp": "115.78",
+      "change": "0.00",
+      "stocks_offered": 100000,
+      "stocks_remaining": 100000,
+      "cap_type": "large",
+      "industry": "IT Sector",
+      "max_stocks_sell": 0,
+      "timestamp": "2018-04-28T05:10:03.092Z",
+      "updated": "2018-05-04T13:20:42.457Z"
+    }
+  },
+  {
+    "model": "market.company",
+    "pk": 2,
+    "fields": {
+      "code": "DGL",
+      "name": "Doogle",
+      "cap": "150000000000.00",
+      "cmp": "120.02",
+      "change": "0.02",
+      "stocks_offered": 100000,
+      "stocks_remaining": 100000,
+      "cap_type": "large",
+      "industry": "IT Sector",
+      "max_stocks_sell": 0,
+      "timestamp": "2018-04-28T05:11:04.035Z",
+      "updated": "2018-05-04T13:19:32.344Z"
+    }
+  },
+  {
+    "model": "market.company",
+    "pk": 3,
+    "fields": {
+      "code": "SYM",
+      "name": "Symfosis",
+      "cap": "80000000000.00",
+      "cmp": "175.36",
+      "change": "0.00",
+      "stocks_offered": 100000,
+      "stocks_remaining": 100000,
+      "cap_type": "large",
+      "industry": "IT Sector",
+      "max_stocks_sell": 0,
+      "timestamp": "2018-04-28T05:11:58.668Z",
+      "updated": "2018-05-04T13:20:53.255Z"
+    }
+  },
+  {
+    "model": "market.company",
+    "pk": 4,
+    "fields": {
+      "code": "OIL",
+      "name": "Oil Wells",
+      "cap": "45000000000.00",
+      "cmp": "250.21",
+      "change": "0.00",
+      "stocks_offered": 65000,
+      "stocks_remaining": 65000,
+      "cap_type": "mid",
+      "industry": "Oil Sector",
+      "max_stocks_sell": 0,
+      "timestamp": "2018-04-28T05:13:12.769Z",
+      "updated": "2018-05-04T13:29:30.818Z"
+    }
+  },
+  {
+    "model": "market.company",
+    "pk": 5,
+    "fields": {
+      "code": "KMCG",
+      "name": "KMCG",
+      "cap": "42000000000.00",
+      "cmp": "260.11",
+      "change": "0.00",
+      "stocks_offered": 65000,
+      "stocks_remaining": 65000,
+      "cap_type": "mid",
+      "industry": "Consumer Durables and Retail Sector",
+      "max_stocks_sell": 0,
+      "timestamp": "2018-04-28T05:13:55.903Z",
+      "updated": "2018-05-04T13:28:36.705Z"
+    }
+  },
+  {
+    "model": "market.company",
+    "pk": 6,
+    "fields": {
+      "code": "SUD",
+      "name": "Suduki",
+      "cap": "40000000000.00",
+      "cmp": "300.33",
+      "change": "0.00",
+      "stocks_offered": 65000,
+      "stocks_remaining": 65000,
+      "cap_type": "mid",
+      "industry": "Manufacturing Sector",
+      "max_stocks_sell": 0,
+      "timestamp": "2018-04-28T05:15:56.147Z",
+      "updated": "2018-05-04T13:29:50.545Z"
+    }
+  },
+  {
+    "model": "market.company",
+    "pk": 7,
+    "fields": {
+      "code": "FUR",
+      "name": "Furnilon",
+      "cap": "800000000.00",
+      "cmp": "700.21",
+      "change": "0.00",
+      "stocks_offered": 30000,
+      "stocks_remaining": 30000,
+      "cap_type": "small",
+      "industry": "Furniture Sector",
+      "max_stocks_sell": 0,
+      "timestamp": "2018-04-28T05:16:56.926Z",
+      "updated": "2018-05-04T13:31:57.441Z"
+    }
+  },
+  {
+    "model": "market.company",
+    "pk": 8,
+    "fields": {
+      "code": "NLC",
+      "name": "Nelcrow",
+      "cap": "700000000.00",
+      "cmp": "750.21",
+      "change": "0.00",
+      "stocks_offered": 30000,
+      "stocks_remaining": 30000,
+      "cap_type": "small",
+      "industry": "Apparels and Shopping",
+      "max_stocks_sell": 0,
+      "timestamp": "2018-04-28T05:17:34.468Z",
+      "updated": "2018-05-04T13:32:06.805Z"
+    }
+  },
+  {
+    "model": "market.company",
+    "pk": 9,
+    "fields": {
+      "code": "DPS",
+      "name": "Dipsim",
+      "cap": "500000000.00",
+      "cmp": "922.49",
+      "change": "0.00",
+      "stocks_offered": 30000,
+      "stocks_remaining": 30000,
+      "cap_type": "small",
+      "industry": "Telecommunication",
+      "max_stocks_sell": 0,
+      "timestamp": "2018-04-28T05:18:11.990Z",
+      "updated": "2018-05-04T13:31:42.582Z"
+    }
   }
-},
-{
-  "model": "market.company",
-  "pk": 2,
-  "fields": {
-    "code": "DGL",
-    "name": "Doogle",
-    "cap": "150000000000.00",
-    "cmp": "120.02",
-    "change": "0.02",
-    "stocks_offered": 100000,
-    "stocks_remaining": 100000,
-    "cap_type": "large",
-    "industry": "IT Sector",
-    "max_stocks_sell": 0,
-    "timestamp": "2018-04-28T05:11:04.035Z",
-    "updated": "2018-05-04T13:19:32.344Z"
-  }
-},
-{
-  "model": "market.company",
-  "pk": 3,
-  "fields": {
-    "code": "SYM",
-    "name": "Symfosis",
-    "cap": "80000000000.00",
-    "cmp": "175.36",
-    "change": "0.00",
-    "stocks_offered": 100000,
-    "stocks_remaining": 100000,
-    "cap_type": "large",
-    "industry": "IT Sector",
-    "max_stocks_sell": 0,
-    "timestamp": "2018-04-28T05:11:58.668Z",
-    "updated": "2018-05-04T13:20:53.255Z"
-  }
-},
-{
-  "model": "market.company",
-  "pk": 4,
-  "fields": {
-    "code": "OIL",
-    "name": "Oil Wells",
-    "cap": "45000000000.00",
-    "cmp": "250.21",
-    "change": "0.00",
-    "stocks_offered": 65000,
-    "stocks_remaining": 65000,
-    "cap_type": "mid",
-    "industry": "Oil Sector",
-    "max_stocks_sell": 0,
-    "timestamp": "2018-04-28T05:13:12.769Z",
-    "updated": "2018-05-04T13:29:30.818Z"
-  }
-},
-{
-  "model": "market.company",
-  "pk": 5,
-  "fields": {
-    "code": "KMCG",
-    "name": "KMCG",
-    "cap": "42000000000.00",
-    "cmp": "260.11",
-    "change": "0.00",
-    "stocks_offered": 65000,
-    "stocks_remaining": 65000,
-    "cap_type": "mid",
-    "industry": "Consumer Durables and Retail Sector",
-    "max_stocks_sell": 0,
-    "timestamp": "2018-04-28T05:13:55.903Z",
-    "updated": "2018-05-04T13:28:36.705Z"
-  }
-},
-{
-  "model": "market.company",
-  "pk": 6,
-  "fields": {
-    "code": "SUD",
-    "name": "Suduki",
-    "cap": "40000000000.00",
-    "cmp": "300.33",
-    "change": "0.00",
-    "stocks_offered": 65000,
-    "stocks_remaining": 65000,
-    "cap_type": "mid",
-    "industry": "Manufacturing Sector",
-    "max_stocks_sell": 0,
-    "timestamp": "2018-04-28T05:15:56.147Z",
-    "updated": "2018-05-04T13:29:50.545Z"
-  }
-},
-{
-  "model": "market.company",
-  "pk": 7,
-  "fields": {
-    "code": "FUR",
-    "name": "Furnilon",
-    "cap": "800000000.00",
-    "cmp": "700.21",
-    "change": "0.00",
-    "stocks_offered": 30000,
-    "stocks_remaining": 30000,
-    "cap_type": "small",
-    "industry": "Furniture Sector",
-    "max_stocks_sell": 0,
-    "timestamp": "2018-04-28T05:16:56.926Z",
-    "updated": "2018-05-04T13:31:57.441Z"
-  }
-},
-{
-  "model": "market.company",
-  "pk": 8,
-  "fields": {
-    "code": "NLC",
-    "name": "Nelcrow",
-    "cap": "700000000.00",
-    "cmp": "750.21",
-    "change": "0.00",
-    "stocks_offered": 30000,
-    "stocks_remaining": 30000,
-    "cap_type": "small",
-    "industry": "Apparels and Shopping",
-    "max_stocks_sell": 0,
-    "timestamp": "2018-04-28T05:17:34.468Z",
-    "updated": "2018-05-04T13:32:06.805Z"
-  }
-},
-{
-  "model": "market.company",
-  "pk": 9,
-  "fields": {
-    "code": "DPS",
-    "name": "Dipsim",
-    "cap": "500000000.00",
-    "cmp": "922.49",
-    "change": "0.00",
-    "stocks_offered": 30000,
-    "stocks_remaining": 30000,
-    "cap_type": "small",
-    "industry": "Telecommunication",
-    "max_stocks_sell": 0,
-    "timestamp": "2018-04-28T05:18:11.990Z",
-    "updated": "2018-05-04T13:31:42.582Z"
-  }
-}
 ]

@@ -4,7 +4,7 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse
 from django.contrib import messages
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, FormView, CreateView, View
 from django.views.generic.edit import FormMixin
@@ -48,6 +48,12 @@ def deduct_interest(request):
             user.deduct_interest()
         return HttpResponse('Interest Deducted', status=200)
     return redirect('home')
+
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('login')
 
 
 class LoanView(LoginRequiredMixin, View):
