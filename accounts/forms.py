@@ -7,6 +7,8 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 
 from .models import EmailActivation
+from .signals import user_session_signal
+from analytics.models import UserSession
 
 
 User = get_user_model()
@@ -122,6 +124,10 @@ class LoginForm(forms.Form):
         login(request, user)
         response['success'] = True
         self.user = user
+
+        # session management
+        user_session_signal.send(user.__class__, instance=user, request=request)
+
         return response
 
 

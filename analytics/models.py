@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.sessions.models import Session
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import post_save
 
 from .utils import get_client_ip
