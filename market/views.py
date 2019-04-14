@@ -73,7 +73,7 @@ class CompanyTransactionView(LoginRequiredMixin, View):
                 if mode == 'buy':
                     # Checking with max stocks a user can purchase for a company
                     total_quantity = investment_obj.stocks + quantity
-                    if not total_quantity > company.max_stocks_sell:
+                    if total_quantity <= company.max_stocks_sell:
                         purchase_amount = Decimal(quantity)*price
                         if user.cash >= purchase_amount:
                             if company.stocks_remaining >= quantity:
@@ -94,7 +94,7 @@ class CompanyTransactionView(LoginRequiredMixin, View):
                         else:
                             messages.error(request, 'You have Insufficient Balance for this transaction!')
                     else:
-                        messages.error(request, "You can own only " + str(company.max_stocks_sell) + "stocks from this company!")
+                        messages.error(request, "This company allows each user to hold a maximum of " + str(company.max_stocks_sell) + " stocks")
 
                 elif mode == 'sell':
                     if quantity <= investment_obj.stocks and quantity <= company.stocks_offered:
