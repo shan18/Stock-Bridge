@@ -3,7 +3,6 @@
 {% load humanize %}
 {% block base_head %}
 <title>Transaction</title>
-    {% include 'market/css/stock_purchase_progress.html' %}
 {% endblock %}
 {% block content %}
 
@@ -31,10 +30,10 @@
 
 {#Progress bar#}
 <div class="progress">
-  <div class="progress-bar bg-success" role="progressbar" style="width: {{ stock_percentage }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+  <div class="progress-bar bg-success" role="progressbar" style="width: {{ stock_percentage }}%;border-radius: 10px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
         {{ stocks_owned }}
   </div>
-  <div align="center" style="width:{{ percentage_difference }}%">
+  <div align="center" style="width:{{ percentage_difference }}%;border-radius: 10px;">
     {{ difference }}
   </div>
 </div>
@@ -72,7 +71,7 @@
 </div>
 <div class="row">
     <div class="col-6 text-center mx-auto mt-5">
-{#        <p style="font-size: 25px;"><b>Balance Available:</b> &#8377; {{ request.user.cash }}</p><br>#}
+        <p style="font-size: 25px;"><b>Balance Available:</b> &#8377; {{ request.user.cash }}</p><br>
         <form method="POST" action="{% url 'market:transaction' object.code %}"> {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-success">Transact</button>
