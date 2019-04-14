@@ -3,6 +3,7 @@
 {% load humanize %}
 {% block base_head %}
 <title>Transaction</title>
+    {% include 'market/css/stock_purchase_progress.html' %}
 {% endblock %}
 {% block content %}
 
@@ -27,6 +28,18 @@
       </ul>
   </div>
 </nav>
+
+{#Progress bar#}
+<div class="progress">
+  <div class="progress-bar bg-success" role="progressbar" style="width: {{ stock_percentage }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+        {{ stocks_owned }}
+  </div>
+  <div align="center" style="width:{{ percentage_difference }}%">
+    {{ difference }}
+  </div>
+</div>
+{#----#}
+
 
 <div class="row">
     <div class="col mx-auto my-3">

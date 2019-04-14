@@ -42,10 +42,17 @@ class CompanyTransactionView(LoginRequiredMixin, View):
         company = Company.objects.get(code=company_code)
         obj, created = InvestmentRecord.objects.get_or_create(user=request.user, company=company)
         stocks_owned = obj.stocks
+        max_stocks_sell = company.max_stocks_sell
+        stock_percentage = (stocks_owned/max_stocks_sell)*100
+        percentage_difference = 100-stock_percentage
+        difference = max_stocks_sell - stocks_owned
         context = {
             'object': company,
             'company_list': Company.objects.all(),
             'stocks_owned': stocks_owned,
+            'stock_percentage':stock_percentage,
+            'difference':difference,
+            'percentage_difference':percentage_difference,
             'form': StockTransactionForm()
         }
         return render(request, 'market/transaction_market.html',context)

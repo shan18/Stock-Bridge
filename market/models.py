@@ -69,11 +69,11 @@ def pre_save_company_receiver(sender, instance, *args, **kwargs):
 
     # Setting the maximum stocks that a user can own for a company
     if instance.cap_type == 'small':
-        instance.max_stocks_sell = float(instance.stocks_offered) * 0.18
+        instance.max_stocks_sell = instance.stocks_offered * 0.18
     elif instance.cap_type == 'mid':
-        instance.max_stocks_sell = float(instance.stocks_offered) * 0.12
+        instance.max_stocks_sell = instance.stocks_offered * 0.12
     elif instance.cap_type == 'large':
-        instance.max_stocks_sell = float(instance.stocks_offered) * 0.08
+        instance.max_stocks_sell = instance.stocks_offered * 0.08
 
     if instance.cmp <= Decimal(0.00):
         instance.cmp = Decimal(0.01)
