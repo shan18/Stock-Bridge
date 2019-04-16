@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'rest_framework',
     'accounts',
+    'session.apps.SessionConfig',
     'market'
 ]
 
@@ -71,6 +72,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'session.middleware.OneSessionPerUserMiddleware'
 ]
 
 ROOT_URLCONF = 'stock_bridge.urls'

@@ -95,7 +95,7 @@ class LoanView(LoginRequiredMixin, View):
                     )
             else:
                 msg = 'The market is closed!'
-                messages.info(msg)
+                messages.info(request, msg)
 
         return redirect('account:loan')
 
