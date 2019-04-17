@@ -84,18 +84,21 @@ class LoanView(LoginRequiredMixin, View):
 
             elif mode == 'pay':
                 repay_amount = int(request.POST.get('repay_amount'))
-                if repay_amount <= 0 or repay_amount > user.cash:
-                    messages.error(request, 'Enter a valid amount.')
-                elif user.pay_installment(repay_amount):
-                    messages.success(request, 'Installment paid!')
-                else:
-                    messages.error(
-                        request,
-                        'You should have sufficient balance!'
-                    )
-            else:
-                msg = 'The market is closed!'
-                messages.info(msg)
+                if user.loan <= 0:
+                    messages.error(request, "You have no pending loan!")
+                elif user.loan > 0:
+                    if repay_amount <= 0 or repay_amount > user.cash:
+                        messages.error(request, 'Enter a valid amount.')
+                    elif user.pay_installment(repay_amount):
+                        messages.success(request, 'Installment paid!')
+                    else:
+                        messages.error(
+                            request,
+                            'You should have sufficient balance!'
+                        )
+        else:
+            msg = 'The market is closed!'
+            messages.info(request, msg)
 
         return redirect('account:loan')
 
