@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from .views import (
+    MarketOverview,
     CompanyTransactionView,
     CompanyCMPChartData,
     CompanyAdminCompanyUpdateView,
@@ -12,6 +13,7 @@ app_name = 'Market'
 
 
 urlpatterns = [
+    url(r'^overview/$', MarketOverview.as_view(), name='overview'),
     url(r'^transact/(?P<code>\w+)$', CompanyTransactionView.as_view(), name='transaction'),
     url(r'^admin/(?P<code>\w+)$', CompanyAdminCompanyUpdateView.as_view(), name='admin'),
     url(r'^create/$', CompanyCMPCreateView.as_view(), name='create_cmp'),

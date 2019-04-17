@@ -3,7 +3,7 @@
 {% url 'login' as login_url %}
 {% url 'register' as register_url %}
 {% url 'logout' as logout_url %}
-{% url 'profile' as profile_url %}
+{% url 'market:overview' as overview_url %}
 {% url 'account:loan' as loan_url %}
 
 
@@ -24,7 +24,7 @@
 				</li>
 				{% if request.user.is_authenticated %}
 					<li class="nav-item {% if request.path == market_url %}active{% endif %}">
-						<a class="nav-link" href="{{ profile_url }}">Market</a>
+						<a class="nav-link" href="{{ overview_url }}">Market</a>
 					</li>
 					<li class="nav-item {% if request.path == loan_url %}active{% endif %}">
 						<a class="nav-link" href="{{ loan_url }}">Bank</a>
@@ -41,7 +41,7 @@
 							Account
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item {% if request.path == profile_url %}active{% endif %}" href="{{ profile_url }}">Profile</a>
+							<a class="dropdown-item" href="#">Profile</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item {% if request.path == logout_url %}active{% endif %}" href="{{ logout_url }}">Logout</a>
 						</div>

@@ -1,27 +1,26 @@
 import logging
+from datetime import datetime
+from decimal import Decimal
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from django.views import View
 from django.views.generic import DetailView
-from .models import Company, InvestmentRecord, Transaction, CompanyCMPRecord
 from django.http import Http404
-from stock_bridge.mixins import LoginRequiredMixin
-from .forms import StockTransactionForm, CompanyChangeForm
-from datetime import datetime
 from django.utils import timezone
 from django.utils.timezone import localtime
 from django.conf import settings
-from decimal import Decimal
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponse
-from stock_bridge.mixins import LoginRequiredMixin, AdminRequiredMixin
-
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
+
+from .models import Company, InvestmentRecord, Transaction, CompanyCMPRecord
+from .forms import StockTransactionForm, CompanyChangeForm
+from stock_bridge.mixins import LoginRequiredMixin, AdminRequiredMixin
+
 
 User = get_user_model()
 
@@ -29,8 +28,8 @@ START_TIME = timezone.make_aware(getattr(settings, 'START_TIME'))
 STOP_TIME = timezone.make_aware(getattr(settings, 'STOP_TIME'))
 
 
-class ProfileView(LoginRequiredMixin, DetailView):
-    template_name = 'market/profile.html'
+class MarketOverview(LoginRequiredMixin, DetailView):
+    template_name = 'market/overview.html'
 
     def get_object(self, *args, **kwargs):
         instance = Company.objects.all()
@@ -39,7 +38,7 @@ class ProfileView(LoginRequiredMixin, DetailView):
         return instance
 
     def get_context_data(self,*args, **kwargs):
-        context = super(ProfileView, self).get_context_data(*args, **kwargs)
+        context = super(MarketOverview, self).get_context_data(*args, **kwargs)
         qs = Company.objects.all()
         context = {
             'companies':qs
