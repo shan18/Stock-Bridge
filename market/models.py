@@ -65,18 +65,13 @@ class Company(models.Model):
             return True
         return False
 
-    def calculate_change(self, old_price):
-        self.change = ((self.cmp - old_price) / old_price) * Decimal(100.00)
+    def calculate_change(self, new_price):
+        self.change = ((new_price - self.cmp) / self.cmp) * Decimal(100.00)
         self.save()
 
-    def update_cmp(self):
-        old_price = self.cmp
-        temp_stocks_bought = random.randint(100,150)
-        temp_stocks_sold = random.randint(100,150)
-        self.cmp += (
-            self.cmp * Decimal(temp_stocks_bought) - self.cmp * Decimal(temp_stocks_sold)
-        ) / Decimal(self.stocks_offered)
-        self.calculate_change(old_price)
+    def update_cmp(self, new_price):
+        self.calculate_change(new_price)
+        self.cmp = new_price
         self.save()
 
 
@@ -156,8 +151,10 @@ def pre_save_transaction_receiver(sender, instance, *args, **kwargs):
     amount = InvestmentRecord.objects.calculate_net_worth(instance.user)
     instance.user_net_worth = amount
 
-    investment_obj , obj_created = InvestmentRecord.objects.get_or_create(user=instance.user,
-                                                                          company=instance.company)
+    investment_obj , obj_created = InvestmentRecord.objects.get_or_create(
+        user=instance.user,
+        company=instance.company
+    )
 
     if instance.mode == 'buy':
         instance.user.buy_stocks(instance.num_stocks, instance.price)

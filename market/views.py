@@ -20,6 +20,7 @@ from rest_framework.response import Response
 from .models import Company, InvestmentRecord, Transaction, CompanyCMPRecord
 from .forms import StockTransactionForm, CompanyChangeForm
 from stock_bridge.mixins import LoginRequiredMixin, AdminRequiredMixin
+from stocks.models import StocksDatabase, StocksDatabasePointer
 
 
 User = get_user_model()
@@ -61,10 +62,7 @@ def deduct_tax(request):
 @login_required
 def update_market(request):
     if request.user.is_superuser:
-        company_qs = Company.objects.all()
-        for company in company_qs:
-            company.update_cmp()
-            obj = CompanyCMPRecord.objects.create(company=company, cmp=company.cmp)
+        StocksDatabasePointer.objects.get_pointer().increment_pointer()
         return HttpResponse('cmp updated')
     return redirect('/')
 
