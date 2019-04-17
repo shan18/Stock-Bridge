@@ -88,11 +88,11 @@ class CompanyAdminCompanyUpdateView(AdminRequiredMixin, View):
         return HttpResponseRedirect(url)
 
 
-class CompanyCMPCreateView(View):
-    def get(self, request, *args, **kwargs):
-        for company in Company.objects.all():
-            obj = CompanyCMPRecord.objects.create(company=company, cmp=company.cmp)
-        return HttpResponse('success')
+# class CompanyCMPCreateView(View):
+#     def get(self, request, *args, **kwargs):
+#         for company in Company.objects.all():
+#             obj = CompanyCMPRecord.objects.create(company=company, cmp=company.cmp)
+#         return HttpResponse('success')
 
 
 class CompanyTransactionView(LoginRequiredMixin, View):

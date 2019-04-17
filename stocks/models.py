@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
 
-from market.models import Company
+from market.models import Company, CompanyCMPRecord
 
 
 class StocksDatabase(models.Model):
@@ -36,9 +36,11 @@ class StocksDatabasePointer(models.Model):
 
 
 def post_save_stocks_database_pointer_receiver(sender, instance, created, *args, **kwargs):
-    for company in Company.objects.all():
-        new_price = StocksDatabase.objects.get(company=company, pointer=instance.pointer).price
-        company.update_cmp(new_price)
+    if not created:
+        for company in Company.objects.all():
+            new_price = StocksDatabase.objects.get(company=company, pointer=instance.pointer).price
+            company.update_cmp(new_price)
+            CompanyCMPRecord.objects.create(company=company, cmp=new_price)
 
 
 post_save.connect(post_save_stocks_database_pointer_receiver, sender=StocksDatabasePointer)
