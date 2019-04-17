@@ -74,28 +74,37 @@ class LoanView(LoginRequiredMixin, View):
                 print(net_worth)
                 decision = user.issue_loan(net_worth)
                 if decision == 'success':
-                    messages.success(request, 'Loan has been issued.')
+                    messages.success(request, 'Loan issued.')
                 elif decision == 'loan_count_exceeded':
-                    messages.error(request, 'You can issue loan only 5 times!')
+                    messages.error(request, 'Loan can be issued only 5 times!')
                 elif decision == 'bottomline_not_reached':
-                    messages.error(request, 'Net worth must be less than ' + str(BOTTOMLINE_NET_WORTH))
+                    messages.error(
+                        request,
+                        'Net worth must be less than {bottom_line} to issue a loan. Your current net worth: {net_worth}'.format(
+                            bottom_line=BOTTOMLINE_NET_WORTH,
+                            net_worth=net_worth
+                        )
+                    )
                 else:
                     messages.error(request, 'Cannot Issue loan right now.')
 
             elif mode == 'pay':
                 repay_amount = int(request.POST.get('repay_amount'))
-                if repay_amount <= 0 or repay_amount > user.cash:
-                    messages.error(request, 'Enter a valid amount.')
-                elif user.pay_installment(repay_amount):
-                    messages.success(request, 'Installment paid!')
-                else:
-                    messages.error(
-                        request,
-                        'You should have sufficient balance!'
-                    )
-            else:
-                msg = 'The market is closed!'
-                messages.info(request, msg)
+                if user.loan <= 0:
+                    messages.error(request, "You have no pending loan!")
+                elif user.loan > 0:
+                    if repay_amount <= 0 or repay_amount > user.cash:
+                        messages.error(request, 'Please enter a valid amount.')
+                    elif user.pay_installment(repay_amount):
+                        messages.success(request, 'Installment paid!')
+                    else:
+                        messages.error(
+                            request,
+                            'You should have sufficient balance!'
+                        )
+        else:
+            msg = 'The market is closed!'
+            messages.info(request, msg)
 
         return redirect('account:loan')
 

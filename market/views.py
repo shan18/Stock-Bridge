@@ -1,3 +1,5 @@
+import logging
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from django.views import View
@@ -118,11 +120,11 @@ class CompanyTransactionView(LoginRequiredMixin, View):
         return render(request, 'market/transaction_market.html',context)
 
     def post(self, request, *args, **kwargs):
-        '''This method handles any post data at this page (primarily for transaction)'''
+        """This method handles any post data at this page (primarily for transaction)"""
         company = Company.objects.get(code=kwargs.get('code'))
         current_time = timezone.make_aware(datetime.now())
 
-        if current_time >= START_TIME and current_time <= STOP_TIME:
+        if START_TIME <= current_time <= STOP_TIME:
             user = request.user
             mode = request.POST.get('mode')
             quantity = int(request.POST.get('quantity'))
@@ -149,12 +151,19 @@ class CompanyTransactionView(LoginRequiredMixin, View):
                                 messages.success(request, 'Transaction Complete!')
 
                             else:
-                                messages.error(request, 'The company does not have that many stocks left!')
+                                messages.error(
+                                    request, 'The company has only {} stocks left!'.format(company.stocks_remaining)
+                                )
 
                         else:
                             messages.error(request, 'You have Insufficient Balance for this transaction!')
                     else:
-                        messages.error(request, "This company allows each user to hold a maximum of " + str(company.max_stocks_sell) + " stocks")
+                        messages.error(
+                            request,
+                            'This company allows each user to hold a maximum of {} stocks'.format(
+                                company.max_stocks_sell
+                            )
+                        )
 
                 elif mode == 'sell':
                     if quantity <= investment_obj.stocks and quantity <= company.stocks_offered:

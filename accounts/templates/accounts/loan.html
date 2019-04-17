@@ -24,7 +24,7 @@
         <h3>Loan Due</h3>
         <p class="lead">Amount Due: &#8377; {{ user.loan }}<br>
             Balance Available: &#8377; {{ user.cash }}<br>
-            Pay an installment of &#8377; 5,000</p>
+            Pay your installment</p>
         <form method="POST" action="{% url 'account:loan' %}"> {% csrf_token %}
             <input type="number" class="form-control" id="repay_amount" name='repay_amount' placeholder="Enter repay amount">
             <input type="hidden" name="mode" value="pay">
