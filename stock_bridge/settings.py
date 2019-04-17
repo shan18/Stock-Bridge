@@ -52,10 +52,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+
+    # 3rd party
     'rest_framework',
+
+    # custom apps
     'accounts',
     'session.apps.SessionConfig',
-    'market'
+    'market',
+    'stocks'
 ]
 
 # Replace the built-in values
