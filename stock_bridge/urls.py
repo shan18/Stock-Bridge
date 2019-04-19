@@ -6,6 +6,7 @@ from django.views.generic import RedirectView
 
 from .views import HomeView
 from accounts.views import RegisterView, LoginView, logout_view
+from market.views import NewsView
 
 
 urlpatterns = [
@@ -17,7 +18,8 @@ urlpatterns = [
     url(r'^account/', include('accounts.urls', namespace='account')),
     url(r'^accounts/', include('accounts.passwords.urls')),
     url(r'^accounts/$', RedirectView.as_view(url='/account')),
-    url(r'^admin/', admin.site.urls),
+    url(r'^news/$', NewsView.as_view(), name='news'),
+    url(r'^admin/', admin.site.urls)
 ]
 
 if settings.DEBUG:
