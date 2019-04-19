@@ -19,8 +19,3 @@ urlpatterns = [
     url(r'^tax/$', deduct_tax, name='tax'),
     url(r'^update/$', update_market, name='update')
 ]
-
-
-
-
-

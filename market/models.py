@@ -254,3 +254,16 @@ class CompanyCMPRecord(models.Model):
     def __str__(self):
         return self.company.code
 
+
+class News(models.Model):
+    title = models.CharField(max_length=120)
+    content = models.TextField()
+    is_active = models.BooleanField(default=True)  # Inactive news won't appear in dashboard
+    timestamp = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-timestamp', '-updated']
+
+    def __str__(self):
+        return self.title

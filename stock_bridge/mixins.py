@@ -4,6 +4,15 @@ from django.utils.decorators import method_decorator
 from django.utils.http import is_safe_url
 
 from .decorators import login_required_message_and_redirect
+from market.models import News
+
+
+class CountNewsMixin(object):
+    """ Count current news amount for display in navbar """
+
+    def dispatch(self, request, *args, **kwargs):
+        request.session['news'] = News.objects.filter(is_active=True).count()
+        return super(CountNewsMixin, self).dispatch(request, *args, **kwargs)
 
 
 class AdminRequiredMixin(object):

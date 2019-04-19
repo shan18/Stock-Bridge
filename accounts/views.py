@@ -19,7 +19,8 @@ from stock_bridge.mixins import (
     AnonymousRequiredMixin,
     RequestFormAttachMixin,
     NextUrlMixin,
-    LoginRequiredMixin
+    LoginRequiredMixin,
+    CountNewsMixin
 )
 
 
@@ -56,7 +57,7 @@ def logout_view(request):
     return redirect('login')
 
 
-class LoanView(LoginRequiredMixin, View):
+class LoanView(LoginRequiredMixin, CountNewsMixin, View):
 
     def get(self, request, *args, **kwargs):
         return render(request, 'accounts/loan.html', {
