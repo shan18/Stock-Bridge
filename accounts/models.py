@@ -197,7 +197,7 @@ class EmailActivationManager(models.Manager):
 
 
 class EmailActivation(models.Model):
-    user = models.ForeignKey(User, on_delete=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     email = models.EmailField()
     key = models.CharField(max_length=120, blank=True, null=True)  # activation key
     activated = models.BooleanField(default=False)
