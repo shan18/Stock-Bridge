@@ -169,6 +169,12 @@ class LoginView(AnonymousRequiredMixin, RequestFormAttachMixin, NextUrlMixin, Fo
     default_url = '/'
     default_next = '/'
 
+    def get_context_data(self, *args, **kwargs):
+        context = super(LoginView, self).get_context_data(*args, **kwargs)
+        context['heading'] = 'Login'
+        context['button_text'] = 'Sign In'
+        return context
+
     def form_valid(self, form):
         request = self.request
         response = form.cleaned_data
@@ -184,7 +190,14 @@ class RegisterView(AnonymousRequiredMixin, CreateView):
     template_name = 'accounts/register.html'
     success_url = '/login/'
 
+    def get_context_data(self, *args, **kwargs):
+        context = super(RegisterView, self).get_context_data(*args, **kwargs)
+        context['heading'] = 'Register'
+        context['button_text'] = 'Sign Up'
+        return context
+
     def form_valid(self, form):
         super(RegisterView, self).form_valid(form)
+        print(form.cleaned_data)
         messages.success(self.request, 'Verification link sent! Please check your email.')
         return redirect(self.success_url)

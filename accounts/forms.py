@@ -67,10 +67,10 @@ class UserAdminChangeForm(forms.ModelForm):
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Username', widget=forms.TextInput(
-        attrs={'class': 'form-control my-2', 'placeholder': 'Username'}
+        attrs={'class': 'auth_form__input'}
     ))
-    password = forms.CharField(widget=forms.PasswordInput(
-        attrs={'class': 'form-control my-2', 'placeholder': 'Password'}
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(
+        attrs={'class': 'auth_form__input'}
     ))
 
     def __init__(self, request, *args, **kwargs):
@@ -127,19 +127,19 @@ class LoginForm(forms.Form):
 
 class RegisterForm(forms.ModelForm):
     username = forms.CharField(label='Username', widget=forms.TextInput(
-        attrs={'class': 'form-control my-2', 'placeholder': 'Username'}
+        attrs={'class': 'auth_form__input'}
     ))
     full_name = forms.CharField(label='Full Name', widget=forms.TextInput(
-        attrs={'class': 'form-control my-2', 'placeholder': 'Full Name'}
+        attrs={'class': 'auth_form__input'}
     ))
-    email = forms.EmailField(label='Email', widget=forms.EmailInput(
-        attrs={'class': 'form-control my-2', 'placeholder': 'Email'}
+    email = forms.EmailField(label='Email', widget=forms.TextInput(
+        attrs={'class': 'auth_form__input'}
     ))
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput(
-        attrs={'class': 'form-control my-2', 'placeholder': 'Password'}
+        attrs={'class': 'auth_form__input'}
     ))
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(
-        attrs={'class': 'form-control my-2', 'placeholder': 'Password'}
+        attrs={'class': 'auth_form__input'}
     ))
 
     class Meta:
@@ -159,6 +159,12 @@ class RegisterForm(forms.ModelForm):
         if not re.match(r'^[\w]+$', username):  # Username must contain only alphanumeric characters
             raise forms.ValidationError('username can contain only alphabets and numbers')
         return username
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not re.match(r'^.+@.+\..+$', email):  # Username must contain only alphanumeric characters
+            raise forms.ValidationError('enter a valid email')
+        return email
 
     def save(self, commit=True):
         """ Save the provided password in hashed format """
