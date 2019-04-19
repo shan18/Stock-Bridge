@@ -1,0 +1,191 @@
+.auth_overlay {
+  position: relative;
+  display: flex;
+  /* background-image: linear-gradient(135deg, #000 80%, #512da8); */
+  align-items: center;
+  overflow: hidden;
+}
+
+.auth {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.auth .auth__inner {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-content: center;
+  padding: 0 2rem;
+}
+
+.auth .auth__inner .auth__header {
+  display: flex;
+  width: 100%;
+}
+
+.auth .auth__inner .auth__header .auth__title {
+  display: flex;
+  width: 100%;
+}
+
+.auth .auth__inner .auth__header .auth__title h1.auth__heading {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  width: 100%;
+}
+
+.auth .auth__inner .auth__content {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.auth .auth__inner .auth__content .auth__form {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.auth .auth__inner .auth__content .auth__form .auth_form {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.auth .auth__inner .auth__content .auth__form .auth_form .auth_form__group {
+  position: relative;
+  display: flex;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  width: 100%;
+}
+
+.auth .auth__inner .auth__content .auth__form .auth_form .auth_form__group .auth_form__icon {
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  display: flex;
+  width: 2rem;
+  height: 100%;
+}
+
+.auth .auth__inner .auth__content .auth__form .auth_form .auth_form__group .auth_form__input {
+  display: flex;
+  width: 100%;
+  padding: 1rem 4rem;
+  background: transparent;
+  font-size: 1.75rem;
+  letter-spacing: 0.125rem;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  border-bottom: 0.1rem solid rgba(0, 0, 0, .3);
+}
+
+.auth_form__input:focus ~ .auth_form__label, .auth .auth__inner .auth__content .auth__form .auth_form .auth_form__group .auth_form__input:valid ~ .auth_form__label {
+  transform: translate3d(4rem, 0, 0);
+  font-size: 1.25rem;
+  color: rgba(0, 0, 0, .7);
+}
+
+.auth .auth__inner .auth__content .auth__form .auth_form .auth_form__group .auth_form__input-after {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 99;
+  display: flex;
+  width: 0;
+  height: 0.1rem;
+  transition: 0.25s cubic-bezier(0.694, 0.048, 0.335, 1) all;
+}
+
+.auth .auth__inner .auth__content .auth__form .auth_form .auth_form__group .auth_form__label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  font-size: 1.75rem;
+  color: black;
+  transform: translate3d(4rem, 2rem, 0);
+  will-change: transform;
+  transform-style: preserve-3d;
+  transition: 0.25s cubic-bezier(0.694, 0.048, 0.335, 1) all;
+  pointer-events: none;
+}
+
+.auth .auth__inner .auth__content .auth__form .auth_form .auth_form__group .auth_form__btn {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 1rem 1.1rem;
+  cursor: pointer;
+  border: 0.1rem solid #000;
+  border-radius: 0.25rem;
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+  text-transform: uppercase;
+  transition: 0.25s cubic-bezier(0.694, 0.048, 0.335, 1) all;
+}
+
+.auth .auth__inner .auth__content .auth__form .auth_form .auth_form__group .auth_form__btn::after {
+  content: " ";
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 0;
+  height: 100%;
+  background-color: #000;
+  transition: 0.25s cubic-bezier(0.694, 0.048, 0.335, 1) all;
+}
+
+.auth .auth__inner .auth__content .auth__form .auth_form .auth_form__group .auth_form__btn:hover {
+  color: #fff;
+}
+
+.auth .auth__inner .auth__content .auth__form .auth_form .auth_form__group .auth_form__btn:hover::after {
+  width: 100%;
+}
+
+.auth .auth__inner .auth__content .auth__form .auth_form .auth_form__group .auth_form__btn:hover .auth_form__btn-text {
+  color: #fff;
+  transition: 0.25s cubic-bezier(0.694, 0.048, 0.335, 1) all;
+}
+
+.auth .auth__inner .auth__content .auth__form .auth_form .auth_form__group .auth_form__btn .auth_form__btn-text {
+  position: relative;
+  z-index: 99;
+  font-size: 1.75rem;
+  letter-spacing: 0.25rem;
+  /* color: #fff; */
+}
+
+/* 768px */
+@media (min-width: 48rem) {
+  .auth {
+    width: 75%;
+  }
+}
+
+/* 992px */
+@media (min-width: 62rem) {
+  .auth {
+    width: 50%;
+  }
+}
+
+/* 1200px */
+@media (min-width: 75rem) {
+  .auth {
+    width: 50%;
+  }
+  .auth .auth__inner {
+    max-width: 50rem;
+    margin: 0 auto;
+  }
+}

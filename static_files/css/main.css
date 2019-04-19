@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,700');
+
 html, body {
 	height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
 }
 
 #wrap {
@@ -54,10 +58,9 @@ a.dropdown-item.active {
     text-align: center;
 	padding-top: 200px;
 	font-size: 22px;
-    font-family: 'Aldrich';
 }
 
 .heading {
-    text-align: center;
-    font-family: 'Aldrich';
+	text-align: center;
+	margin-top: 1.5rem;
 }
