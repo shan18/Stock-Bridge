@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block base_head %}
+<title>Profile</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-12 mt-3">
+        <div class="text-center">
+            <h1 class="heading">{{ object.full_name }}</h1>
+            <p class="lead">{{ object.username }}</p>
+            <p class="lead">{{ object.email }}</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 text-center my-5">
+        <h3>Net Worth: &#8377; {{ net_worth|intcomma }}</h3>
+    </div>
+</div>
+{% if investments %}
+    <div class="row">
+        <div class="col-12">
+            <h3>Investment Record:</h3>
+        </div>
+        <div class="col-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center">S.no</th>
+                        <th class="text-center">Company</th>
+                        <th class="text-center">Stocks Purchased</th>
+                        <th class="text-center">Stocks Available</th>
+                        <th class="text-center">Current Market Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for investment in investments %}
+                        <tr>
+                            <td class="text-center">{{ forloop.counter }}</td>
+                            <td class="text-center">
+                                <a href="{% url 'market:transaction' investment.company.code %}">
+                                    {{ investment.company }}
+                                </a>
+                            </td>
+                            <td class="text-center">{{ investment.stocks }}</td>
+                            <td class="text-center">{{ investment.company.stocks_remaining }}</td>
+                            <td class="text-center">
+                                &#8377; {{ investment.company.cmp }}
+                                {% if investment.company.change >= 0 %}
+                                    <small style="color: green">
+                                        ({{ investment.company.change }}%) <i class="fa fa-arrow-up"></i>
+                                    </small><br>
+                                {% elif investment.company.change < 0 %}
+                                    <small style="color: red">
+                                        ({{ investment.company.change }}%) <i class="fa fa-arrow-down"></i>
+                                    </small><br>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}

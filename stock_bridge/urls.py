@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.views.generic import RedirectView
 
 from .views import HomeView
-from accounts.views import RegisterView, LoginView, logout_view
+from accounts.views import RegisterView, LoginView, logout_view, ProfileView
 from market.views import NewsView
 
 
@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^register/$', RegisterView.as_view(), name='register'),
     url(r'^logout/$', logout_view, name='logout'),
     url(r'^market/', include('market.urls', namespace='market')),
+    url(r'^profile/(?P<username>[a-zA-Z0-9]+)/$', ProfileView.as_view(), name='profile'),
     url(r'^account/', include('accounts.urls', namespace='account')),
     url(r'^accounts/', include('accounts.passwords.urls')),
     url(r'^accounts/$', RedirectView.as_view(url='/account')),

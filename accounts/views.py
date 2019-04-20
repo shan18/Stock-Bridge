@@ -283,3 +283,27 @@ class RegisterView(AnonymousRequiredMixin, CreateView):
         print(form.cleaned_data)
         messages.success(self.request, 'Verification link sent! Please check your email.')
         return redirect(self.success_url)
+
+
+class ProfileView(LoginRequiredMixin, CountNewsMixin, DetailView):
+    template_name = 'accounts/profile.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.username != kwargs.get('username'):
+            return redirect('/')
+        return super(ProfileView, self).dispatch(request, *args, **kwargs)
+
+    def get_object(self, *args, **kwargs):
+        username = self.kwargs.get('username')
+        instance = User.objects.filter(username=username).first()
+        if instance is None:
+            return Http404('User not found')
+        return instance
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ProfileView, self).get_context_data(*args, **kwargs)
+        qs = InvestmentRecord.objects.filter(user=self.request.user)
+        if qs.count() >= 1:
+            context['net_worth'] = InvestmentRecord.objects.calculate_net_worth(self.request.user)
+            context['investments'] = qs
+        return context
