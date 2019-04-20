@@ -1,65 +1,71 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load humanize %}
+
 {% block base_head %}
 <title>Transaction</title>
 {% endblock %}
+
 {% block javascript %}
-    <script>
-    $(document).ready(function () {
-        var endpoint = '{% url "market:cmp_api_data" object.code %}';
-        var defaultData = [];
-        var labels = [];
+<script>
+  $(document).ready(function () {
+    var endpoint = '{% url "market:cmp_api_data" object.code %}';
+    var defaultData = [];
+    var labels = [];
 
-        $.ajax({
-            method: 'GET',
-            url: endpoint,
-            success: function (data) {
-                labels = data.labels;
-                defaultData = data.cmp_data;
-                setChart();
-            },
-            error: function (error_data) {
-                console.log("error");
-                console.log(error_data);
-            }
-        });
+    $.ajax({
+      method: 'GET',
+      url: endpoint,
+      success: function (data) {
+        labels = data.labels;
+        defaultData = data.cmp_data;
+        setChart();
+      },
+      error: function (error_data) {
+        console.log("error");
+        console.log(error_data);
+      }
+    });
 
-        function setChart() {
-            var ctx = document.getElementById("cmp_chart");
-            var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Current Market Price',
-                    data: defaultData,
-                    backgroundColor: 'rgba(122, 242, 14, 0.2)',
-                    borderColor: 'rgba(10, 12, 12, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
+    function setChart() {
+      var ctx = document.getElementById("cmp_chart");
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Current Market Price',
+            data: defaultData,
+            backgroundColor: 'rgba(122, 242, 14, 0.2)',
+            borderColor: 'rgba(10, 12, 12, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
         }
-
-    })
-    </script>
+      });
+    }
+  })
+</script>
 {% endblock %}
+
 {% block content %}
-  {% include 'snippets/inner_navbar.html' with company_list=company_list %}
+
+{% include 'snippets/inner_navbar.html' with company_list=company_list %}
+
 {#Progress bar#}
 <div class="progress border border-danger" style="height: 20px !important;">
-  <div class="progress-bar bg-success" role="progressbar" style="width: {{ stock_percentage }}%;border-radius: 10px;border-color: red" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-        {{ stocks_owned }}
+  <div class="progress-bar bg-success" role="progressbar"
+    style="width: {{ stock_percentage }}%;border-radius: 10px;border-color: red" aria-valuenow="25" aria-valuemin="0"
+    aria-valuemax="100">
+    {{ stocks_owned }}
   </div>
   <div align="center" style="width:{{ percentage_difference }}%;border-radius: 10px;">
     {{ difference }}
@@ -69,66 +75,59 @@
 
 
 <div class="row">
-    <div class="col mx-auto my-3">
-        <div class="text-center">
-            <h1 class="heading">{{ object.name }}</h1>
-            <p>
-                <strong>Industry:</strong> {{ object.industry }}<br>
-                <strong>Cap Type:</strong> {{ object.get_cap }}<br>
-                <strong>Cap Size:</strong> &#8377; {{ object.cap|intcomma }}
-            </p>
+  <div class="col mx-auto my-3">
+    <div class="text-center">
+      <h1 class="heading">{{ object.name }}</h1>
+      <p>
+        <strong>Industry:</strong> {{ object.industry }}<br>
+        <strong>Cap Type:</strong> {{ object.get_cap }}<br>
+        <strong>Cap Size:</strong> &#8377; {{ object.cap|intcomma }}
+      </p>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-md-8 my-5 mr-auto">
+    <canvas id="cmp_chart" width="400" height="200"></canvas>
+  </div>
+  <div class="col-12 col-md-4 my-5 ml-auto text-center">
+    <h3>{{ object.code }}</h3>
+    Total Stocks: {{ object.stocks_offered }}<br>
+    Stocks Remaining: {{ object.stocks_remaining }}<br>
+    Current Price per stock: &#8377; {{ object.cmp }}
+    {% if object.change >= 0 %}
+    <small style="color: green">({{ object.change }}%) <i class="fa fa-arrow-up"></i></small><br>
+    {% elif object.change < 0 %}
+    <small style="color: red">({{ object.change }}%) <i class="fa fa-arrow-down"></i></small><br>
+    {% endif %}
+    Stocks Currently Owned: {{ stocks_owned }}
+  </div>
+</div>
+<div class="row">
+  <div class="col-6 text-center mx-auto mt-5">
+    <p style="font-size: 25px;"><b>Balance Available:</b> &#8377; {{ request.user.cash }}</p><br>
+    <form method="POST" action="{% url 'market:transaction' object.code %}"> {% csrf_token %}
+      <div class="btn-toolbar row" role="toolbar" data-toggle="buttons">
+        {% for mode in mode_list %}
+          {% if mode == 'buy' %}
+            <div class="btn-group col-2 ml-auto" role="group">
+              <button type="button" class="btn form-control border mode-btn buy-btn">{{ mode.upper }}</button>
+            </div>
+          {% elif mode == 'sell' %}
+            <div class="btn-group col-2 mr-auto" role="group">
+              <button type="button" class="btn form-control border mode-btn sell-btn">{{ mode.upper }}</button>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <input type="hidden" name="mode" class="mode-input" value="" />
+      <div class="row">
+        <input type="text" name="quantity" class="form-control mt-3 mb-3" placeholder="Enter integers only"
+          title="Enter integers only" pattern="[0-9]+"/>
         </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-12 col-md-8 my-5 mr-auto">
-        <canvas id="cmp_chart" width="400" height="200"></canvas>
-    </div>
-    <div class="col-12 col-md-4 my-5 ml-auto text-center">
-        <h3>{{ object.code }}</h3>
-        Total Stocks: {{ object.stocks_offered }}<br>
-        Stocks Remaining: {{ object.stocks_remaining }}<br>
-        Current Price per stock: &#8377; {{ object.cmp }}
-        {% if object.change >= 0 %}
-            <small style="color: green">({{ object.change }}%) <i class="fa fa-arrow-up"></i></small><br>
-        {% elif object.change < 0 %}
-            <small style="color: red">({{ object.change }}%) <i class="fa fa-arrow-down"></i></small><br>
-        {% endif %}
-        Stocks Currently Owned: {{ stocks_owned }}
-    </div>
-</div>
-<div class="row">
-    <div class="col-6 text-center mx-auto mt-5">
-        <p style="font-size: 25px;"><b>Balance Available:</b> &#8377; {{ request.user.cash }}</p><br>
-        <form method="POST" action="{% url 'market:transaction' object.code %}"> {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-success">Transact</button>
-        </form>
-    </div>
+      <button type="submit" class="btn btn-success">Transact</button>
+    </form>
+  </div>
 </div>
 
 {% endblock %}
-
-
-
-{#<!DOCTYPE html>#}
-{#<html lang="en">#}
-{#<head>#}
-{#    <meta charset="UTF-8">#}
-{#    <title>Transaction Market</title>#}
-{#</head>#}
-{#<body>#}
-{#{{ company }}#}
-{#<h1>Transaction market UI for {{ object }}</h1>#}
-{#<h1>{{ object.name }}</h1>#}
-{#<h2>{{ object.code }}</h2>#}
-{#<h2>Industry - {{ object.industry }}</h2>#}
-{#<h3>Cap-Type {{ object.cap_type }}</h3>#}
-{#<h3>Cap-Size {{ object.cap }}</h3>#}
-{#<h3>Total Stocks - {{ object.stocks_offered }}</h3>#}
-{#<h3>Stocks Remaining - {{ object.stocks_remaining }}</h3>#}
-{#<h3>Current pricce per stock - {{ object.cmp }}</h3>#}
-{#<h3>Stocks Currently owned - </h3>#}
-{#<h3></h3>#}
-{#</body>#}
-{#</html>#}

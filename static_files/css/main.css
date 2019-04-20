@@ -64,3 +64,8 @@ a.dropdown-item.active {
 	text-align: center;
 	margin-top: 1.5rem;
 }
+
+.btn-hover {
+	background-color: #dcdce1;
+	color: #000;
+}

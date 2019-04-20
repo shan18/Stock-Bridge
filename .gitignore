@@ -6,3 +6,4 @@
 static_cdn/
 remaing_functionalities
 *.sqlite3
+*.log
