@@ -1,4 +1,3 @@
-import json
 from datetime import datetime
 from decimal import Decimal
 
@@ -20,7 +19,7 @@ from rest_framework.response import Response
 from .models import Company, InvestmentRecord, Transaction, CompanyCMPRecord, News
 from .forms import StockTransactionForm, CompanyChangeForm
 from stock_bridge.mixins import LoginRequiredMixin, AdminRequiredMixin, CountNewsMixin
-from stocks.models import StocksDatabase, StocksDatabasePointer
+from stocks.models import StocksDatabasePointer
 
 
 User = get_user_model()
@@ -86,13 +85,6 @@ class CompanyAdminCompanyUpdateView(AdminRequiredMixin, CountNewsMixin, View):
         print('price', int(price))
         url = reverse('market:admin', kwargs={'code': company.code})
         return HttpResponseRedirect(url)
-
-
-# class CompanyCMPCreateView(View):
-#     def get(self, request, *args, **kwargs):
-#         for company in Company.objects.all():
-#             obj = CompanyCMPRecord.objects.create(company=company, cmp=company.cmp)
-#         return HttpResponse('success')
 
 
 class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
