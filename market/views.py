@@ -1,4 +1,3 @@
-import logging
 from datetime import datetime
 from decimal import Decimal
 
@@ -14,6 +13,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponse
+
+from stock_bridge.mixins import LoginRequiredMixin, AdminRequiredMixin
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -86,13 +88,6 @@ class CompanyAdminCompanyUpdateView(AdminRequiredMixin, View):
         print('price', int(price))
         url = reverse('market:admin', kwargs={'code': company.code})
         return HttpResponseRedirect(url)
-
-
-# class CompanyCMPCreateView(View):
-#     def get(self, request, *args, **kwargs):
-#         for company in Company.objects.all():
-#             obj = CompanyCMPRecord.objects.create(company=company, cmp=company.cmp)
-#         return HttpResponse('success')
 
 
 class CompanyTransactionView(LoginRequiredMixin, View):
