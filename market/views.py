@@ -56,13 +56,11 @@ class MarketOverview(LoginRequiredMixin, CountNewsMixin, DetailView):
             raise Http404('No Companies registered Yet!')
         return instance
 
-    def get_context_data(self,*args, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         context = super(MarketOverview, self).get_context_data(*args, **kwargs)
-        qs = Company.objects.all()
-        context = {
-            'companies':qs
-        }
-
+        qs = InvestmentRecord.objects.filter(user=self.request.user)
+        context['investments'] = qs
+        context['company_list'] = Company.objects.all()
         return context
 
 

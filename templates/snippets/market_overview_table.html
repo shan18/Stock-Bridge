@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="col-12">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center">S.no</th>
+                    <th class="text-center">Company</th>
+                    <th class="text-center">Stocks Purchased</th>
+                    <th class="text-center">Stocks Available</th>
+                    <th class="text-center">Current Market Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for object in object_list %}
+                    <tr>
+                        <td class="text-center">{{ forloop.counter }}</td>
+                        <td class="text-center">
+                            <a href="{% url 'market:transaction' object.company.code %}">
+                                {{ object.company }}
+                            </a>
+                        </td>
+                        <td class="text-center">{{ object.stocks }}</td>
+                        <td class="text-center">{{ object.company.stocks_remaining }}</td>
+                        <td class="text-center">
+                            &#8377; {{ object.company.cmp }}
+                            {% if object.company.change >= 0 %}
+                                <small style="color: green">
+                                    ({{ object.company.change }}%) <i class="fa fa-arrow-up"></i>
+                                </small><br>
+                            {% elif object.company.change < 0 %}
+                                <small style="color: red">
+                                    ({{ object.company.change }}%) <i class="fa fa-arrow-down"></i>
+                                </small><br>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

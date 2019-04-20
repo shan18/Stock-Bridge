@@ -55,28 +55,28 @@
     </script>
 {% endblock %}
 {% block content %}
-
-<nav class="navbar navbar-expand-lg navbar-light mt-3 mb-4" style="background-color: #dcdce1; font-color: #000000;">
-  <a class="navbar-brand" href="#">Companies</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav mx-auto">
-        {% for company in company_list %}
-            {% if company == object %}
-                <li class="nav-item active">
-                    <a class="nav-link anchor-black" href="{{ company.get_absolute_url }}">{{ company.name }}</a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link anchor-black" href="{{ company.get_absolute_url }}">{{ company.name }}</a>
-                </li>
-            {% endif %}
-        {% endfor %}
-      </ul>
-  </div>
-</nav>
+  {% include 'snippets/inner_navbar.html' with company_list=company_list %}
+{#<nav class="navbar navbar-expand-lg navbar-light mt-3 mb-4" style="background-color: #dcdce1; font-color: #000000;">#}
+{#  <a class="navbar-brand" href="#">Companies</a>#}
+{#  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">#}
+{#    <span class="navbar-toggler-icon"></span>#}
+{#  </button>#}
+{#  <div class="collapse navbar-collapse" id="navbarNav">#}
+{#      <ul class="navbar-nav mx-auto">#}
+{#        {% for company in company_list %}#}
+{#            {% if company == object %}#}
+{#                <li class="nav-item active">#}
+{#                    <a class="nav-link anchor-black" href="{{ company.get_absolute_url }}">{{ company.name }}</a>#}
+{#                </li>#}
+{#            {% else %}#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link anchor-black" href="{{ company.get_absolute_url }}">{{ company.name }}</a>#}
+{#                </li>#}
+{#            {% endif %}#}
+{#        {% endfor %}#}
+{#      </ul>#}
+{#  </div>#}
+{#</nav>#}
 
 {#Progress bar#}
 <div class="progress border border-danger" style="height: 20px !important;">

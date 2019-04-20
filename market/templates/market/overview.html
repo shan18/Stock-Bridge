@@ -7,15 +7,9 @@
 {% endblock %}
 
 {% block content %}
-<h1>MARKET</h1>
-<body>
-<table>
-    {% for company in companies %}
-  <tr>
-      <th><a href="{% url 'market:transaction' company.code %}">{{ company.name }}</a></th>
-    <th>{{ company.cap_type }}</th>
-    <th>{{ company.cmp }}</th>
-  </tr>
-     {% endfor %}
-</table>
+  {% include 'snippets/inner_navbar.html' with company_list=company_list %}
+<h1 class="heading mb-4">Market Overview</h1>
+{% if investments %}
+    {% include 'snippets/market_overview_table.html' with object_list=investments %}
+{% endif %}
 {% endblock content %}

@@ -21,51 +21,11 @@
         <h3>Net Worth: &#8377; {{ net_worth|intcomma }}</h3>
     </div>
 </div>
+<div class="row">
+    <h3 class="heading col-12 mb-4">Investments</h3>
+</div>
 {% if investments %}
-    <div class="row">
-        <div class="col-12">
-            <h3>Investment Record:</h3>
-        </div>
-        <div class="col-12">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th class="text-center">S.no</th>
-                        <th class="text-center">Company</th>
-                        <th class="text-center">Stocks Purchased</th>
-                        <th class="text-center">Stocks Available</th>
-                        <th class="text-center">Current Market Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for investment in investments %}
-                        <tr>
-                            <td class="text-center">{{ forloop.counter }}</td>
-                            <td class="text-center">
-                                <a href="{% url 'market:transaction' investment.company.code %}">
-                                    {{ investment.company }}
-                                </a>
-                            </td>
-                            <td class="text-center">{{ investment.stocks }}</td>
-                            <td class="text-center">{{ investment.company.stocks_remaining }}</td>
-                            <td class="text-center">
-                                &#8377; {{ investment.company.cmp }}
-                                {% if investment.company.change >= 0 %}
-                                    <small style="color: green">
-                                        ({{ investment.company.change }}%) <i class="fa fa-arrow-up"></i>
-                                    </small><br>
-                                {% elif investment.company.change < 0 %}
-                                    <small style="color: red">
-                                        ({{ investment.company.change }}%) <i class="fa fa-arrow-down"></i>
-                                    </small><br>
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
+    {% include 'snippets/market_overview_table.html' with object_list=investments %}
 {% endif %}
 
 {% endblock %}
