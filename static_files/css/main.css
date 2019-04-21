@@ -31,6 +31,8 @@ html, body {
 .footer-custom {
 	background-color: #dcdce1;
 	padding: 60px 40px;
+	width: 100vw !important;
+	margin-left: calc(-50vw + 50%);
 	color: #000;
 }
 
@@ -63,4 +65,9 @@ a.dropdown-item.active {
 .heading {
 	text-align: center;
 	margin-top: 1.5rem;
+}
+
+.btn-hover {
+	background-color: #dcdce1;
+	color: #000;
 }

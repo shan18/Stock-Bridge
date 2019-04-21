@@ -17,7 +17,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .models import Company, InvestmentRecord, Transaction, CompanyCMPRecord, News
-from .forms import StockTransactionForm, CompanyChangeForm
+from .forms import CompanyChangeForm
 from stock_bridge.mixins import LoginRequiredMixin, AdminRequiredMixin, CountNewsMixin
 from stocks.models import StocksDatabasePointer
 
@@ -102,7 +102,7 @@ class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
             'stock_percentage':stock_percentage,
             'difference':difference,
             'percentage_difference':percentage_difference,
-            'form': StockTransactionForm()
+            'mode_list': ['buy', 'sell']
         }
         return render(request, 'market/transaction_market.html',context)
 
