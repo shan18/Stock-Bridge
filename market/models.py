@@ -1,7 +1,7 @@
 import random
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.db.models.signals import pre_save, post_save
+from django.db.models.signals import pre_save, post_save, pre_delete
 from django.urls import reverse
 from decimal import Decimal
 
@@ -267,3 +267,33 @@ class News(models.Model):
 
     def __str__(self):
         return self.title
+
+
+def post_save_news_create_receiver(sender, instance, created, *args, **kwargs):
+    if instance.is_active:
+        for user in User.objects.all():
+            user.increment_news_count()
+    else:
+        for user in User.objects.all():
+            user.decrement_news_count()
+
+
+post_save.connect(post_save_news_create_receiver, sender=News)
+
+
+def pre_delete_news_receiver(sender, instance, *args, **kwargs):
+    if instance.is_active:
+        for user in User.objects.all():
+            user.decrement_news_count()
+
+
+pre_delete.connect(pre_delete_news_receiver, sender=News)
+
+
+def post_save_user_create_receiver(sender, instance, created, *args, **kwargs):
+    if created:
+        instance.news_count = News.objects.filter(is_active=True).count()
+        instance.save()
+
+
+post_save.connect(post_save_user_create_receiver, sender=User)

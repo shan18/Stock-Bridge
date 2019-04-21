@@ -208,6 +208,12 @@ class CompanyCMPChartData(APIView):
         return Response(data)
 
 
-class NewsView(LoginRequiredMixin, CountNewsMixin, ListView):
+class NewsView(LoginRequiredMixin, CountNewsMixin, View):
     template_name = 'market/news.html'
-    queryset = News.objects.filter(is_active=True)
+    url = 'news'
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        user.clear_news_count()
+        queryset = News.objects.filter(is_active=True)
+        return render(request, 'market/news.html', {'object_list': queryset})
