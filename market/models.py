@@ -1,7 +1,7 @@
 import random
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.db.models.signals import pre_save, post_save, pre_delete
+from django.db.models.signals import pre_save, post_save
 from django.urls import reverse
 from decimal import Decimal
 
@@ -270,24 +270,14 @@ class News(models.Model):
 
 
 def post_save_news_create_receiver(sender, instance, created, *args, **kwargs):
-    if instance.is_active:
+    if created:
         for user in User.objects.all():
-            user.increment_news_count()
+            UserNews.objects.create(user=user, news=instance)
     else:
-        for user in User.objects.all():
-            user.decrement_news_count()
+        UserNews.objects.get_by_news(news=instance).update(read=not instance.is_active)
 
 
 post_save.connect(post_save_news_create_receiver, sender=News)
-
-
-def pre_delete_news_receiver(sender, instance, *args, **kwargs):
-    if instance.is_active:
-        for user in User.objects.all():
-            user.decrement_news_count()
-
-
-pre_delete.connect(pre_delete_news_receiver, sender=News)
 
 
 def post_save_user_create_receiver(sender, instance, created, *args, **kwargs):
@@ -297,3 +287,22 @@ def post_save_user_create_receiver(sender, instance, created, *args, **kwargs):
 
 
 post_save.connect(post_save_user_create_receiver, sender=User)
+
+
+class UserNewsManager(models.Manager):
+    def get_by_user(self, user):
+        return self.get_queryset().filter(user=user)
+    
+    def get_by_news(self, news):
+        return self.get_queryset().filter(news=news)
+
+
+class UserNews(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    news = models.ForeignKey(News, on_delete=models.CASCADE)
+    read = models.BooleanField(default=False)
+
+    objects = UserNewsManager()
+
+    def __str__(self):
+        return self.news.title + ' - ' + self.user.username

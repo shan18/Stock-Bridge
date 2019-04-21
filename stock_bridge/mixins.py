@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from django.utils.http import is_safe_url
 
 from .decorators import login_required_message_and_redirect
-from market.models import News
+from market.models import News, UserNews
 
 
 class CountNewsMixin(object):
@@ -12,7 +12,7 @@ class CountNewsMixin(object):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            request.session['news'] = request.user.news_count
+            request.session['news'] = UserNews.objects.get_by_user(request.user).filter(read=False).count()
         return super(CountNewsMixin, self).dispatch(request, *args, **kwargs)
 
 

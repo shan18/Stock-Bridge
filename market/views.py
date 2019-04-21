@@ -16,7 +16,7 @@ from django.urls import reverse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import Company, InvestmentRecord, Transaction, CompanyCMPRecord, News
+from .models import Company, InvestmentRecord, Transaction, CompanyCMPRecord, News, UserNews
 from .forms import CompanyChangeForm
 from stock_bridge.mixins import LoginRequiredMixin, AdminRequiredMixin, CountNewsMixin
 from stocks.models import StocksDatabasePointer
@@ -213,7 +213,6 @@ class NewsView(LoginRequiredMixin, CountNewsMixin, View):
     url = 'news'
 
     def get(self, request, *args, **kwargs):
-        user = request.user
-        user.clear_news_count()
+        UserNews.objects.get_by_user(request.user).update(read=True)
         queryset = News.objects.filter(is_active=True)
         return render(request, 'market/news.html', {'object_list': queryset})

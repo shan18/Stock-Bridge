@@ -77,7 +77,6 @@ class User(AbstractBaseUser):
     loan_count_absolute = models.IntegerField(default=1)  # For overall loan issue count
     is_active = models.BooleanField(default=True)
     coeff_of_variation = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
-    news_count = models.IntegerField(default=1)
     staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -161,19 +160,6 @@ class User(AbstractBaseUser):
     # TODO: This Leader board ranking method may change in future
     def update_cv(self, net_worth_list):
         self.coeff_of_variation = Decimal(np.std(net_worth_list) / np.mean(net_worth_list))
-        self.save()
-
-    def increment_news_count(self):
-        self.news_count += 1
-        self.save()
-
-    def decrement_news_count(self):
-        if self.news_count > 0:
-            self.news_count -= 1
-            self.save()
-
-    def clear_news_count(self):
-        self.news_count = 0
         self.save()
 
 
