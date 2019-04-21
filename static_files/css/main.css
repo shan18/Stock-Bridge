@@ -31,6 +31,8 @@ html, body {
 .footer-custom {
 	background-color: #dcdce1;
 	padding: 60px 40px;
+	width: 100vw !important;
+	margin-left: calc(-50vw + 50%);
 	color: #000;
 }
 
