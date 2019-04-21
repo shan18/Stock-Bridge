@@ -32,7 +32,13 @@
 						<a class="nav-link" href="{{ loan_url }}">Bank</a>
 					</li>
 					<li class="nav-item {% if request.path == news_url %}active{% endif %}">
-            <a class="nav-link" href="{{ news_url }}">News  <span class="badge badge-success">{{ request.session.news }}</span></a>
+            <a class="nav-link" href="{{ news_url }}">News
+							{% if request.session.news %}
+							<span class="badge badge-success">
+							{{ request.session.news }}
+							</span>
+							{% endif %}
+						</a>
 {#           (<small>{{ request.session.news }}</small>)#}
 					</li>
 				{% endif %}
