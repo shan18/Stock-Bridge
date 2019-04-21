@@ -12,7 +12,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #000000;">
 	<div class="container">
 		<a class="navbar-brand" href="{{ home_url }}">
-			<i class="fas fa-chart-line" aria-hidden="true"></i>
+			<i class="fas fa-chart-line fa-lg" aria-hidden="true"></i>
 			{% if brand_name %} {{ brand_name}} {% else %} Stock Bridge {% endif %}
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,11 +32,13 @@
 						<a class="nav-link" href="{{ loan_url }}">Bank</a>
 					</li>
 					<li class="nav-item {% if request.path == news_url %}active{% endif %}">
-            <a class="nav-link" href="{{ news_url }}">News
+            <a class="nav-link" href="{{ news_url }}">
 							{% if request.session.news %}
-							<span class="badge badge-success">
-							{{ request.session.news }}
+							<span class="badge badge-success news-badge">
+								<i class="fas fa-newspaper fa-lg"></i> {{ request.session.news }}
 							</span>
+							{% else %}
+								<i class="fas fa-newspaper fa-lg"></i>
 							{% endif %}
 						</a>
 {#           (<small>{{ request.session.news }}</small>)#}

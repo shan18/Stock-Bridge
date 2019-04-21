@@ -71,3 +71,7 @@ a.dropdown-item.active {
 	background-color: #dcdce1;
 	color: #000;
 }
+
+.news-badge {
+	font-size: medium;
+}
