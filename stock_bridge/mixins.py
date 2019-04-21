@@ -11,7 +11,8 @@ class CountNewsMixin(object):
     """ Count current news amount for display in navbar """
 
     def dispatch(self, request, *args, **kwargs):
-        request.session['news'] = request.user.news_count
+        if request.user.is_authenticated:
+            request.session['news'] = request.user.news_count
         return super(CountNewsMixin, self).dispatch(request, *args, **kwargs)
 
 
