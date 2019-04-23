@@ -36,8 +36,8 @@
       </div>
       <div class="row">
         <div class="col-12 text-center mb-5">
-          <a href="{% url 'market:overview' %}">
-            <button class="btn btn-primary">Enter Market</button>
+          <a class="btn btn-primary market-button" href="{% url 'market:overview' %}">
+            Enter Market
           </a>
         </div>
         <div class="col-12 my-3">
@@ -50,7 +50,6 @@
         </div>
       </div>
 
-		{% include 'base/footer.html' %}
-
+    {% include 'base/footer.html' %}
 	</body>
 </html>
