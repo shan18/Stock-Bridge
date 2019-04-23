@@ -7,5 +7,5 @@ class CompanyChangeForm(forms.Form):
         'class': 'form-control',
         'pattern': '[0-9]+',
         'title': 'Enter integers only',
-        'placeholder': 'Enter integers only'
+        'placeholder': 'Enter positive integers only'
     }))

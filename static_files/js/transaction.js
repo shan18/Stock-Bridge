@@ -74,7 +74,7 @@ $(document).ready(function() {
         window.location.href = responseData.next_path;
       },
       error: function(error) {
-        $.alert('An error occured.');
+        alert('An error occured.');
         transactionFormIndicator(
           transactionFormButton,
           transactionFormButtonText,

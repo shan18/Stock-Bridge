@@ -114,11 +114,12 @@ class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
         if START_TIME <= current_time <= STOP_TIME:
             user = request.user
             mode = request.POST.get('mode').lower()
-            quantity = int(request.POST.get('quantity'))
+            quantity = request.POST.get('quantity')
             price = company.cmp
             investment_obj, _ = InvestmentRecord.objects.get_or_create(user=user, company=company)
 
-            if quantity > 0:
+            if quantity != '' and int(quantity) > 0:
+                quantity = int(quantity)
                 if mode == 'buy':
                     # Checking with max stocks a user can purchase for a company
                     total_quantity = investment_obj.stocks + quantity
@@ -169,10 +170,10 @@ class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
                         messages.error(request, 'Please Enter a valid quantity!')
 
                 else:
-                    messages.error(request, 'Please enter a valid mode!')
+                    messages.error(request, 'Please select a valid mode!')
 
             else:
-                messages.error(request, 'The Quantity cannot be negative!')
+                messages.error(request, 'Enter a valid quantity!')
 
         else:
             msg = 'The market is closed!'
