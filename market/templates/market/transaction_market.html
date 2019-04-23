@@ -106,7 +106,7 @@
 <div class="row">
   <div class="col-6 text-center mx-auto mt-5">
     <p style="font-size: 25px;"><b>Balance Available:</b> &#8377; {{ request.user.cash }}</p><br>
-    <form method="POST" action="{% url 'market:transaction' object.code %}"> {% csrf_token %}
+    <form method="POST" class="transaction-form" action="{% url 'market:transaction' object.code %}" data-endpoint="{{ request.build_absolute_uri }}"> {% csrf_token %}
       <div class="btn-toolbar row" role="toolbar" data-toggle="buttons">
         {% for mode in mode_list %}
           {% if mode == 'buy' %}

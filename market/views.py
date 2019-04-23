@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.views import View
 from django.views.generic import DetailView, ListView
-from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonResponse
 from django.utils import timezone
 from django.utils.timezone import localtime
 from django.conf import settings
@@ -104,7 +104,7 @@ class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
             'percentage_difference':percentage_difference,
             'mode_list': ['buy', 'sell']
         }
-        return render(request, 'market/transaction_market.html',context)
+        return render(request, 'market/transaction_market.html', context)
 
     def post(self, request, *args, **kwargs):
         """This method handles any post data at this page (primarily for transaction)"""
@@ -113,7 +113,7 @@ class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
 
         if START_TIME <= current_time <= STOP_TIME:
             user = request.user
-            mode = request.POST.get('mode')
+            mode = request.POST.get('mode').lower()
             quantity = int(request.POST.get('quantity'))
             price = company.cmp
             investment_obj, _ = InvestmentRecord.objects.get_or_create(user=user, company=company)
@@ -178,6 +178,8 @@ class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
             msg = 'The market is closed!'
             messages.info(request, msg)
         url = reverse('market:transaction', kwargs={'code': company.code})
+        if request.is_ajax():
+            return JsonResponse({'next_path': url})
         return HttpResponseRedirect(url)
 
 
