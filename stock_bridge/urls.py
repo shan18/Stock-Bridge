@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.views.generic import RedirectView
 
 from .views import HomeView
-from accounts.views import RegisterView, LoginView, logout_view, ProfileView
+from accounts.views import RegisterView, LoginView, logout_view, ProfileView, LeaderBoardView
 from market.views import NewsView
 
 
@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^account/', include('accounts.urls', namespace='account')),
     url(r'^accounts/', include('accounts.passwords.urls')),
     url(r'^accounts/$', RedirectView.as_view(url='/account')),
+    url(r'^leaderboard/$', LeaderBoardView.as_view(), name='leaderboard'),
     url(r'^news/$', NewsView.as_view(), name='news'),
     url(r'^admin/', admin.site.urls)
 ]

@@ -58,6 +58,19 @@ def logout_view(request):
     return redirect('login')
 
 
+class LeaderBoardView(CountNewsMixin, View):
+    template_name = 'accounts/leaderboard.html'
+
+    def get(self, request, *args, **kwargs):
+        data = []
+        user_qs = User.objects.all()
+        for user in user_qs:
+            # net_worth = InvestmentRecord.objects.calculate_net_worth(user)
+            data.append((user.username, user.full_name, user.cash, user.coeff_of_variation))
+        data = sorted(data, key=lambda d: (-d[2], d[3]))
+        return render(request, 'accounts/leaderboard.html', {'data': data})
+
+
 class LoanView(LoginRequiredMixin, CountNewsMixin, View):
 
     def get(self, request, *args, **kwargs):

@@ -3,6 +3,7 @@
 {% url 'login' as login_url %}
 {% url 'register' as register_url %}
 {% url 'logout' as logout_url %}
+{% url 'leaderboard' as leaderboard_url %}
 {% url 'profile' user.username as profile_url %}
 {% url 'market:overview' as overview_url %}
 {% url 'account:loan' as loan_url %}
@@ -45,6 +46,11 @@
 					<li class="nav-item {% if request.path == loan_url %}active{% endif %}">
 						<a class="nav-link" href="{{ loan_url }}">Bank</a>
 					</li>
+				{% endif %}
+				<li class="nav-item {% if request.path == leaderboard_url %}active{% endif %}">
+					<a class="nav-link" href="{{ leaderboard_url }}">Leaderboard</a>
+				</li>
+				{% if request.user.is_authenticated %}
 					<li class="nav-item {% if request.path == news_url %}active{% endif %} d-none d-lg-block">
 						<a class="nav-link" href="{{ news_url }}">
 							{% if request.session.news %}
