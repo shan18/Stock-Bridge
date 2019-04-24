@@ -15,7 +15,7 @@
     <div class="col-12 col-md-6 text-center">
         <h3>Credit Loan</h3>
         <p class="lead">Amount: &#8377; 5,000</p>
-        <form method="POST" action="{% url 'account:loan' %}"> {% csrf_token %}
+        <form method="POST" class="loan-issue-form" action="{% url 'account:loan' %}" data-endpoint="{{ request.build_absolute_uri }}"> {% csrf_token %}
             <input type="hidden" name="mode" value="issue">
             <button type="submit" class="btn btn-success">Issue</button>
         </form>
@@ -25,10 +25,10 @@
         <p class="lead">Amount Due: &#8377; {{ user.loan }}<br>
             Balance Available: &#8377; {{ user.cash }}<br>
             Pay your installment</p>
-        <form method="POST" action="{% url 'account:loan' %}"> {% csrf_token %}
+        <form method="POST" class="loan-repay-form" action="{% url 'account:loan' %}" data-endpoint="{{ request.build_absolute_uri }}"> {% csrf_token %}
             <input type="number" class="form-control" id="repay_amount" name='repay_amount' placeholder="Enter repay amount">
             <input type="hidden" name="mode" value="pay">
-            <button type="submit" class="btn btn-success">Repay</button>
+            <button type="submit" class="btn btn-success mt-3">Repay</button>
         </form>
     </div>
 </div>

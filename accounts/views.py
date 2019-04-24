@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.conf import settings
 from django.shortcuts import render, redirect
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.contrib import messages
 from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.decorators import login_required
@@ -183,10 +183,12 @@ class LoanView(LoginRequiredMixin, CountNewsMixin, View):
                             pending_amount=user.loan,
 
                         )
-
         else:
             msg = 'The market is closed!'
             messages.info(request, msg)
+        
+        if request.is_ajax():
+            return JsonResponse({'next_path': reverse('account:loan')})
 
         return redirect('account:loan')
 
