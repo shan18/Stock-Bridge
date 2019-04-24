@@ -56,11 +56,7 @@ $(document).ready(function() {
     var transactionFormButton = $this.find("[type='submit']");
     var transactionFormButtonText = transactionFormButton.text();
     var transactionFormData = transactionForm.serialize();
-    transactionFormIndicator(
-      transactionFormButton,
-      'Submitting Transaction',
-      true
-    );
+    transactionFormIndicator(transactionFormButton, 'Submitting', true);
     $.ajax({
       method: transactionFormMethod,
       url: transactionFormEndpoint,

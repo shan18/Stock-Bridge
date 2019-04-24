@@ -1,0 +1,19 @@
+<div class="btn-toolbar row" role="toolbar" data-toggle="buttons">
+  {% for mode in mode_list %}
+    {% if mode == 'buy' %}
+      <div class="btn-group col-sm-6 col-md-4 col-lg-3 ml-auto mt-2" role="group">
+        <button type="button" class="btn form-control border border-secondary mode-btn buy-btn">{{ mode.upper }}</button>
+      </div>
+    {% elif mode == 'sell' %}
+      <div class="btn-group col-sm-6 col-md-4 col-lg-3 mr-auto mt-2" role="group">
+        <button type="button" class="btn form-control border border-secondary mode-btn sell-btn">{{ mode.upper }}</button>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+<input type="hidden" name="mode" class="mode-input" value="" />
+<div class="row">
+  <input type="text" name="quantity" class="form-control mt-3 mb-3" placeholder="Enter positive integers only"
+    title="Enter positive integers only" pattern="[0-9]+" />
+</div>
+<button type="submit" class="btn btn-success">{{ button_text }}</button>

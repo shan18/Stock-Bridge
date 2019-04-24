@@ -181,6 +181,36 @@ def post_save_transaction_create_receiver(sender, instance, created, *args, **kw
 post_save.connect(post_save_transaction_create_receiver, sender=Transaction)
 
 
+class TransactionScheduler(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    num_stocks = models.IntegerField(default=0)
+    price = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
+    mode = models.CharField(max_length=10, choices=TRANSACTION_MODES)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-timestamp']
+
+    def __str__(self):
+        return '{user}: {company} - {time}'.format(
+            user=self.user.username, company=self.company.name, time=self.timestamp
+        )
+    
+    def create_transaction(self, price):
+        if (self.mode == 'buy' and price <= self.price) or (self.mode == 'sell' and price >= self.price):
+            Transaction.objects.create(
+                user=self.user,
+                company=self.company,
+                num_stocks=self.num_stocks,
+                price=price,
+                mode=self.mode
+            )
+            return True
+        return False
+
+
 class InvestmentRecordQueryset(models.query.QuerySet):
     def get_by_user(self, user):
         return self.filter(user=user)
