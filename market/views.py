@@ -102,7 +102,7 @@ class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
             'stock_percentage':stock_percentage,
             'difference':difference,
             'percentage_difference':percentage_difference,
-            'mode_list': ['buy', 'sell']
+            'purchase_modes': ['buy', 'sell']
         }
         return render(request, 'market/transaction_market.html', context)
 
@@ -113,68 +113,65 @@ class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
 
         if START_TIME <= current_time <= STOP_TIME:
             user = request.user
-            mode = request.POST.get('mode').lower()
+            mode = request.POST.get('mode')
+            purchase_mode = request.POST.get('p-mode')
             quantity = request.POST.get('quantity')
             price = company.cmp
             investment_obj, _ = InvestmentRecord.objects.get_or_create(user=user, company=company)
 
             if quantity != '' and int(quantity) > 0:
                 quantity = int(quantity)
-                if mode == 'buy':
-                    # Checking with max stocks a user can purchase for a company
-                    total_quantity = investment_obj.stocks + quantity
-                    if total_quantity <= company.max_stocks_sell:
-                        purchase_amount = Decimal(quantity)*price
-                        if user.cash >= purchase_amount:
-                            if company.stocks_remaining >= quantity:
-                                _ = Transaction.objects.create(
-                                    user=user,
-                                    company=company,
-                                    num_stocks=quantity,
-                                    price=price,
-                                    mode=mode,
-                                    user_net_worth=InvestmentRecord.objects.calculate_net_worth(user)
-                                )
-
-                                messages.success(request, 'Transaction Complete!')
-
+                if mode == 'purchase':
+                    if purchase_mode == 'buy':
+                        # Checking with max stocks a user can purchase for a company
+                        total_quantity = investment_obj.stocks + quantity
+                        if total_quantity <= company.max_stocks_sell:
+                            purchase_amount = Decimal(quantity)*price
+                            if user.cash >= purchase_amount:
+                                if company.stocks_remaining >= quantity:
+                                    _ = Transaction.objects.create(
+                                        user=user,
+                                        company=company,
+                                        num_stocks=quantity,
+                                        price=price,
+                                        mode=purchase_mode,
+                                        user_net_worth=InvestmentRecord.objects.calculate_net_worth(user)
+                                    )
+                                    messages.success(request, 'Transaction Complete!')
+                                else:
+                                    messages.error(
+                                        request, 'The company has only {} stocks left!'.format(company.stocks_remaining)
+                                    )
                             else:
-                                messages.error(
-                                    request, 'The company has only {} stocks left!'.format(company.stocks_remaining)
-                                )
-
+                                messages.error(request, 'You have Insufficient Balance for this transaction!')
                         else:
-                            messages.error(request, 'You have Insufficient Balance for this transaction!')
-                    else:
-                        messages.error(
-                            request,
-                            'This company allows each user to hold a maximum of {} stocks'.format(
-                                company.max_stocks_sell
+                            messages.error(
+                                request,
+                                'This company allows each user to hold a maximum of {} stocks'.format(
+                                    company.max_stocks_sell
+                                )
                             )
-                        )
-
-                elif mode == 'sell':
-                    if quantity <= investment_obj.stocks and quantity <= company.stocks_offered:
-                        obj = Transaction.objects.create(
-                            user=user,
-                            company=company,
-                            num_stocks=quantity,
-                            price=price,
-                            mode=mode,
-                            user_net_worth=InvestmentRecord.objects.calculate_net_worth(user)
-                        )
-
-                        messages.success(request, 'Transaction Complete!')
-
+                    elif purchase_mode == 'sell':
+                        if quantity <= investment_obj.stocks and quantity <= company.stocks_offered:
+                            _ = Transaction.objects.create(
+                                user=user,
+                                company=company,
+                                num_stocks=quantity,
+                                price=price,
+                                mode=purchase_mode,
+                                user_net_worth=InvestmentRecord.objects.calculate_net_worth(user)
+                            )
+                            messages.success(request, 'Transaction Complete!')
+                        else:
+                            messages.error(request, 'Please Enter a valid quantity!')
                     else:
-                        messages.error(request, 'Please Enter a valid quantity!')
-
+                        messages.error(request, 'Please select a valid purchase mode!')
+                elif mode == 'schedule':
+                    messages.success(request, 'schedule mode!')
                 else:
-                    messages.error(request, 'Please select a valid mode!')
-
+                    messages.error(request, 'Please select a valid transaction mode!')
             else:
                 messages.error(request, 'Enter a valid quantity!')
-
         else:
             msg = 'The market is closed!'
             messages.info(request, msg)

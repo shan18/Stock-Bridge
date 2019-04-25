@@ -112,9 +112,9 @@
   <div class="col-12 text-center mt-5">
     <p style="font-size: 25px;"><b>Balance Available:</b> &#8377; {{ request.user.cash }}</p><br>
   </div>
-  <div class="col-6 text-center mx-auto">
+  <div class="col-lg-5 col-md-12 text-center mx-auto my-4">
     <form method="POST" class="transaction-form" action="{% url 'market:transaction' object.code %}" data-endpoint="{{ request.build_absolute_uri }}"> {% csrf_token %}
-      {% include 'market/snippets/transaction_form_fields.html' with button_text='Transact' %}
+      {% include 'market/snippets/transaction_form_fields.html' with button_text='Submit' purchase_modes=purchase_modes %}
     </form>
   </div>
 </div>

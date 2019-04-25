@@ -13,14 +13,38 @@ $(document).ready(function() {
   );
 
   // Transaction mode buttons click
+  var formPurchaseBtn = $('.purchase-btn');
+  var formScheduleBtn = $('.schedule-btn');
+  var modeInput = $('.mode-input');
+  var formPurchaseHeading = $('.purchase-heading');
+
+  formPurchaseBtn.click(function() {
+    var $this = $(this);
+    $this.addClass('btn-info');
+    modeInput.val($this[0].innerText.toLowerCase());
+    formScheduleBtn.removeClass('btn-info');
+    $this.blur();
+    formPurchaseHeading.html('<b>Purchase Stocks</b>');
+  });
+
+  formScheduleBtn.click(function() {
+    var $this = $(this);
+    $this.addClass('btn-info');
+    modeInput.val($this[0].innerText.toLowerCase());
+    formPurchaseBtn.removeClass('btn-info');
+    $this.blur();
+    formPurchaseHeading.html('<b>Submit Transaction Request:<b/>');
+  });
+
+  // Purchase mode buttons click
   var formBuyBtn = $('.buy-btn');
   var formSellBtn = $('.sell-btn');
-  var modeInput = $('.mode-input');
+  var purchaseModeInput = $('.p-mode-input');
 
   formBuyBtn.click(function() {
     var $this = $(this);
     $this.addClass('btn-info');
-    modeInput.val($this[0].innerText);
+    purchaseModeInput.val($this[0].innerText.toLowerCase());
     formSellBtn.removeClass('btn-info');
     $this.blur();
   });
@@ -28,7 +52,7 @@ $(document).ready(function() {
   formSellBtn.click(function() {
     var $this = $(this);
     $this.addClass('btn-info');
-    modeInput.val($this[0].innerText);
+    purchaseModeInput.val($this[0].innerText.toLowerCase());
     formBuyBtn.removeClass('btn-info');
     $this.blur();
   });

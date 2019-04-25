@@ -1,17 +1,34 @@
 <div class="btn-toolbar row" role="toolbar" data-toggle="buttons">
-  {% for mode in mode_list %}
-    {% if mode == 'buy' %}
+  <div class="col-12">
+    <p style="font-size: 25px;"><b>Select Transaction Mode:</b></p>
+  </div>
+  <div class="btn-group col-sm-6 col-md-4 col-lg-4 ml-auto mt-2" role="group">
+    <button type="button"
+      class="btn form-control border border-secondary btn-info mode-btn purchase-btn">PURCHASE</button>
+  </div>
+  <div class="btn-group col-sm-6 col-md-4 col-lg-4 mr-auto mt-2" role="group">
+    <button type="button"
+      class="btn form-control border border-secondary mode-btn schedule-btn">SCHEDULE</button>
+  </div>
+</div>
+<input type="hidden" name="mode" class="mode-input" value="purchase" />
+<div class="btn-toolbar row mt-5" role="toolbar" data-toggle="buttons">
+  <div class="col-12">
+    <p style="font-size: 25px;" class="purchase-heading"><b>Purchase Mode</b></p>
+  </div>
+  {% for p_mode in purchase_modes %}
+    {% if p_mode == 'buy' %}
       <div class="btn-group col-sm-6 col-md-4 col-lg-3 ml-auto mt-2" role="group">
-        <button type="button" class="btn form-control border border-secondary mode-btn buy-btn">{{ mode.upper }}</button>
+        <button type="button" class="btn form-control border border-secondary mode-btn buy-btn">{{ p_mode.upper }}</button>
       </div>
-    {% elif mode == 'sell' %}
+    {% elif p_mode == 'sell' %}
       <div class="btn-group col-sm-6 col-md-4 col-lg-3 mr-auto mt-2" role="group">
-        <button type="button" class="btn form-control border border-secondary mode-btn sell-btn">{{ mode.upper }}</button>
+        <button type="button" class="btn form-control border border-secondary mode-btn sell-btn">{{ p_mode.upper }}</button>
       </div>
     {% endif %}
   {% endfor %}
 </div>
-<input type="hidden" name="mode" class="mode-input" value="" />
+<input type="hidden" name="p-mode" class="p-mode-input" value="" />
 <div class="row">
   <input type="text" name="quantity" class="form-control mt-3 mb-3" placeholder="Enter positive integers only"
     title="Enter positive integers only" pattern="[0-9]+" />
