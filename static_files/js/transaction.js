@@ -26,7 +26,7 @@ $(document).ready(function() {
     modeInput.val($this[0].innerText.toLowerCase());
     formScheduleBtn.removeClass('btn-info');
     $this.blur();
-    formPurchaseHeading.html('<b>Purchase Stocks</b>');
+    formPurchaseHeading.html('<b>Transact Stocks</b>');
     formQuantityInput.removeClass('mb-2');
     formPriceInput.attr('type', 'hidden');
   });
@@ -37,7 +37,7 @@ $(document).ready(function() {
     modeInput.val($this[0].innerText.toLowerCase());
     formPurchaseBtn.removeClass('btn-info');
     $this.blur();
-    formPurchaseHeading.html('<b>Submit Transaction Request<b/>');
+    formPurchaseHeading.html('<b>Schedule Transaction<b/>');
     formQuantityInput.addClass('mb-2');
     formPriceInput.attr('type', 'text');
   });

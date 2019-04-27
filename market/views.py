@@ -121,7 +121,7 @@ class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
 
             if quantity != '' and int(quantity) > 0:
                 quantity = int(quantity)
-                if mode == 'purchase':
+                if mode == 'transact':
                     if purchase_mode == 'buy':
                         # Checking with max stocks a user can purchase for a company
                         total_quantity = investment_obj.stocks + quantity
