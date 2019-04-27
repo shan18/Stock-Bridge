@@ -39,12 +39,19 @@ def deduct_tax(request):
     return redirect('/')
 
 
-@login_required
-def update_market(request):
-    if request.user.is_superuser:
+class UpdateMarketView(LoginRequiredMixin, AdminRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        # update cmp
         StocksDatabasePointer.objects.get_pointer().increment_pointer()
+
+        # scheduler
+        schedule_qs = TransactionScheduler.objects.all()
+        for query in schedule_qs:
+            if query.perform_transaction(query.company.cmp):
+                TransactionScheduler.objects.get(pk=query.pk).delete()
+
         return HttpResponse('cmp updated')
-    return redirect('/')
 
 
 class MarketOverview(LoginRequiredMixin, CountNewsMixin, DetailView):

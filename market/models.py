@@ -181,6 +181,19 @@ def post_save_transaction_create_receiver(sender, instance, created, *args, **kw
 post_save.connect(post_save_transaction_create_receiver, sender=Transaction)
 
 
+class TransactionSchedulerQueryset(models.query.QuerySet):
+    def get_by_company(self, company):
+        return self.filter(company=company)
+
+
+class TransactionSchedulerManager(models.Manager):
+    def get_queryset(self):
+        return TransactionQueryset(self.model, using=self._db)
+
+    def get_by_company(self, company):
+        return self.get_queryset().get_by_company(company=company)
+
+
 class TransactionScheduler(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
@@ -189,6 +202,8 @@ class TransactionScheduler(models.Model):
     mode = models.CharField(max_length=10, choices=TRANSACTION_MODES)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    objects = TransactionSchedulerManager()
 
     class Meta:
         ordering = ['-timestamp']

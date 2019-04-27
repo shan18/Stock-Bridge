@@ -5,7 +5,7 @@ from .views import (
     CompanyCMPChartData,
     CompanyAdminCompanyUpdateView,
     deduct_tax,
-    update_market
+    UpdateMarketView
 )
 
 app_name = 'Market'
@@ -17,5 +17,5 @@ urlpatterns = [
     url(r'^admin/(?P<code>\w+)$', CompanyAdminCompanyUpdateView.as_view(), name='admin'),
     url(r'^company/api/(?P<code>\w+)$', CompanyCMPChartData.as_view(), name='cmp_api_data'),
     url(r'^tax/$', deduct_tax, name='tax'),
-    url(r'^update/$', update_market, name='update')
+    url(r'^update/$', UpdateMarketView.as_view(), name='update')
 ]
