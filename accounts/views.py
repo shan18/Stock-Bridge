@@ -68,8 +68,15 @@ class LeaderBoardView(CountNewsMixin, View):
             # net_worth = InvestmentRecord.objects.calculate_net_worth(user)
             data.append((user.username, user.full_name, user.cash, user.coeff_of_variation))
         data = sorted(data, key=lambda d: (-d[2], d[3]))
-        return render(request, 'accounts/leaderboard.html', {'data': data})
-
+        # print(self.request.user.username)
+        current_data = []
+        count=1
+        for data1 in data:
+            # print(data1)
+            if data1[0]==self.request.user.username:
+                current_data.append((data1,count))
+            count+=1
+        return render(request, 'accounts/leaderboard.html', {'data': data,'cureent_user':current_data})
 
 class LoanView(LoginRequiredMixin, CountNewsMixin, View):
 

@@ -18,6 +18,7 @@
     </div>
   </div>
 </div>
+
 <div class="jumbotron"
   style="padding-top: 15px;padding-left: 10px ;padding-bottom: 5px;margin-bottom:10px;margin-top:8px; ">
   <div class="row">
@@ -31,24 +32,23 @@
           </tr>
         </thead>
         <tbody>
+            {% for object in cureent_user %}
+            <tr style="background-color:rgb(224, 129, 129)">
+                <td class="text-center">{{ object.1 }}</td>
+                <td class="text-center">
+                  <a href="{% url 'profile' object.0.0 %}">
+                    {{ object.0.1 }}
+                  </a>
+                </td>
+                <td class="text-center">&#8377; {{ object.0.2 }}</td>
+              </tr>
+            {% endfor %}
           {% for object in data %}
-          {% if object.0 == request.user.username %}
-          <tr style="background-color:rgb(224, 129, 129)">
-            <td class="text-center">{{ forloop.counter }}</td>
-            <td class="text-center">
-              <a href="{% url 'profile' object.0 %}">
-                {{ object.1 }}
-              </a>
-            </td>
-            <td class="text-center">&#8377; {{ object.2 }}</td>
-          </tr>
-          {% else %}
           <tr>
             <td class="text-center">{{ forloop.counter }}</td>
             <td class="text-center">{{ object.1 }}</td>
             <td class="text-center">&#8377; {{ object.2 }}</td>
           </tr>
-          {% endif %}
           {% endfor %}
         </tbody>
       </table>
