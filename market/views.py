@@ -16,7 +16,7 @@ from django.urls import reverse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import Company, InvestmentRecord, Transaction, CompanyCMPRecord, News, UserNews
+from .models import Company, InvestmentRecord, Transaction, CompanyCMPRecord, News, UserNews, TransactionScheduler
 from .forms import CompanyChangeForm
 from stock_bridge.mixins import LoginRequiredMixin, AdminRequiredMixin, CountNewsMixin
 from stocks.models import StocksDatabasePointer
@@ -167,7 +167,16 @@ class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
                     else:
                         messages.error(request, 'Please select a valid purchase mode!')
                 elif mode == 'schedule':
-                    messages.success(request, 'schedule mode!')
+                    schedule_price = request.POST.get('price')
+                    print(request.POST)
+                    _ = TransactionScheduler.objects.create(
+                        user=user,
+                        company=company,
+                        num_stocks=quantity,
+                        price=schedule_price,
+                        mode=purchase_mode
+                    )
+                    messages.success(request, 'Request Submitted!')
                 else:
                     messages.error(request, 'Please select a valid transaction mode!')
             else:

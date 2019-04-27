@@ -78,6 +78,7 @@ class LeaderBoardView(CountNewsMixin, View):
             rank_count += 1
         return render(request, 'accounts/leaderboard.html', {'data': data, 'current_user': current_user_data})
 
+
 class LoanView(LoginRequiredMixin, CountNewsMixin, View):
 
     def get(self, request, *args, **kwargs):

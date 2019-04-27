@@ -198,7 +198,7 @@ class TransactionScheduler(models.Model):
             user=self.user.username, company=self.company.name, time=self.timestamp
         )
     
-    def create_transaction(self, price):
+    def perform_transaction(self, price):
         if (self.mode == 'buy' and price <= self.price) or (self.mode == 'sell' and price >= self.price):
             Transaction.objects.create(
                 user=self.user,
