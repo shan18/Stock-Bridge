@@ -44,11 +44,13 @@
               </tr>
             {% endfor %}
           {% for object in data %}
+          {% if object.0 != request.user.username %}
           <tr>
             <td class="text-center">{{ forloop.counter }}</td>
             <td class="text-center">{{ object.1 }}</td>
             <td class="text-center">&#8377; {{ object.2 }}</td>
           </tr>
+          {% endif %}
           {% endfor %}
         </tbody>
       </table>
