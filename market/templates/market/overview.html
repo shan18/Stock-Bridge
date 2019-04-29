@@ -1,9 +1,30 @@
-
 {% extends 'base.html' %}
 
 {% block base_head %}
 <title>MARKET</title>
     {% include 'market/css/profile.html' %}
+{% endblock %}
+
+<!-- marquee for cmp -->
+{% block content_fluid %}
+<br>
+<marquee behavior="scroll"  direction="left" bgcolor="#222831">
+{% for object in investments %}
+  <strong style="color:white">{{ object.company }}
+  {% if object.company.change >= 0 %}
+    <small style="color: green">
+      ({{ object.company.change }}%) <i class="fa fa-arrow-up"></i>
+    </small>
+  {% elif object.company.change < 0 %}
+    <small style="color: red">
+      ({{ object.company.change }}%) <i class="fa fa-arrow-down"></i>
+    </small>
+  {% endif %}
+  &emsp;
+</strong>
+{% endfor %}
+</marquee>
+
 {% endblock %}
 
 {% block content %}
