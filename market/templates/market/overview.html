@@ -1,46 +1,21 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}">
-    <title>Market</title>
-    {% include 'market/css/profile.html' %}
-		{% include 'base/css.html' %}
-		{% include 'base/js.html' %}
-	</head>
-	<body>
 
-    {% include 'base/navbar.html' with brand_name='Stock Bridge' %}
-    
-    <!-- marquee for cmp -->
-    <marquee behavior="scroll"  direction="left" bgcolor="#222831" style="height:35px;" class="py-2" >
-      <!-- <br> -->
-      {% for object in investments %}
-        <strong style="color:white">{{ object.company }}
-        {% if object.company.change >= 0 %}
-          <small style="color: green">
-            ({{ object.company.change }}%) <i class="fa fa-arrow-up"></i>
-          </small>
-        {% elif object.company.change < 0 %}
-          <small style="color: red">
-            ({{ object.company.change }}%) <i class="fa fa-arrow-down"></i>
-          </small>
-        {% endif %}
-        &emsp;
-      </strong>
-      {% endfor %}
-      </marquee>
+{% block base_head %}
+<title>Transaction</title>
+{% endblock %}
 
-    <div class="container">
-      {% include 'snippets/inner_navbar.html' with company_list=company_list %}
-      <h1 class="heading mb-4">Market Overview</h1>
-      {% if investments %}
-          {% include 'snippets/market_overview_table.html' with object_list=investments %}
-      {% endif %}
-      </div>
+{% block out_content_top %}
+  <!-- marquee for cmp -->
+  {% include 'market/snippets/cmp_marquee.html' with company_list=company_list %}
+{% endblock %}
 
-    {% include 'base/footer.html' %}
-	</body>
-</html>
+{% block content %}
+
+{% include 'snippets/inner_navbar.html' with company_list=company_list %}
+<h1 class="heading mb-4">Market Overview</h1>
+{% if investments %}
+    {% include 'snippets/market_overview_table.html' with object_list=investments %}
+{% endif %}
+
+{% endblock %}

@@ -13,7 +13,7 @@ class StocksDatabase(models.Model):
         ordering = ['company', 'pointer']
 
     def __str__(self):
-        return self.company.name + ' - ' + str(self.pointer)
+        return self.company.name + ' - ' + str(self.pointer) + ' - ' + str(self.price)
 
 
 class StocksDatabasePointerManager(models.Manager):

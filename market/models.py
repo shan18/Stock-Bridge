@@ -209,8 +209,8 @@ class TransactionScheduler(models.Model):
         ordering = ['-timestamp']
 
     def __str__(self):
-        return '{user}: {company} - {time}'.format(
-            user=self.user.username, company=self.company.name, time=self.timestamp
+        return '{user}: {company} - {stocks}: {price} - {mode}'.format(
+            user=self.user.username, company=self.company.name, stocks=self.num_stocks, price=self.price, mode=self.mode
         )
     
     def perform_transaction(self, price):

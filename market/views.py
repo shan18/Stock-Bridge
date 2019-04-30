@@ -50,6 +50,12 @@ class UpdateMarketView(LoginRequiredMixin, AdminRequiredMixin, View):
         for query in schedule_qs:
             if query.perform_transaction(query.company.cmp):
                 TransactionScheduler.objects.get(pk=query.pk).delete()
+        
+
+        ## TODO:
+        ## Validation in scheduler
+        ## Stocks requested greater than stocks offered in transaction view
+        ## Stocks requested greater than stocks remaining in CMP update view
 
         return HttpResponse('cmp updated')
 
