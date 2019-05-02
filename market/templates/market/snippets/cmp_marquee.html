@@ -1,6 +1,6 @@
 <marquee behavior="scroll" direction="left" bgcolor="#222831" style="height:35px;" class="py-2">
   {% for object in company_list %}
-    <strong style="color:white">{{ object }}
+    <strong style="color:white">{{ object.name }}: {{ object.cmp }}
       {% if object.change >= 0 %}
         <small style="color: green">
           ({{ object.change }}%) <i class="fa fa-arrow-up"></i>
