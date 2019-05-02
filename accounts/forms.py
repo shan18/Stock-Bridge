@@ -156,7 +156,7 @@ class RegisterForm(forms.ModelForm):
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
-        if not re.match(r'^[\w]+$', username):  # Username must contain only alphanumeric characters
+        if not re.match(r'^[a-zA-Z0-9]+$', username):  # Username must contain only alphanumeric characters
             raise forms.ValidationError('username can contain only alphabets and numbers')
         return username
 
