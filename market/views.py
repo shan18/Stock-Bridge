@@ -50,12 +50,6 @@ class UpdateMarketView(LoginRequiredMixin, AdminRequiredMixin, View):
         for query in schedule_qs:
             if query.perform_transaction(query.company.cmp):
                 TransactionScheduler.objects.get(pk=query.pk).delete()
-        
-
-        ## TODO:
-        ## Validation in scheduler
-        ## Stocks requested greater than stocks offered in transaction view
-        ## Stocks requested greater than stocks remaining in CMP update view
 
         return HttpResponse('cmp updated')
 
@@ -181,15 +175,17 @@ class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
                         messages.error(request, 'Please select a valid purchase mode!')
                 elif mode == 'schedule':
                     schedule_price = request.POST.get('price')
-                    print(request.POST)
-                    _ = TransactionScheduler.objects.create(
-                        user=user,
-                        company=company,
-                        num_stocks=quantity,
-                        price=schedule_price,
-                        mode=purchase_mode
-                    )
-                    messages.success(request, 'Request Submitted!')
+                    if quantity <= company.stocks_offered:
+                        _ = TransactionScheduler.objects.create(
+                            user=user,
+                            company=company,
+                            num_stocks=quantity,
+                            price=schedule_price,
+                            mode=purchase_mode
+                        )
+                        messages.success(request, 'Request Submitted!')
+                    else:
+                        messages.error(request, 'Enter a valid quantity of stocks.')
                 else:
                     messages.error(request, 'Please select a valid transaction mode!')
             else:

@@ -182,16 +182,16 @@ post_save.connect(post_save_transaction_create_receiver, sender=Transaction)
 
 
 class TransactionSchedulerQueryset(models.query.QuerySet):
-    def get_by_company(self, company):
-        return self.filter(company=company)
+    def get_by_user(self, user):
+        return self.filter(user=user)
 
 
 class TransactionSchedulerManager(models.Manager):
     def get_queryset(self):
         return TransactionQueryset(self.model, using=self._db)
 
-    def get_by_company(self, company):
-        return self.get_queryset().get_by_company(company=company)
+    def get_by_user(self, user):
+        return self.get_queryset().get_by_user(user)
 
 
 class TransactionScheduler(models.Model):
@@ -214,15 +214,16 @@ class TransactionScheduler(models.Model):
         )
     
     def perform_transaction(self, price):
-        if (self.mode == 'buy' and price <= self.price) or (self.mode == 'sell' and price >= self.price):
-            Transaction.objects.create(
-                user=self.user,
-                company=self.company,
-                num_stocks=self.num_stocks,
-                price=price,
-                mode=self.mode
-            )
-            return True
+        if self.num_stocks <= self.company.stocks_remaining and price * Decimal(self.num_stocks) <= self.user.cash:
+            if (self.mode == 'buy' and price <= self.price) or (self.mode == 'sell' and price >= self.price):
+                Transaction.objects.create(
+                    user=self.user,
+                    company=self.company,
+                    num_stocks=self.num_stocks,
+                    price=price,
+                    mode=self.mode
+                )
+                return True
         return False
 
 
