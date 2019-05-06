@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block base_head %}
 <title>Transaction</title>
@@ -10,10 +11,19 @@
   {% include 'market/snippets/cmp_marquee.html' with company_list=company_list %}
 {% endblock %}
 
+
 {% block content %}
 
 {% include 'market/snippets/inner_navbar.html' with company_list=company_list %}
-<h1 class="heading mb-4">Market Overview</h1>
+
+<div class="row">
+  <div class="col-12">
+    <h1 class="heading mb-4">Market Overview</h1>
+  </div>
+  <div class="col-12 text-center mt-5">
+    <p style="font-size: 25px;"><b>Cash Available:</b> &#8377; {{ request.user.cash|intcomma }}</p><br>
+  </div>
+</div>
 {% if investments %}
     {% include 'snippets/market_overview_table.html' with object_list=investments %}
 {% endif %}

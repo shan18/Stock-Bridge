@@ -8,24 +8,27 @@
 {% block content %}
 
 <div class="row">
-    <div class="col-12 mt-3">
-        <div class="text-center">
-            <h1 class="heading">{{ object.full_name }}</h1>
-            <p class="lead">{{ object.username }}</p>
-            <p class="lead">{{ object.email }}</p>
-        </div>
+  <div class="col-12 mt-3">
+    <div class="text-center">
+      <h1 class="heading">{{ object.full_name }}</h1>
+      <p class="lead">{{ object.username }}</p>
+      <p class="lead">{{ object.email }}</p>
     </div>
+  </div>
 </div>
 <div class="row">
-    <div class="col-12 text-center my-5">
-        <h3>Net Worth: &#8377; {{ net_worth|intcomma }}</h3>
-    </div>
+  <div class="col-12 text-center mt-5 mb-3">
+    <h3><b>Cash Available:</b> &#8377; {{ object.cash|intcomma }}</h3>
+  </div>
+  <div class="col-12 text-center mb-5">
+    <h3><b>Net Worth:</b> &#8377; {{ net_worth|intcomma }}</h3>
+  </div>
 </div>
 <div class="row">
-    <h3 class="heading col-12 mb-4">Investments</h3>
+  <h3 class="heading col-12 mb-4">Investments</h3>
 </div>
 {% if investments %}
-    {% include 'snippets/market_overview_table.html' with object_list=investments %}
+{% include 'snippets/market_overview_table.html' with object_list=investments %}
 {% endif %}
 
 {% endblock %}

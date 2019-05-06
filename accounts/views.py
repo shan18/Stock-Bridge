@@ -12,6 +12,7 @@ from django.utils.safestring import mark_safe
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.urls import reverse
+
 from .forms import LoginForm, RegisterForm, ReactivateEmailForm
 from .models import EmailActivation
 from market.models import InvestmentRecord
@@ -83,7 +84,8 @@ class LoanView(LoginRequiredMixin, CountNewsMixin, View):
 
     def get(self, request, *args, **kwargs):
         return render(request, 'accounts/loan.html', {
-            'user': request.user
+            'user': request.user,
+            'net_worth': InvestmentRecord.objects.calculate_net_worth(request.user)
         })
 
     def post(self, request, *args, **kwargs):

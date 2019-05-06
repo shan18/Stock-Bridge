@@ -46,6 +46,7 @@ $(document).ready(function() {
   var formBuyBtn = $('.buy-btn');
   var formSellBtn = $('.sell-btn');
   var purchaseModeInput = $('.p-mode-input');
+  var formQuantityInput = $('.quantity-input');
 
   formBuyBtn.click(function() {
     var $this = $(this);
@@ -53,6 +54,7 @@ $(document).ready(function() {
     purchaseModeInput.val($this[0].innerText.toLowerCase());
     formSellBtn.removeClass('btn-info');
     formPriceInput.attr('placeholder', 'Maximum price to buy stocks');
+    formQuantityInput.attr('placeholder', 'Number of stocks to buy');
     $this.blur();
   });
 
@@ -62,6 +64,7 @@ $(document).ready(function() {
     purchaseModeInput.val($this[0].innerText.toLowerCase());
     formBuyBtn.removeClass('btn-info');
     formPriceInput.attr('placeholder', 'Minimum price to sell stocks');
+    formQuantityInput.attr('placeholder', 'Number of stocks to sell');
     $this.blur();
   });
 
