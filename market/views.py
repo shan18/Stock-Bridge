@@ -128,10 +128,10 @@ class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
 
             if quantity != '' and int(quantity) > 0:
                 quantity = int(quantity)
+                total_quantity = investment_obj.stocks + quantity
                 if mode == 'transact':
                     if purchase_mode == 'buy':
                         # Checking with max stocks a user can purchase for a company
-                        total_quantity = investment_obj.stocks + quantity
                         if total_quantity <= company.max_stocks_sell:
                             purchase_amount = Decimal(quantity)*price
                             if user.cash >= purchase_amount:
@@ -175,15 +175,23 @@ class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
                         messages.error(request, 'Please select a valid purchase mode!')
                 elif mode == 'schedule':
                     schedule_price = request.POST.get('price')
-                    if quantity <= company.stocks_offered:
-                        _ = TransactionScheduler.objects.create(
-                            user=user,
-                            company=company,
-                            num_stocks=quantity,
-                            price=schedule_price,
-                            mode=purchase_mode
-                        )
-                        messages.success(request, 'Request Submitted!')
+                    if total_quantity <= company.stocks_offered:
+                        if total_quantity <= company.max_stocks_sell:
+                            _ = TransactionScheduler.objects.create(
+                                user=user,
+                                company=company,
+                                num_stocks=quantity,
+                                price=schedule_price,
+                                mode=purchase_mode
+                            )
+                            messages.success(request, 'Request Submitted!')
+                        else:
+                            messages.error(
+                                request,
+                                'This company allows each user to hold a maximum of {} stocks'.format(
+                                    company.max_stocks_sell
+                                )
+                            )
                     else:
                         messages.error(request, 'Enter a valid quantity of stocks.')
                 else:

@@ -206,7 +206,7 @@ class TransactionScheduler(models.Model):
     objects = TransactionSchedulerManager()
 
     class Meta:
-        ordering = ['-timestamp']
+        ordering = ['-mode', 'timestamp']
 
     def __str__(self):
         return '{user}: {company} - {stocks}: {price} - {mode}'.format(
@@ -214,9 +214,10 @@ class TransactionScheduler(models.Model):
         )
     
     def perform_transaction(self, price):
+        invested_stocks = InvestmentRecord.objects.get(user=self.user, company=self.company).stocks
         if (
             self.mode == 'buy' and price <= self.price and self.num_stocks <= self.company.stocks_remaining and price * Decimal(self.num_stocks) <= self.user.cash
-        ) or (self.mode == 'sell' and price >= self.price):
+        ) or (self.mode == 'sell' and price >= self.price and self.num_stocks <= invested_stocks):
             Transaction.objects.create(
                 user=self.user,
                 company=self.company,
