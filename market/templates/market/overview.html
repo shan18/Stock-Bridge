@@ -12,7 +12,7 @@
 
 {% block content %}
 
-{% include 'snippets/inner_navbar.html' with company_list=company_list %}
+{% include 'market/snippets/inner_navbar.html' with company_list=company_list %}
 <h1 class="heading mb-4">Market Overview</h1>
 {% if investments %}
     {% include 'snippets/market_overview_table.html' with object_list=investments %}
