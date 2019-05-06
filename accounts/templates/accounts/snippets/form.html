@@ -1,7 +1,7 @@
-<div class="auth_overlay">
+<div class="auth_overlay row">
   <div class="auth">
     <div class="auth__inner">
-      <div class="auth__header">
+      <div class="auth__header row">
         <div class="auth__title">
           <h1 class="auth__heading heading">{{ heading }}</h1>
         </div>
@@ -16,7 +16,7 @@
                   <strong>{{ error|escape }}</strong>
                 </div>
               {% endfor %}
-              <div class="auth_form__group">
+              <div class="auth_form__group row">
                 {% if 'name' in field.name %}
                   <svg class="auth_form__icon svg-icon" viewBox="0 0 20 20">
                     <path
@@ -46,13 +46,21 @@
                 <label class="auth_form__label" for="{{ field.label }}">{{ field.label }}</label>
               </div>
             {% endfor %}
-            <div class="auth_form__group">
-              <button class="auth_form__btn" type="submit">
-                <span class="auth_form__btn-text">{{ button_text }}</span>
-              </button>
+            <div class="auth_form__group row">
               {% if heading.lower == 'login' %}
-                <div class="my-auto ml-auto">
+                <div class="col-8">
+                  <button class="auth_form__btn" type="submit">
+                    <span class="auth_form__btn-text">{{ button_text }}</span>
+                  </button>
+                </div>
+                <div class="col-4 my-auto ml-auto">
                   <a href="{% url 'password_reset' %}" target="blank">Forgot Password?</a>
+                </div>
+              {% else %}
+                <div class="col-12">
+                  <button class="auth_form__btn" type="submit">
+                    <span class="auth_form__btn-text">{{ button_text }}</span>
+                  </button>
                 </div>
               {% endif %}
             </div>

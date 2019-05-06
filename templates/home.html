@@ -6,49 +6,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}">
     <title>Stock Bridge</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
 		{% include 'base/css.html' %}
 		{% include 'base/js.html' %}
 	</head>
 	<body>
 
-		{% include 'base/navbar.html' with brand_name='Stock Bridge' %}
+    {% include 'base/navbar.html' with brand_name='Stock Bridge' %}
+    
+    <header>
+      <div class="overlay"></div>
+      <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+        <!-- <source src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4"> -->
+        <source src="/static/home.mp4" type="video/mp4">
+      </video>
+      <div class="container h-100">
+        <div class="d-flex h-100 text-center align-items-center">
+          <div class="w-100 text-white">
+            <h1 class="display-3">STOCK BRIDGE</h1>
+            <p class="lead mb-4">Morphosis 2k19</p><br/>
+            <a class="btn btn-outline-light market-button mt-5" href="{% url 'market:overview' %}">
+              Enter Market
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
 
-    <div class="image-home jumbotron">
-      <div class="home-heading">
-        <h1>STOCK BRIDGE</h1>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-12 col-md-2"></div>
-        <div class="col">
-          <p style="text-align: justify">
-              Keeping in view the real thrill of the market monotony, we are here with the Virtual Simulation of the same thrill
-              and adrenaline rush through the event under the banner of <strong>MORPHOSIS</strong>. The virtual share market enables the participants
-              to trade, buy, sell mortgage and showcase their rationality, their mettle against competitive decision making under
-              pressure. The full time active virtual market will be a platform to showcase your inferential, pressure-handling
-              capability. So, be a part of it to experience the Raising Spirit of Competitiveness and explore your ability of Decision
-              Making.
-          </p>
+    <section class="my-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md-2"></div>
+          <div class="col">
+            <p style="text-align: justify">
+                Keeping in view the real thrill of the market monotony, we are here with the Virtual Simulation of the same thrill
+                and adrenaline rush through the event under the banner of <strong>MORPHOSIS</strong>. The virtual share market enables the participants
+                to trade, buy, sell mortgage and showcase their rationality, their mettle against competitive decision making under
+                pressure. The full time active virtual market will be a platform to showcase your inferential, pressure-handling
+                capability. So, be a part of it to experience the Raising Spirit of Competitiveness and explore your ability of Decision
+                Making.
+            </p>
+          </div>
+          <div class="col-12 col-md-2"></div>
         </div>
-        <div class="col-12 col-md-2"></div>
-      </div>
-      <div class="row">
-        <div class="col-12 text-center mb-5">
-          <a class="btn btn-primary market-button" href="{% url 'market:overview' %}">
-            Enter Market
-          </a>
+        <div class="row">
+          <div class="col-12 my-3">
+            <p>
+              <b>Disclaimer:</b> Though we have tried our best to avoid any unfortunate circumstances,
+              but if in case any discrepancies occur and we are unable to resume the game then the player who
+              was holding the top position on the leaderboard at the time of that event will be declared
+              as the winner. The morphosis team will not be responsible for any inconviniences whatsoever.
+            </p>
+          </div>
         </div>
-        <div class="col-12 my-3">
-          <p>
-            <b>Disclaimer:</b> Though we have tried our best to avoid any unfortunate circumstances,
-            but if in case any discrepancies occur and we are unable to resume the game then the player who
-            was holding the top position on the leaderboard at the time of that event will be declared
-            as the winner. The morphosis team will not be responsible for any inconviniences whatsoever.
-          </p>
-        </div>
-      </div>
+      </section>
 
     {% include 'base/footer.html' %}
 	</body>
