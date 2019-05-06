@@ -214,16 +214,17 @@ class TransactionScheduler(models.Model):
         )
     
     def perform_transaction(self, price):
-        if self.num_stocks <= self.company.stocks_remaining and price * Decimal(self.num_stocks) <= self.user.cash:
-            if (self.mode == 'buy' and price <= self.price) or (self.mode == 'sell' and price >= self.price):
-                Transaction.objects.create(
-                    user=self.user,
-                    company=self.company,
-                    num_stocks=self.num_stocks,
-                    price=price,
-                    mode=self.mode
-                )
-                return True
+        if (
+            self.mode == 'buy' and price <= self.price and self.num_stocks <= self.company.stocks_remaining and price * Decimal(self.num_stocks) <= self.user.cash
+        ) or (self.mode == 'sell' and price >= self.price):
+            Transaction.objects.create(
+                user=self.user,
+                company=self.company,
+                num_stocks=self.num_stocks,
+                price=price,
+                mode=self.mode
+            )
+            return True
         return False
 
 
