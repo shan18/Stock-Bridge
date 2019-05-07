@@ -12,6 +12,7 @@ from django.utils import timezone
 from django.utils.timezone import localtime
 from django.conf import settings
 from django.urls import reverse
+from django.db.models import Sum
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -44,6 +45,24 @@ class UpdateMarketView(LoginRequiredMixin, AdminRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         # update cmp
         StocksDatabasePointer.objects.get_pointer().increment_pointer()
+
+        # Aggregate requests by user
+        obj_ids = []
+        for user in User.objects.all():
+            qs = TransactionScheduler.objects.get_by_user(user)
+            for company in Company.objects.all():
+                qs = qs.get_by_company(company)
+                new_obj = TransactionScheduler.objects.create(user=user, company=company)
+                flag = False
+                for obj in qs:
+                    if obj.validate_by_price(obj.company.cmp):
+                        flag = True
+                        new_obj.store_difference(obj)
+                        obj_ids.append(obj.pk)
+                new_obj.save()
+                if not flag:  # Delete the new object if no obj matches the scheduling condition
+                    new_obj.delete()
+        TransactionScheduler.objects.filter(pk__in=obj_ids).delete()
 
         # scheduler
         schedule_qs = TransactionScheduler.objects.all()
@@ -120,14 +139,14 @@ class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
 
         if START_TIME <= current_time <= STOP_TIME:
             user = request.user
-            mode = request.POST.get('mode')
-            purchase_mode = request.POST.get('p-mode')
             quantity = request.POST.get('quantity')
-            price = company.cmp
-            investment_obj, _ = InvestmentRecord.objects.get_or_create(user=user, company=company)
 
             if quantity != '' and int(quantity) > 0:
                 quantity = int(quantity)
+                mode = request.POST.get('mode')
+                purchase_mode = request.POST.get('p-mode')
+                price = company.cmp
+                investment_obj, _ = InvestmentRecord.objects.get_or_create(user=user, company=company)
                 total_quantity = investment_obj.stocks + quantity
                 if mode == 'transact':
                     if purchase_mode == 'buy':
@@ -175,25 +194,57 @@ class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
                         messages.error(request, 'Please select a valid purchase mode!')
                 elif mode == 'schedule':
                     schedule_price = request.POST.get('price')
-                    if total_quantity <= company.stocks_offered:
-                        if total_quantity <= company.max_stocks_sell:
-                            _ = TransactionScheduler.objects.create(
-                                user=user,
-                                company=company,
-                                num_stocks=quantity,
-                                price=schedule_price,
-                                mode=purchase_mode
-                            )
-                            messages.success(request, 'Request Submitted!')
-                        else:
-                            messages.error(
-                                request,
-                                'This company allows each user to hold a maximum of {} stocks'.format(
-                                    company.max_stocks_sell
+                    scheduled_stocks = TransactionScheduler.objects.filter(
+                        user=user, company=company, mode=purchase_mode
+                    ).aggregate(Sum('num_stocks'))['num_stocks__sum']
+                    if scheduled_stocks is None:
+                        scheduled_stocks = 0
+                    if purchase_mode == 'buy':
+                        total_quantity += scheduled_stocks
+                        if total_quantity <= company.stocks_offered:
+                            if total_quantity <= company.max_stocks_sell:
+                                _ = TransactionScheduler.objects.create(
+                                    user=user,
+                                    company=company,
+                                    num_stocks=quantity,
+                                    price=schedule_price,
+                                    mode=purchase_mode
                                 )
-                            )
+                                messages.success(request, 'Request Submitted!')
+                            else:
+                                msg = """The total amount of stocks for your buying scheduling requests exceed
+                                the amount of stocks the company allows each user to hold.
+                                """
+                                messages.error(request, msg)
+                        else:
+                            msg = """The total amount of stocks for your buying scheduling requests exceed
+                            the amount of stocks offered by the company.
+                            """
+                            messages.error(request, msg)
+                    elif purchase_mode == 'sell':
+                        total_quantity = scheduled_stocks + quantity
+                        if total_quantity <= company.stocks_offered:
+                            if total_quantity <= company.max_stocks_sell:
+                                _ = TransactionScheduler.objects.create(
+                                    user=user,
+                                    company=company,
+                                    num_stocks=quantity,
+                                    price=schedule_price,
+                                    mode=purchase_mode
+                                )
+                                messages.success(request, 'Request Submitted!')
+                            else:
+                                msg = """The total amount of stocks for your selling scheduling requests exceed
+                                the amount of stocks the company allows each user to hold.
+                                """
+                                messages.error(request, msg)
+                        else:
+                            msg = """The total amount of stocks for your selling scheduling requests exceed
+                            the amount of stocks offered by the company.
+                            """
+                            messages.error(request, msg)
                     else:
-                        messages.error(request, 'Enter a valid quantity of stocks.')
+                        messages.error(request, 'Please select a valid purchase mode!')
                 else:
                     messages.error(request, 'Please select a valid transaction mode!')
             else:

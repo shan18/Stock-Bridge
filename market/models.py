@@ -142,8 +142,8 @@ class Transaction(models.Model):
         ordering = ['-timestamp']
 
     def __str__(self):
-        return '{user}: {company} - {time}'.format(
-            user=self.user.username, company=self.company.name, time=self.timestamp
+        return '{user}: {company} - {stocks}: {price} - {mode}'.format(
+            user=self.user.username, company=self.company.name, stocks=self.num_stocks, price=self.price, mode=self.mode
         )
 
 
@@ -185,6 +185,9 @@ class TransactionSchedulerQueryset(models.query.QuerySet):
     def get_by_user(self, user):
         return self.filter(user=user)
 
+    def get_by_company(self, company):
+        return self.filter(company=company)
+
 
 class TransactionSchedulerManager(models.Manager):
     def get_queryset(self):
@@ -192,6 +195,9 @@ class TransactionSchedulerManager(models.Manager):
 
     def get_by_user(self, user):
         return self.get_queryset().get_by_user(user)
+
+    def get_by_company(self, company):
+        return self.get_queryset().get_by_company(company)
 
 
 class TransactionScheduler(models.Model):
@@ -213,11 +219,23 @@ class TransactionScheduler(models.Model):
             user=self.user.username, company=self.company.name, stocks=self.num_stocks, price=self.price, mode=self.mode
         )
     
-    def perform_transaction(self, price):
+    def validate_by_price(self, price):
+        if (
+            self.mode == 'buy' and price <= self.price and price * Decimal(self.num_stocks) <= self.user.cash
+        ) or (self.mode == 'sell' and price >= self.price):
+            return True
+        return False
+    
+    def validate_by_stocks(self):
         invested_stocks = InvestmentRecord.objects.get(user=self.user, company=self.company).stocks
         if (
-            self.mode == 'buy' and price <= self.price and self.num_stocks <= self.company.stocks_remaining and price * Decimal(self.num_stocks) <= self.user.cash
-        ) or (self.mode == 'sell' and price >= self.price and self.num_stocks <= invested_stocks):
+            self.mode == 'buy' and self.num_stocks <= self.company.stocks_remaining
+        ) or (self.mode == 'sell' and self.num_stocks <= invested_stocks):
+            return True
+        return False
+    
+    def perform_transaction(self, price):
+        if self.validate_by_price(price) and self.validate_by_stocks():
             Transaction.objects.create(
                 user=self.user,
                 company=self.company,
@@ -227,6 +245,20 @@ class TransactionScheduler(models.Model):
             )
             return True
         return False
+    
+    def store_difference(self, obj):
+        if self.user == obj.user and self.company == obj.company:
+            num_stocks = self.num_stocks
+            mode = self.mode
+            if self.mode == obj.mode:
+                num_stocks += obj.num_stocks
+            else:
+                num_stocks = abs(num_stocks - obj.num_stocks)
+                if obj.num_stocks > self.num_stocks:
+                    mode = obj.mode
+            self.mode = mode
+            self.num_stocks = num_stocks
+            self.save()
 
 
 class InvestmentRecordQueryset(models.query.QuerySet):
