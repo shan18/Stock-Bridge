@@ -311,15 +311,15 @@ class InvestmentRecord(models.Model):
             self.save()
 
 
-def post_save_user_create_receiver(sender, instance, created, *args, **kwargs):
-    '''For every user created'''
+def post_save_user_investment_create_receiver(sender, instance, created, *args, **kwargs):
+    """ For every user created """
     if created:
-        '''It will create user's investment record with all the companies'''
+        """It will create user's investment record with all the companies"""
         for company in Company.objects.all():
             obj = InvestmentRecord.objects.create(user=instance, company=company)
 
 
-post_save.connect(post_save_user_create_receiver, sender=User)
+post_save.connect(post_save_user_investment_create_receiver, sender=User)
 
 
 class CompanyCMPRecord(models.Model):
@@ -360,13 +360,13 @@ def post_save_news_create_receiver(sender, instance, created, *args, **kwargs):
 post_save.connect(post_save_news_create_receiver, sender=News)
 
 
-def post_save_user_create_receiver(sender, instance, created, *args, **kwargs):
+def post_save_user_news_create_receiver(sender, instance, created, *args, **kwargs):
     if created:
         instance.news_count = News.objects.filter(is_active=True).count()
         instance.save()
 
 
-post_save.connect(post_save_user_create_receiver, sender=User)
+post_save.connect(post_save_user_news_create_receiver, sender=User)
 
 
 class UserNewsManager(models.Manager):
