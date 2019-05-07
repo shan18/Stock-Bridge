@@ -12,36 +12,6 @@ $(document).ready(function() {
     }
   );
 
-  // Transaction mode buttons click
-  var formPurchaseBtn = $('.purchase-btn');
-  var formScheduleBtn = $('.schedule-btn');
-  var modeInput = $('.mode-input');
-  var formPurchaseHeading = $('.purchase-heading');
-  var formQuantityInput = $('.quantity-input');
-  var formPriceInput = $('.price-input');
-
-  formPurchaseBtn.click(function() {
-    var $this = $(this);
-    $this.addClass('btn-info');
-    modeInput.val($this[0].innerText.toLowerCase());
-    formScheduleBtn.removeClass('btn-info');
-    $this.blur();
-    formPurchaseHeading.html('<b>Transact Stocks</b>');
-    formQuantityInput.removeClass('mb-2');
-    formPriceInput.attr('type', 'hidden');
-  });
-
-  formScheduleBtn.click(function() {
-    var $this = $(this);
-    $this.addClass('btn-info');
-    modeInput.val($this[0].innerText.toLowerCase());
-    formPurchaseBtn.removeClass('btn-info');
-    $this.blur();
-    formPurchaseHeading.html('<b>Schedule Transaction<b/>');
-    formQuantityInput.addClass('mb-2');
-    formPriceInput.attr('type', 'text');
-  });
-
   // Purchase mode buttons click
   var formBuyBtn = $('.buy-btn');
   var formSellBtn = $('.sell-btn');
@@ -53,7 +23,6 @@ $(document).ready(function() {
     $this.addClass('btn-info');
     purchaseModeInput.val($this[0].innerText.toLowerCase());
     formSellBtn.removeClass('btn-info');
-    formPriceInput.attr('placeholder', 'Maximum price to buy stocks');
     formQuantityInput.attr('placeholder', 'Number of stocks to buy');
     $this.blur();
   });
@@ -63,7 +32,6 @@ $(document).ready(function() {
     $this.addClass('btn-info');
     purchaseModeInput.val($this[0].innerText.toLowerCase());
     formBuyBtn.removeClass('btn-info');
-    formPriceInput.attr('placeholder', 'Minimum price to sell stocks');
     formQuantityInput.attr('placeholder', 'Number of stocks to sell');
     $this.blur();
   });

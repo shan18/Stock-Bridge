@@ -117,7 +117,7 @@
   <div class="col-12 text-center mt-5">
     <p style="font-size: 25px;"><b>Cash Available:</b> &#8377; {{ request.user.cash|intcomma }}</p><br>
   </div>
-  <div class="col-lg-5 col-md-12 text-center mx-auto my-4">
+  <div class="col-lg-5 col-md-12 text-center mx-auto mt-2 mb-4">
     <form method="POST" class="transaction-form" action="{% url 'market:transaction' object.code %}" data-endpoint="{{ request.build_absolute_uri }}"> {% csrf_token %}
       {% include 'market/snippets/transaction_form_fields.html' with button_text='Submit' purchase_modes=purchase_modes %}
     </form>

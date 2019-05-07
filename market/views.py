@@ -17,7 +17,7 @@ from django.db.models import Sum
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import Company, InvestmentRecord, Transaction, CompanyCMPRecord, News, UserNews, TransactionScheduler
+from .models import Company, InvestmentRecord, Transaction, CompanyCMPRecord, News, UserNews
 from .forms import CompanyChangeForm
 from stock_bridge.mixins import LoginRequiredMixin, AdminRequiredMixin, CountNewsMixin
 from stocks.models import StocksDatabasePointer
@@ -45,31 +45,6 @@ class UpdateMarketView(LoginRequiredMixin, AdminRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         # update cmp
         StocksDatabasePointer.objects.get_pointer().increment_pointer()
-
-        # Aggregate requests by user
-        obj_ids = []
-        for user in User.objects.all():
-            qs = TransactionScheduler.objects.get_by_user(user)
-            for company in Company.objects.all():
-                qs = qs.get_by_company(company)
-                new_obj = TransactionScheduler.objects.create(user=user, company=company)
-                flag = False
-                for obj in qs:
-                    if obj.validate_by_price(obj.company.cmp):
-                        flag = True
-                        new_obj.store_difference(obj)
-                        obj_ids.append(obj.pk)
-                new_obj.save()
-                if not flag:  # Delete the new object if no obj matches the scheduling condition
-                    new_obj.delete()
-        TransactionScheduler.objects.filter(pk__in=obj_ids).delete()
-
-        # scheduler
-        schedule_qs = TransactionScheduler.objects.all()
-        for query in schedule_qs:
-            if query.perform_transaction(query.company.cmp):
-                TransactionScheduler.objects.get(pk=query.pk).delete()
-
         return HttpResponse('cmp updated')
 
 
@@ -143,110 +118,53 @@ class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
 
             if quantity != '' and int(quantity) > 0:
                 quantity = int(quantity)
-                mode = request.POST.get('mode')
                 purchase_mode = request.POST.get('p-mode')
                 price = company.cmp
                 investment_obj, _ = InvestmentRecord.objects.get_or_create(user=user, company=company)
                 total_quantity = investment_obj.stocks + quantity
-                if mode == 'transact':
-                    if purchase_mode == 'buy':
-                        # Checking with max stocks a user can purchase for a company
-                        if total_quantity <= company.max_stocks_sell:
-                            purchase_amount = Decimal(quantity)*price
-                            if user.cash >= purchase_amount:
-                                if company.stocks_remaining >= quantity:
-                                    _ = Transaction.objects.create(
-                                        user=user,
-                                        company=company,
-                                        num_stocks=quantity,
-                                        price=price,
-                                        mode=purchase_mode,
-                                        user_net_worth=InvestmentRecord.objects.calculate_net_worth(user)
-                                    )
-                                    messages.success(request, 'Transaction Complete!')
-                                else:
-                                    messages.error(
-                                        request, 'The company has only {} stocks left!'.format(company.stocks_remaining)
-                                    )
-                            else:
-                                messages.error(request, 'You have Insufficient Balance for this transaction!')
-                        else:
-                            messages.error(
-                                request,
-                                'This company allows each user to hold a maximum of {} stocks'.format(
-                                    company.max_stocks_sell
-                                )
-                            )
-                    elif purchase_mode == 'sell':
-                        if quantity <= investment_obj.stocks and quantity <= company.stocks_offered:
-                            _ = Transaction.objects.create(
-                                user=user,
-                                company=company,
-                                num_stocks=quantity,
-                                price=price,
-                                mode=purchase_mode,
-                                user_net_worth=InvestmentRecord.objects.calculate_net_worth(user)
-                            )
-                            messages.success(request, 'Transaction Complete!')
-                        else:
-                            messages.error(request, 'Please Enter a valid quantity!')
-                    else:
-                        messages.error(request, 'Please select a valid purchase mode!')
-                elif mode == 'schedule':
-                    schedule_price = request.POST.get('price')
-                    scheduled_stocks = TransactionScheduler.objects.filter(
-                        user=user, company=company, mode=purchase_mode
-                    ).aggregate(Sum('num_stocks'))['num_stocks__sum']
-                    if scheduled_stocks is None:
-                        scheduled_stocks = 0
-                    if purchase_mode == 'buy':
-                        total_quantity += scheduled_stocks
-                        if total_quantity <= company.stocks_offered:
-                            if total_quantity <= company.max_stocks_sell:
-                                _ = TransactionScheduler.objects.create(
+                if purchase_mode == 'buy':
+                    # Checking with max stocks a user can purchase for a company
+                    if total_quantity <= company.max_stocks_sell:
+                        purchase_amount = Decimal(quantity)*price
+                        if user.cash >= purchase_amount:
+                            if company.stocks_remaining >= quantity:
+                                _ = Transaction.objects.create(
                                     user=user,
                                     company=company,
                                     num_stocks=quantity,
-                                    price=schedule_price,
-                                    mode=purchase_mode
+                                    price=price,
+                                    mode=purchase_mode,
+                                    user_net_worth=InvestmentRecord.objects.calculate_net_worth(user)
                                 )
-                                messages.success(request, 'Request Submitted!')
+                                messages.success(request, 'Transaction Complete!')
                             else:
-                                msg = """The total amount of stocks for your buying scheduling requests exceed
-                                the amount of stocks the company allows each user to hold.
-                                """
-                                messages.error(request, msg)
-                        else:
-                            msg = """The total amount of stocks for your buying scheduling requests exceed
-                            the amount of stocks offered by the company.
-                            """
-                            messages.error(request, msg)
-                    elif purchase_mode == 'sell':
-                        total_quantity = scheduled_stocks + quantity
-                        if total_quantity <= company.stocks_offered:
-                            if total_quantity <= company.max_stocks_sell:
-                                _ = TransactionScheduler.objects.create(
-                                    user=user,
-                                    company=company,
-                                    num_stocks=quantity,
-                                    price=schedule_price,
-                                    mode=purchase_mode
+                                messages.error(
+                                    request, 'The company has only {} stocks left!'.format(company.stocks_remaining)
                                 )
-                                messages.success(request, 'Request Submitted!')
-                            else:
-                                msg = """The total amount of stocks for your selling scheduling requests exceed
-                                the amount of stocks the company allows each user to hold.
-                                """
-                                messages.error(request, msg)
                         else:
-                            msg = """The total amount of stocks for your selling scheduling requests exceed
-                            the amount of stocks offered by the company.
-                            """
-                            messages.error(request, msg)
+                            messages.error(request, 'You have Insufficient Balance for this transaction!')
                     else:
-                        messages.error(request, 'Please select a valid purchase mode!')
+                        messages.error(
+                            request,
+                            'This company allows each user to hold a maximum of {} stocks'.format(
+                                company.max_stocks_sell
+                            )
+                        )
+                elif purchase_mode == 'sell':
+                    if quantity <= investment_obj.stocks and quantity <= company.stocks_offered:
+                        _ = Transaction.objects.create(
+                            user=user,
+                            company=company,
+                            num_stocks=quantity,
+                            price=price,
+                            mode=purchase_mode,
+                            user_net_worth=InvestmentRecord.objects.calculate_net_worth(user)
+                        )
+                        messages.success(request, 'Transaction Complete!')
+                    else:
+                        messages.error(request, 'Please Enter a valid quantity!')
                 else:
-                    messages.error(request, 'Please select a valid transaction mode!')
+                    messages.error(request, 'Please select a valid purchase mode!')
             else:
                 messages.error(request, 'Enter a valid quantity!')
         else:
