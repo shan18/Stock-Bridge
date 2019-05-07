@@ -32,11 +32,11 @@
 <div class="row mt-3 mb-3">
   <div class="col-12">
     <input type="text" name="quantity" class="form-control quantity-input" placeholder="Number of stocks to transact"
-      title="Enter positive integers only" pattern="[0-9]+" />
+      title="Enter positive integers only" pattern="[0-9]+" autocomplete="off" />
   </div>
   <div class="col-12">
     <input type="hidden" name="price" class="form-control price-input" placeholder="Price of purchase"
-      title="Enter positive real numbers only" />
+      title="Enter positive real numbers only" autocomplete="off" />
   </div>
 </div>
 <button type="submit" class="btn btn-success">{{ button_text }}</button>
