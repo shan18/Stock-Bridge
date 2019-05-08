@@ -26,10 +26,8 @@ class Company(models.Model):
     cap = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
     cmp = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
     change = models.DecimalField(max_digits=10, decimal_places=2,default=0.00)
-    stocks_offered = models.IntegerField(default=0)
-    stocks_remaining = models.IntegerField(default=stocks_offered)
     cap_type = models.CharField(max_length=20, choices=CAP_TYPES, blank=True, null=True)
-    max_stocks_sell = models.IntegerField(default=100)
+    stocks_bought = models.IntegerField(default=0)
     industry = models.CharField(max_length=120, blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -52,15 +50,12 @@ class Company(models.Model):
         return reverse('market:transaction',kwargs={'code':self.code})
 
     def user_buy_stocks(self, quantity):
-        if quantity <= self.stocks_remaining:
-            self.stocks_remaining -= quantity
-            self.save()
-            return True
-        return False
+        self.stocks_bought += quantity
+        self.save()
 
     def user_sell_stocks(self, quantity):
-        if quantity <= self.stocks_offered:
-            self.stocks_remaining += quantity
+        if quantity <= self.stocks_bought:
+            self.stocks_bought -= quantity
             self.save()
             return True
         return False
@@ -73,22 +68,6 @@ class Company(models.Model):
         self.calculate_change(new_price)
         self.cmp = new_price
         self.save()
-
-
-def pre_save_company_receiver(sender, instance, *args, **kwargs):
-    # Setting the maximum stocks that a user can own for a company
-    if instance.cap_type == 'small':
-        instance.max_stocks_sell = instance.stocks_offered * 0.18
-    elif instance.cap_type == 'mid':
-        instance.max_stocks_sell = instance.stocks_offered * 0.12
-    elif instance.cap_type == 'large':
-        instance.max_stocks_sell = instance.stocks_offered * 0.08
-
-    if instance.cmp <= Decimal(0.00):
-        instance.cmp = Decimal(0.01)
-
-
-pre_save.connect(pre_save_company_receiver, sender=Company)
 
 
 def post_save_company_receiver(sender, instance, created, *args, **kwargs):
@@ -212,7 +191,7 @@ class TransactionScheduler(models.Model):
     objects = TransactionSchedulerManager()
 
     class Meta:
-        ordering = ['-mode', 'timestamp']
+        ordering = ['timestamp']
 
     def __str__(self):
         return '{user}: {company} - {stocks}: {price} - {mode}'.format(
@@ -228,9 +207,7 @@ class TransactionScheduler(models.Model):
     
     def validate_by_stocks(self):
         invested_stocks = InvestmentRecord.objects.get(user=self.user, company=self.company).stocks
-        if (
-            self.mode == 'buy' and self.num_stocks <= self.company.stocks_remaining
-        ) or (self.mode == 'sell' and self.num_stocks <= invested_stocks):
+        if self.mode == 'buy' or (self.mode == 'sell' and self.num_stocks <= invested_stocks):
             return True
         return False
     
@@ -245,20 +222,6 @@ class TransactionScheduler(models.Model):
             )
             return True
         return False
-    
-    def store_difference(self, obj):
-        if self.user == obj.user and self.company == obj.company:
-            num_stocks = self.num_stocks
-            mode = self.mode
-            if self.mode == obj.mode:
-                num_stocks += obj.num_stocks
-            else:
-                num_stocks = abs(num_stocks - obj.num_stocks)
-                if obj.num_stocks > self.num_stocks:
-                    mode = obj.mode
-            self.mode = mode
-            self.num_stocks = num_stocks
-            self.save()
 
 
 class InvestmentRecordQueryset(models.query.QuerySet):

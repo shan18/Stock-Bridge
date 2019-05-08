@@ -6,7 +6,7 @@
                     <th class="text-center">S.no</th>
                     <th class="text-center">Company</th>
                     <th class="text-center">Stocks Purchased</th>
-                    <th class="text-center">Stocks Available</th>
+                    <!-- <th class="text-center">Stocks Available</th> -->
                     <th class="text-center">Current Market Price</th>
                 </tr>
             </thead>
@@ -20,7 +20,6 @@
                             </a>
                         </td>
                         <td class="text-center">{{ object.stocks }}</td>
-                        <td class="text-center">{{ object.company.stocks_remaining }}</td>
                         <td class="text-center">
                             &#8377; {{ object.company.cmp }}
                             {% if object.company.change >= 0 %}

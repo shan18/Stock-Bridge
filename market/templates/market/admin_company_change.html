@@ -45,8 +45,6 @@
 <div class="row">
     <div class="col-12 col-md-4 my-5 mx-auto text-center">
         <h3>{{ object.code }}</h3>
-        Total Stocks: {{ object.stocks_offered }}<br>
-        Stocks Remaining: {{ object.stocks_remaining }}<br>
         Current Price per stock: &#8377; {{ object.cmp }}
         {% if object.change >= 0 %}
             <small style="color: green">({{ object.change }}%) <i class="fa fa-arrow-up"></i></small><br>
