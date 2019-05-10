@@ -1,245 +1,974 @@
 [
 {
   "model": "stocks.stocksdatabase",
-  "pk": 1,
+  "pk": 28,
   "fields": {
     "company": 2,
     "pointer": 1,
-    "price": "10.00"
+    "price": "80.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 2,
+  "pk": 29,
   "fields": {
     "company": 2,
     "pointer": 2,
-    "price": "20.00"
+    "price": "85.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 3,
+  "pk": 30,
   "fields": {
     "company": 2,
     "pointer": 3,
-    "price": "15.00"
+    "price": "89.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 4,
+  "pk": 31,
+  "fields": {
+    "company": 2,
+    "pointer": 4,
+    "price": "91.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 32,
+  "fields": {
+    "company": 2,
+    "pointer": 5,
+    "price": "84.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 33,
+  "fields": {
+    "company": 2,
+    "pointer": 6,
+    "price": "81.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 34,
+  "fields": {
+    "company": 2,
+    "pointer": 7,
+    "price": "78.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 35,
+  "fields": {
+    "company": 2,
+    "pointer": 8,
+    "price": "75.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 36,
+  "fields": {
+    "company": 2,
+    "pointer": 9,
+    "price": "74.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 37,
+  "fields": {
+    "company": 2,
+    "pointer": 10,
+    "price": "82.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 38,
+  "fields": {
+    "company": 2,
+    "pointer": 11,
+    "price": "88.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 39,
+  "fields": {
+    "company": 2,
+    "pointer": 12,
+    "price": "92.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 40,
   "fields": {
     "company": 1,
     "pointer": 1,
-    "price": "30.00"
+    "price": "75.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 5,
-  "fields": {
-    "company": 1,
-    "pointer": 2,
-    "price": "3.00"
-  }
-},
-{
-  "model": "stocks.stocksdatabase",
-  "pk": 6,
+  "pk": 41,
   "fields": {
     "company": 1,
     "pointer": 3,
-    "price": "50.00"
+    "price": "84.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 7,
+  "pk": 42,
+  "fields": {
+    "company": 1,
+    "pointer": 2,
+    "price": "80.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 43,
+  "fields": {
+    "company": 1,
+    "pointer": 4,
+    "price": "86.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 44,
+  "fields": {
+    "company": 1,
+    "pointer": 5,
+    "price": "80.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 45,
+  "fields": {
+    "company": 1,
+    "pointer": 6,
+    "price": "82.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 46,
+  "fields": {
+    "company": 1,
+    "pointer": 7,
+    "price": "85.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 47,
+  "fields": {
+    "company": 1,
+    "pointer": 8,
+    "price": "87.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 48,
+  "fields": {
+    "company": 1,
+    "pointer": 9,
+    "price": "90.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 49,
+  "fields": {
+    "company": 1,
+    "pointer": 10,
+    "price": "93.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 50,
+  "fields": {
+    "company": 1,
+    "pointer": 11,
+    "price": "95.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 51,
+  "fields": {
+    "company": 1,
+    "pointer": 12,
+    "price": "87.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 52,
   "fields": {
     "company": 3,
+    "pointer": 1,
+    "price": "69.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 53,
+  "fields": {
+    "company": 3,
+    "pointer": 2,
+    "price": "71.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 54,
+  "fields": {
+    "company": 3,
+    "pointer": 3,
+    "price": "75.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 55,
+  "fields": {
+    "company": 3,
+    "pointer": 4,
+    "price": "79.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 56,
+  "fields": {
+    "company": 3,
+    "pointer": 5,
+    "price": "84.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 57,
+  "fields": {
+    "company": 3,
+    "pointer": 6,
+    "price": "88.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 58,
+  "fields": {
+    "company": 3,
+    "pointer": 7,
+    "price": "90.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 59,
+  "fields": {
+    "company": 3,
+    "pointer": 8,
+    "price": "92.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 60,
+  "fields": {
+    "company": 3,
+    "pointer": 9,
+    "price": "93.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 61,
+  "fields": {
+    "company": 3,
+    "pointer": 10,
+    "price": "98.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 62,
+  "fields": {
+    "company": 3,
+    "pointer": 11,
+    "price": "99.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 63,
+  "fields": {
+    "company": 3,
+    "pointer": 12,
+    "price": "100.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 64,
+  "fields": {
+    "company": 4,
     "pointer": 1,
     "price": "45.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 8,
-  "fields": {
-    "company": 3,
-    "pointer": 2,
-    "price": "50.00"
-  }
-},
-{
-  "model": "stocks.stocksdatabase",
-  "pk": 9,
-  "fields": {
-    "company": 3,
-    "pointer": 3,
-    "price": "51.00"
-  }
-},
-{
-  "model": "stocks.stocksdatabase",
-  "pk": 10,
-  "fields": {
-    "company": 5,
-    "pointer": 1,
-    "price": "12.00"
-  }
-},
-{
-  "model": "stocks.stocksdatabase",
-  "pk": 11,
-  "fields": {
-    "company": 5,
-    "pointer": 2,
-    "price": "21.00"
-  }
-},
-{
-  "model": "stocks.stocksdatabase",
-  "pk": 12,
-  "fields": {
-    "company": 5,
-    "pointer": 3,
-    "price": "41.00"
-  }
-},
-{
-  "model": "stocks.stocksdatabase",
-  "pk": 13,
-  "fields": {
-    "company": 4,
-    "pointer": 1,
-    "price": "65.00"
-  }
-},
-{
-  "model": "stocks.stocksdatabase",
-  "pk": 14,
+  "pk": 65,
   "fields": {
     "company": 4,
     "pointer": 2,
-    "price": "67.00"
+    "price": "48.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 15,
+  "pk": 66,
   "fields": {
     "company": 4,
     "pointer": 3,
-    "price": "21.00"
+    "price": "52.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 16,
+  "pk": 67,
   "fields": {
-    "company": 6,
-    "pointer": 1,
-    "price": "32.00"
+    "company": 4,
+    "pointer": 4,
+    "price": "58.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 17,
+  "pk": 68,
   "fields": {
-    "company": 6,
-    "pointer": 2,
-    "price": "12.00"
+    "company": 4,
+    "pointer": 5,
+    "price": "61.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 18,
+  "pk": 69,
   "fields": {
-    "company": 6,
-    "pointer": 3,
+    "company": 4,
+    "pointer": 6,
+    "price": "49.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 70,
+  "fields": {
+    "company": 4,
+    "pointer": 7,
+    "price": "47.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 71,
+  "fields": {
+    "company": 4,
+    "pointer": 8,
     "price": "43.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 19,
+  "pk": 72,
   "fields": {
-    "company": 9,
+    "company": 4,
+    "pointer": 9,
+    "price": "42.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 73,
+  "fields": {
+    "company": 4,
+    "pointer": 10,
+    "price": "41.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 74,
+  "fields": {
+    "company": 4,
+    "pointer": 11,
+    "price": "40.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 75,
+  "fields": {
+    "company": 4,
+    "pointer": 12,
+    "price": "38.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 76,
+  "fields": {
+    "company": 5,
     "pointer": 1,
+    "price": "58.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 77,
+  "fields": {
+    "company": 5,
+    "pointer": 2,
+    "price": "60.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 78,
+  "fields": {
+    "company": 5,
+    "pointer": 3,
+    "price": "61.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 79,
+  "fields": {
+    "company": 5,
+    "pointer": 4,
+    "price": "64.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 80,
+  "fields": {
+    "company": 5,
+    "pointer": 5,
+    "price": "65.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 81,
+  "fields": {
+    "company": 5,
+    "pointer": 6,
+    "price": "66.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 82,
+  "fields": {
+    "company": 5,
+    "pointer": 7,
+    "price": "67.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 83,
+  "fields": {
+    "company": 5,
+    "pointer": 8,
+    "price": "74.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 84,
+  "fields": {
+    "company": 5,
+    "pointer": 9,
+    "price": "78.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 85,
+  "fields": {
+    "company": 5,
+    "pointer": 10,
+    "price": "83.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 86,
+  "fields": {
+    "company": 5,
+    "pointer": 11,
+    "price": "70.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 87,
+  "fields": {
+    "company": 5,
+    "pointer": 12,
+    "price": "66.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 88,
+  "fields": {
+    "company": 6,
+    "pointer": 1,
+    "price": "46.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 89,
+  "fields": {
+    "company": 6,
+    "pointer": 2,
+    "price": "47.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 90,
+  "fields": {
+    "company": 6,
+    "pointer": 3,
+    "price": "52.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 91,
+  "fields": {
+    "company": 6,
+    "pointer": 4,
     "price": "56.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 20,
+  "pk": 92,
   "fields": {
-    "company": 9,
-    "pointer": 2,
-    "price": "19.00"
+    "company": 6,
+    "pointer": 5,
+    "price": "61.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 21,
+  "pk": 93,
   "fields": {
-    "company": 9,
-    "pointer": 3,
-    "price": "86.00"
+    "company": 6,
+    "pointer": 6,
+    "price": "68.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 22,
+  "pk": 94,
   "fields": {
-    "company": 7,
-    "pointer": 1,
-    "price": "94.00"
+    "company": 6,
+    "pointer": 7,
+    "price": "75.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 23,
+  "pk": 95,
   "fields": {
-    "company": 7,
-    "pointer": 2,
-    "price": "9.00"
+    "company": 6,
+    "pointer": 8,
+    "price": "69.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 24,
+  "pk": 96,
   "fields": {
-    "company": 7,
-    "pointer": 3,
-    "price": "76.00"
+    "company": 6,
+    "pointer": 9,
+    "price": "63.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 25,
+  "pk": 97,
+  "fields": {
+    "company": 6,
+    "pointer": 10,
+    "price": "58.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 98,
+  "fields": {
+    "company": 6,
+    "pointer": 11,
+    "price": "55.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 99,
+  "fields": {
+    "company": 6,
+    "pointer": 12,
+    "price": "53.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 100,
   "fields": {
     "company": 8,
     "pointer": 1,
-    "price": "89.00"
+    "price": "47.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 26,
+  "pk": 101,
   "fields": {
     "company": 8,
     "pointer": 2,
-    "price": "87.00"
+    "price": "49.00"
   }
 },
 {
   "model": "stocks.stocksdatabase",
-  "pk": 27,
+  "pk": 102,
   "fields": {
     "company": 8,
     "pointer": 3,
-    "price": "66.00"
+    "price": "46.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 103,
+  "fields": {
+    "company": 8,
+    "pointer": 4,
+    "price": "44.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 104,
+  "fields": {
+    "company": 8,
+    "pointer": 5,
+    "price": "41.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 105,
+  "fields": {
+    "company": 8,
+    "pointer": 6,
+    "price": "38.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 106,
+  "fields": {
+    "company": 8,
+    "pointer": 7,
+    "price": "36.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 107,
+  "fields": {
+    "company": 8,
+    "pointer": 8,
+    "price": "40.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 108,
+  "fields": {
+    "company": 8,
+    "pointer": 9,
+    "price": "44.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 109,
+  "fields": {
+    "company": 8,
+    "pointer": 10,
+    "price": "48.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 110,
+  "fields": {
+    "company": 8,
+    "pointer": 11,
+    "price": "52.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 111,
+  "fields": {
+    "company": 8,
+    "pointer": 12,
+    "price": "52.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 113,
+  "fields": {
+    "company": 7,
+    "pointer": 1,
+    "price": "20.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 114,
+  "fields": {
+    "company": 7,
+    "pointer": 2,
+    "price": "26.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 115,
+  "fields": {
+    "company": 7,
+    "pointer": 10,
+    "price": "3.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 117,
+  "fields": {
+    "company": 7,
+    "pointer": 8,
+    "price": "7.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 118,
+  "fields": {
+    "company": 7,
+    "pointer": 3,
+    "price": "23.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 119,
+  "fields": {
+    "company": 7,
+    "pointer": 5,
+    "price": "12.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 120,
+  "fields": {
+    "company": 7,
+    "pointer": 4,
+    "price": "13.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 121,
+  "fields": {
+    "company": 7,
+    "pointer": 6,
+    "price": "10.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 122,
+  "fields": {
+    "company": 7,
+    "pointer": 7,
+    "price": "8.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 123,
+  "fields": {
+    "company": 7,
+    "pointer": 9,
+    "price": "5.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 124,
+  "fields": {
+    "company": 7,
+    "pointer": 11,
+    "price": "2.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 125,
+  "fields": {
+    "company": 7,
+    "pointer": 12,
+    "price": "2.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 126,
+  "fields": {
+    "company": 9,
+    "pointer": 1,
+    "price": "18.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 127,
+  "fields": {
+    "company": 9,
+    "pointer": 2,
+    "price": "28.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 128,
+  "fields": {
+    "company": 9,
+    "pointer": 3,
+    "price": "36.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 129,
+  "fields": {
+    "company": 9,
+    "pointer": 4,
+    "price": "42.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 130,
+  "fields": {
+    "company": 9,
+    "pointer": 5,
+    "price": "47.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 131,
+  "fields": {
+    "company": 9,
+    "pointer": 6,
+    "price": "51.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 132,
+  "fields": {
+    "company": 9,
+    "pointer": 7,
+    "price": "54.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 133,
+  "fields": {
+    "company": 9,
+    "pointer": 8,
+    "price": "55.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 134,
+  "fields": {
+    "company": 9,
+    "pointer": 9,
+    "price": "60.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 135,
+  "fields": {
+    "company": 9,
+    "pointer": 10,
+    "price": "61.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 136,
+  "fields": {
+    "company": 9,
+    "pointer": 11,
+    "price": "62.00"
+  }
+},
+{
+  "model": "stocks.stocksdatabase",
+  "pk": 137,
+  "fields": {
+    "company": 9,
+    "pointer": 12,
+    "price": "65.00"
   }
 }
 ]
