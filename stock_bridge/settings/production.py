@@ -1,7 +1,7 @@
 from .base import *
 import dj_database_url
 from datetime import datetime
-
+import os
 
 DEBUG = False
 
@@ -13,7 +13,7 @@ STOP_TIME = datetime(2019, 5, 12, 23, 59, 59)
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('DATABASE_URL')
+        default=os.environ.get('DATABASE_URL')
     )
 }
 
