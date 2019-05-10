@@ -18,7 +18,7 @@ DATABASES = {
 }
 
 # whitenoise configuration
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # SSL/TLS settings for https security
 CORS_REPLACE_HTTPS_REFERER = True
