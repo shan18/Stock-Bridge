@@ -33,6 +33,17 @@ BOTTOMLINE_CASH = getattr(settings, 'BOTTOMLINE_CASH', 1000)
 
 
 @login_required
+def close_bank(request):
+    """ Deduct Interest and cancel loan """
+    if request.user.is_superuser:
+        for user in User.objects.all():
+            user.cancel_loan()
+            user.deduct_interest()
+        return HttpResponse('Bank Closed', status=200)
+    return redirect('home')
+
+
+@login_required
 def cancel_loan(request):
     """ Deduct entire loan amount from user's balance """
     if request.user.is_superuser:
