@@ -72,9 +72,13 @@ class Company(models.Model):
 
 def post_save_company_receiver(sender, instance, created, *args, **kwargs):
     if created:
+        # Create Investment Records of the company with each existing user
         user_qs = User.objects.all()
         for user in user_qs:
             obj, create= InvestmentRecord.objects.get_or_create(user=user, company=instance)
+        
+        # Create CMP Record of the company
+        CompanyCMPRecord.objects.create(company=instance, cmp=instance.cmp)
 
 
 post_save.connect(post_save_company_receiver, sender=Company)
