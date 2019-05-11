@@ -125,8 +125,8 @@ class Transaction(models.Model):
         ordering = ['-timestamp']
 
     def __str__(self):
-        return '{user}: {company} - {stocks}: {price} - {mode}'.format(
-            user=self.user.username, company=self.company.name, stocks=self.num_stocks, price=self.price, mode=self.mode
+        return '{user} - {company}'.format(
+            user=self.user.username, company=self.company.name
         )
 
 
