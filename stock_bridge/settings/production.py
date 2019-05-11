@@ -8,8 +8,8 @@ DEBUG = False
 ALLOWED_HOSTS = ['stockbridge.morphosis.org.in', '.herokuapp.com']
 BASE_URL = 'stockbridge.morphosis.org.in'
 
-START_TIME = datetime(2019, 5, 12, 19, 00, 0)
-STOP_TIME = datetime(2019, 5, 12, 23, 59, 59)
+START_TIME = datetime(2019, 5, 10, 19, 00, 0)
+STOP_TIME = datetime(2019, 5, 18, 23, 59, 59)
 
 DATABASES = {
     'default': dj_database_url.config(
