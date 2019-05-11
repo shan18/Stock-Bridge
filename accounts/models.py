@@ -19,7 +19,7 @@ DEFAULT_ACTIVATION_DAYS = getattr(settings, 'DEFAULT_ACTIVATION_DAYS', 1)
 DEFAULT_LOAN_AMOUNT = getattr(settings, 'DEFAULT_LOAN_AMOUNT', Decimal(10000.00))
 RATE_OF_INTEREST = getattr(settings, 'RATE_OF_INTEREST', Decimal(0.15))
 MAX_LOAN_ISSUE = getattr(settings, 'MAX_LOAN_ISSUE')
-BOTTOMLINE_NET_WORTH = getattr(settings, 'BOTTOMLINE_NET_WORTH', 1000)
+BOTTOMLINE_CASH = getattr(settings, 'BOTTOMLINE_CASH', 1000)
 
 
 class UserManager(BaseUserManager):
@@ -122,8 +122,8 @@ class User(AbstractBaseUser):
         self.cash += Decimal(quantity) * price
         self.save()
 
-    def issue_loan(self, net_worth):
-        if self.loan_count < MAX_LOAN_ISSUE and net_worth < BOTTOMLINE_NET_WORTH:
+    def issue_loan(self):
+        if self.loan_count < MAX_LOAN_ISSUE and self.cash < BOTTOMLINE_CASH:
             self.loan_count += 1
             self.loan += DEFAULT_LOAN_AMOUNT
             self.cash += DEFAULT_LOAN_AMOUNT
@@ -131,7 +131,7 @@ class User(AbstractBaseUser):
             return 'success'
         elif self.loan_count >= MAX_LOAN_ISSUE:
             return 'loan_count_exceeded'
-        elif net_worth >= BOTTOMLINE_NET_WORTH:
+        elif self.cash >= BOTTOMLINE_CASH:
             return 'bottomline_not_reached'
         else:
             return 'no_loan'
