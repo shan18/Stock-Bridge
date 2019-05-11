@@ -152,9 +152,8 @@ class User(AbstractBaseUser):
         self.save()
 
     def deduct_interest(self):
-        amount = (self.loan * (Decimal(1.0) + RATE_OF_INTEREST))  # After 1 year
-        compound_interest = abs(amount - self.loan)
-        self.cash -= compound_interest
+        interest = self.loan * RATE_OF_INTEREST
+        self.cash -= interest
         self.save()
 
     # TODO: This Leader board ranking method may change in future
