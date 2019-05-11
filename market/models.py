@@ -151,7 +151,7 @@ pre_save.connect(pre_save_transaction_receiver, sender=Transaction)
 def post_save_transaction_create_receiver(sender, instance, created, *args, **kwargs):
     if created:
         net_worth_list = [
-            instance.user_net_worth for transaction in Transaction.objects.filter(user=instance.user)
+            instance.user_net_worth for transaction in Transaction.objects.get_by_user(instance.user)
         ]
 
         instance.user.update_cv(net_worth_list)

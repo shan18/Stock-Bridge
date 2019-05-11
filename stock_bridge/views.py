@@ -13,5 +13,5 @@ class HomeView(CountNewsMixin, View):
         return render(request, 'home.html', {})
 
 
-# def instruction_view(request):
-#     return render(request, 'instructions.html', {})
+def instruction_view(request):
+    return render(request, 'instructions.html', {})
