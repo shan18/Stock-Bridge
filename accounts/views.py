@@ -30,7 +30,7 @@ User = get_user_model()
 
 START_TIME = timezone.make_aware(getattr(settings, 'START_TIME'))
 STOP_TIME = timezone.make_aware(getattr(settings, 'STOP_TIME'))
-BOTTOMLINE_NET_WORTH = getattr(settings, 'BOTTOMLINE_NET_WORTH', 1000)
+BOTTOMLINE_CASH = getattr(settings, 'BOTTOMLINE_CASH', 1000)
 
 
 @login_required
@@ -66,8 +66,8 @@ class LeaderBoardView(CountNewsMixin, View):
         data = []
         user_qs = User.objects.all()
         for user in user_qs:
-            # net_worth = InvestmentRecord.objects.calculate_net_worth(user)
-            data.append((user.username, user.full_name, user.cash, user.coeff_of_variation))
+            net_worth = InvestmentRecord.objects.calculate_net_worth(user)
+            data.append((user.username, user.full_name, net_worth, user.coeff_of_variation))
         data = sorted(data, key=lambda d: (-d[2], d[3]))
         
         # Obtain data and rank of current user
@@ -84,8 +84,7 @@ class LoanView(LoginRequiredMixin, CountNewsMixin, View):
 
     def get(self, request, *args, **kwargs):
         return render(request, 'accounts/loan.html', {
-            'user': request.user,
-            'net_worth': InvestmentRecord.objects.calculate_net_worth(request.user)
+            'user': request.user
         })
 
     def post(self, request, *args, **kwargs):
@@ -95,117 +94,114 @@ class LoanView(LoginRequiredMixin, CountNewsMixin, View):
             mode = request.POST.get('mode')
             user = request.user
             if mode == 'issue':
-                net_worth = InvestmentRecord.objects.calculate_net_worth(user)
-                print(net_worth)
-                decision = user.issue_loan(net_worth)
+                decision = user.issue_loan()
                 if decision == 'success':
                     messages.success(request, 'Loan issued.')
-                    loan_log(
-                        timestamp=current_time,
-                        username=user.username,
-                        mode=mode,
-                        amount=issue_amount,
-                        loan_count=user.loan_count,
-                        cash=user.cash,
-                        pending_amount=user.loan
+                    # loan_log(
+                    #     timestamp=current_time,
+                    #     username=user.username,
+                    #     mode=mode,
+                    #     amount=issue_amount,
+                    #     loan_count=user.loan_count,
+                    #     cash=user.cash,
+                    #     pending_amount=user.loan
 
-                    )
+                    # )
                 elif decision == 'loan_count_exceeded':
                     messages.error(request, 'Loan can be issued only 5 times!')
-                    loan_log(
-                        timestamp=current_time,
-                        username=user.username,
-                        mode=mode,
-                        amount='Limit Exceeded!',
-                        loan_count=user.loan_count,
-                        cash=user.cash,
-                        pending_amount=user.loan
+                    # loan_log(
+                    #     timestamp=current_time,
+                    #     username=user.username,
+                    #     mode=mode,
+                    #     amount='Limit Exceeded!',
+                    #     loan_count=user.loan_count,
+                    #     cash=user.cash,
+                    #     pending_amount=user.loan
 
-                    )
+                    # )
                 elif decision == 'bottomline_not_reached':
                     messages.error(
                         request,
-                        'Net worth must be less than {bottom_line} to issue a loan. Your current net worth: {net_worth}'.format(
-                            bottom_line=BOTTOMLINE_NET_WORTH,
-                            net_worth=net_worth
+                        'Cash must be less than {bottom_line} to issue a loan. Your current balance: {cash}'.format(
+                            bottom_line=BOTTOMLINE_CASH,
+                            cash=self.cash
                         )
                     )
-                    loan_log(
-                        timestamp=current_time,
-                        username=user.username,
-                        mode=mode,
-                        amount='Net worth problem!',
-                        loan_count=user.loan_count,
-                        cash=user.cash,
-                        pending_amount=user.loan
-
-                    )
+                    # loan_log(
+                    #     timestamp=current_time,
+                    #     username=user.username,
+                    #     mode=mode,
+                    #     amount='Net worth problem!',
+                    #     loan_count=user.loan_count,
+                    #     cash=user.cash,
+                    #     pending_amount=user.loan
+                    # )
                 else:
                     messages.error(request, 'Cannot Issue loan right now.')
-                    loan_log(
-                        timestamp=current_time,
-                        username=user.username,
-                        mode=mode,
-                        amount='Cannot Issue loan right now.',
-                        loan_count=user.loan_count,
-                        cash=user.cash,
-                        pending_amount=user.loan
+                    # loan_log(
+                    #     timestamp=current_time,
+                    #     username=user.username,
+                    #     mode=mode,
+                    #     amount='Cannot Issue loan right now.',
+                    #     loan_count=user.loan_count,
+                    #     cash=user.cash,
+                    #     pending_amount=user.loan
 
-                    )
+                    # )
             elif mode == 'pay':
                 repay_amount = int(request.POST.get('repay_amount'))
                 if user.loan <= 0:
                     messages.error(request, "You have no pending loan!")
-                    loan_log(
-                        timestamp=current_time,
-                        username=user.username,
-                        mode=mode,
-                        amount="You have no pending loan!",
-                        loan_count=user.loan_count,
-                        cash=user.cash,
-                        pending_amount=user.loan,
+                    # loan_log(
+                    #     timestamp=current_time,
+                    #     username=user.username,
+                    #     mode=mode,
+                    #     amount="You have no pending loan!",
+                    #     loan_count=user.loan_count,
+                    #     cash=user.cash,
+                    #     pending_amount=user.loan,
 
-                    )
+                    # )
                 elif user.loan > 0:
                     if repay_amount <= 0 or repay_amount > user.cash:
                         messages.error(request, 'Please enter a valid amount.')
-                        loan_log(
-                            timestamp=current_time,
-                            username=user.username,
-                            mode=mode,
-                            amount='Please enter a valid amount.',
-                            loan_count=user.loan_count,
-                            cash=user.cash,
-                            pending_amount=user.loan,
+                        # loan_log(
+                        #     timestamp=current_time,
+                        #     username=user.username,
+                        #     mode=mode,
+                        #     amount='Please enter a valid amount.',
+                        #     loan_count=user.loan_count,
+                        #     cash=user.cash,
+                        #     pending_amount=user.loan,
 
-                        )
+                        # )
                     elif user.pay_installment(repay_amount):
                         messages.success(request, 'Installment paid!')
-                        loan_log(
-                            timestamp=current_time,
-                            username=user.username,
-                            mode=mode,
-                            amount=repay_amount,
-                            loan_count=user.loan_count,
-                            cash=user.cash,
-                            pending_amount=user.loan,
+                        # loan_log(
+                        #     timestamp=current_time,
+                        #     username=user.username,
+                        #     mode=mode,
+                        #     amount=repay_amount,
+                        #     loan_count=user.loan_count,
+                        #     cash=user.cash,
+                        #     pending_amount=user.loan,
 
-                        )
+                        # )
                     else:
                         messages.error(
                             request,
                             'You should have sufficient balance!'
                         )
-                        loan_log(
-                            timestamp=current_time,
-                            username=user.username,
-                            mode=mode,
-                            amount='Insufficient balance!',
-                            loan_count=user.loan_count,
-                            cash=user.cash,
-                            pending_amount=user.loan,
+                        # loan_log(
+                        #     timestamp=current_time,
+                        #     username=user.username,
+                        #     mode=mode,
+                        #     amount='Insufficient balance!',
+                        #     loan_count=user.loan_count,
+                        #     cash=user.cash,
+                        #     pending_amount=user.loan,
 
-                        )
+                        # )
         else:
             msg = 'The market is closed!'
             messages.info(request, msg)
