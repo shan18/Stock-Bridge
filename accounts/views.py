@@ -103,7 +103,7 @@ class LoanView(LoginRequiredMixin, CountNewsMixin, View):
                         request,
                         'Cash must be less than {bottom_line} to issue a loan. Your current balance: {cash}'.format(
                             bottom_line=BOTTOMLINE_CASH,
-                            cash=self.cash
+                            cash=self.user.cash
                         )
                     )
                 else:
@@ -126,8 +126,8 @@ class LoanView(LoginRequiredMixin, CountNewsMixin, View):
             msg = 'The market is closed!'
             messages.info(request, msg)
         
-        # if request.is_ajax():
-        #     return JsonResponse({'next_path': reverse('account:loan')})
+        if request.is_ajax():
+            return JsonResponse({'next_path': reverse('account:loan')})
 
         return redirect('account:loan')
 
