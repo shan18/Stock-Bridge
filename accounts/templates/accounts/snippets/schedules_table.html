@@ -1,0 +1,34 @@
+<div class="row my-5">
+    <div class="col-12">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center">S.no</th>
+                    <th class="text-center">Company</th>
+                    <th class="text-center">Stocks</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Mode</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for schedule in schedules %}
+                    <tr>
+                        <td class="text-center">{{ forloop.counter }}</td>
+                        <td class="text-center">
+                                {{ schedule.company }}
+                        </td>
+                        <td class="text-center">{{ schedule.num_stocks }}</td>
+                        <td class="text-center">{{ schedule.price }}</td>
+                        <td class="text-center">{{ schedule.mode }}</td>
+                        <td class="text-center">
+                          <form method="post" action="{% url 'account:delete_schedule' pk=schedule.id username=request.user.username %}">{% csrf_token %}
+                            <input class="btn btn-danger" type="submit" value="delete">
+                          </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

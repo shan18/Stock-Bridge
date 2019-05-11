@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import AccountEmailActivateView, LoanView, cancel_loan, deduct_interest
+from .views import AccountEmailActivateView, LoanView, cancel_loan, deduct_interest, ScheduleView, ScheduleDeleteView
 
 
 app_name = 'Account'
@@ -12,4 +12,6 @@ urlpatterns = [
     url(r'^bank/loan$', LoanView.as_view(), name='loan'),
     url(r'^bank/loan/deduct$', cancel_loan, name='cancel_loan'),
     url(r'^bank/interest/deduct$', deduct_interest, name='deduct_interest'),
+    url(r'^schedules/(?P<username>[a-zA-Z0-9]+)/$', ScheduleView.as_view(), name='schedules'),
+    url(r'^schedules/(?P<username>[a-zA-Z0-9]+)/delete/(?P<pk>\d+)$', ScheduleDeleteView.as_view(), name='delete_schedule'),
 ]
