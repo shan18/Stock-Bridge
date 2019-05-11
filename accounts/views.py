@@ -1,21 +1,21 @@
 from datetime import datetime
 
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponse, JsonResponse
 from django.contrib import messages
 from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, DetailView, FormView, CreateView, View
+from django.views.generic import ListView, DetailView, FormView, CreateView, DeleteView, View
 from django.views.generic.edit import FormMixin
 from django.utils.safestring import mark_safe
 from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from .forms import LoginForm, RegisterForm, ReactivateEmailForm
 from .models import EmailActivation
-from market.models import InvestmentRecord
+from market.models import InvestmentRecord, TransactionScheduler
 from market.utils import loan_log
 from stock_bridge.mixins import (
     AnonymousRequiredMixin,
@@ -332,3 +332,21 @@ class ProfileView(LoginRequiredMixin, CountNewsMixin, DetailView):
             context['net_worth'] = InvestmentRecord.objects.calculate_net_worth(self.request.user)
             context['investments'] = qs
         return context
+
+
+class ScheduleView(LoginRequiredMixin, CountNewsMixin, ListView):
+    template_name = 'accounts/schedules.html'
+
+    def get_queryset(self):
+        return TransactionScheduler.objects.get_by_user(self.request.user)
+
+
+class ScheduleDeleteView(LoginRequiredMixin, DeleteView):
+
+    def get_object(self, **kwargs):
+        print(self.kwargs)
+        obj = TransactionScheduler.objects.get(pk=self.kwargs.get('pk'))
+        return obj
+
+    def get_success_url(self):
+        return reverse_lazy('account:schedules', kwargs={'username': self.request.user.username})

@@ -197,7 +197,10 @@ class TransactionScheduler(models.Model):
         return '{user}: {company} - {stocks}: {price} - {mode}'.format(
             user=self.user.username, company=self.company.name, stocks=self.num_stocks, price=self.price, mode=self.mode
         )
-    
+
+    def get_absolute_url(self):
+        return reverse('schedules', kwargs={'username':self.user.username})
+
     def validate_by_price(self, price):
         if (
             self.mode == 'buy' and price <= self.price and price * Decimal(self.num_stocks) <= self.user.cash

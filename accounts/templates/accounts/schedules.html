@@ -1,0 +1,17 @@
+
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block base_head %}
+<title>Scheduled Transactions</title>
+{% endblock %}
+
+{% block content %}
+{% if object_list %}
+  <h1 class="heading">Scheduled Transaction Requests</h1>
+{% include 'accounts/snippets/schedules_table.html' with schedules=object_list %}
+{% else %}
+  <h1 class="heading">No Transactions Scheduled Yet!</h1>
+{% endif %}
+
+{% endblock %}
