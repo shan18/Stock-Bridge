@@ -3,8 +3,8 @@ from datetime import datetime
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', '.ngrok.io']
-BASE_URL = '127.0.0.1:8000'
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost']
+BASE_URL = '192.168.91.133:8000'
 
 START_TIME = datetime(2019, 4, 12, 4, 00, 0)
 STOP_TIME = datetime(2020, 5, 5, 2, 00, 0)

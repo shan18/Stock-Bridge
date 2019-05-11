@@ -10,10 +10,11 @@ class StocksDatabase(models.Model):
     price = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
 
     class Meta:
+        unique_together = ('company', 'pointer')
         ordering = ['company', 'pointer']
 
     def __str__(self):
-        return self.company.name + ' - ' + str(self.pointer)
+        return self.company.name + ' - ' + str(self.pointer) + ' - ' + str(self.price)
 
 
 class StocksDatabasePointerManager(models.Manager):
