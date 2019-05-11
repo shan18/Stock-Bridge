@@ -2,6 +2,7 @@
 {% url 'login' as login_url %}
 {% url 'register' as register_url %}
 {% url 'logout' as logout_url %}
+{% url 'instructions' as instruction_url %}
 {% url 'leaderboard' as leaderboard_url %}
 {% url 'profile' user.username as profile_url %}
 {% url 'account:schedules' user.username as schedule_url %}
@@ -73,6 +74,7 @@
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item {% if request.path == profile_url %}active{% endif %}" href="{{ profile_url }}">Profile</a>
             <a class="dropdown-item {% if request.path == schedule_url %}active{% endif %}" href="{{ schedule_url }}">Schedules</a>
+            <a class="dropdown-item {% if request.path == instruction_url %}active{% endif %}" href="{{ instruction_url }}">Instructions</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item {% if request.path == logout_url %}active{% endif %}" href="{{ logout_url }}">Logout</a>
 						</div>
