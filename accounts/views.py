@@ -88,7 +88,6 @@ class LoanView(LoginRequiredMixin, CountNewsMixin, View):
 
     def post(self, request, *args, **kwargs):
         current_time = timezone.make_aware(datetime.now())
-        issue_amount = 5000
         if current_time >= START_TIME and current_time <= STOP_TIME:
             mode = request.POST.get('mode')
             user = request.user
@@ -103,7 +102,7 @@ class LoanView(LoginRequiredMixin, CountNewsMixin, View):
                         request,
                         'Cash must be less than {bottom_line} to issue a loan. Your current balance: {cash}'.format(
                             bottom_line=BOTTOMLINE_CASH,
-                            cash=self.user.cash
+                            cash=user.cash
                         )
                     )
                 else:
