@@ -125,8 +125,8 @@ class LoanView(LoginRequiredMixin, CountNewsMixin, View):
             msg = 'The market is closed!'
             messages.info(request, msg)
         
-        # if request.is_ajax():
-        #     return JsonResponse({'next_path': reverse('account:loan')})
+        if request.is_ajax():
+            return JsonResponse({'next_path': reverse('account:loan')})
 
         return redirect('account:loan')
 
