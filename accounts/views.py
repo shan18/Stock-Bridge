@@ -16,7 +16,6 @@ from django.urls import reverse, reverse_lazy
 from .forms import LoginForm, RegisterForm, ReactivateEmailForm
 from .models import EmailActivation
 from market.models import InvestmentRecord, TransactionScheduler
-from market.utils import loan_log
 from stock_bridge.mixins import (
     AnonymousRequiredMixin,
     RequestFormAttachMixin,
@@ -97,28 +96,8 @@ class LoanView(LoginRequiredMixin, CountNewsMixin, View):
                 decision = user.issue_loan()
                 if decision == 'success':
                     messages.success(request, 'Loan issued.')
-                    # loan_log(
-                    #     timestamp=current_time,
-                    #     username=user.username,
-                    #     mode=mode,
-                    #     amount=issue_amount,
-                    #     loan_count=user.loan_count,
-                    #     cash=user.cash,
-                    #     pending_amount=user.loan
-
-                    # )
                 elif decision == 'loan_count_exceeded':
                     messages.error(request, 'Loan can be issued only 5 times!')
-                    # loan_log(
-                    #     timestamp=current_time,
-                    #     username=user.username,
-                    #     mode=mode,
-                    #     amount='Limit Exceeded!',
-                    #     loan_count=user.loan_count,
-                    #     cash=user.cash,
-                    #     pending_amount=user.loan
-
-                    # )
                 elif decision == 'bottomline_not_reached':
                     messages.error(
                         request,
@@ -127,87 +106,28 @@ class LoanView(LoginRequiredMixin, CountNewsMixin, View):
                             cash=self.cash
                         )
                     )
-                    # loan_log(
-                    #     timestamp=current_time,
-                    #     username=user.username,
-                    #     mode=mode,
-                    #     amount='Net worth problem!',
-                    #     loan_count=user.loan_count,
-                    #     cash=user.cash,
-                    #     pending_amount=user.loan
-                    # )
                 else:
                     messages.error(request, 'Cannot Issue loan right now.')
-                    # loan_log(
-                    #     timestamp=current_time,
-                    #     username=user.username,
-                    #     mode=mode,
-                    #     amount='Cannot Issue loan right now.',
-                    #     loan_count=user.loan_count,
-                    #     cash=user.cash,
-                    #     pending_amount=user.loan
-
-                    # )
             elif mode == 'pay':
                 repay_amount = int(request.POST.get('repay_amount'))
                 if user.loan <= 0:
                     messages.error(request, "You have no pending loan!")
-                    # loan_log(
-                    #     timestamp=current_time,
-                    #     username=user.username,
-                    #     mode=mode,
-                    #     amount="You have no pending loan!",
-                    #     loan_count=user.loan_count,
-                    #     cash=user.cash,
-                    #     pending_amount=user.loan,
-
-                    # )
                 elif user.loan > 0:
                     if repay_amount <= 0 or repay_amount > user.cash:
                         messages.error(request, 'Please enter a valid amount.')
-                        # loan_log(
-                        #     timestamp=current_time,
-                        #     username=user.username,
-                        #     mode=mode,
-                        #     amount='Please enter a valid amount.',
-                        #     loan_count=user.loan_count,
-                        #     cash=user.cash,
-                        #     pending_amount=user.loan,
-
-                        # )
                     elif user.pay_installment(repay_amount):
                         messages.success(request, 'Installment paid!')
-                        # loan_log(
-                        #     timestamp=current_time,
-                        #     username=user.username,
-                        #     mode=mode,
-                        #     amount=repay_amount,
-                        #     loan_count=user.loan_count,
-                        #     cash=user.cash,
-                        #     pending_amount=user.loan,
-
-                        # )
                     else:
                         messages.error(
                             request,
                             'You should have sufficient balance!'
                         )
-                        # loan_log(
-                        #     timestamp=current_time,
-                        #     username=user.username,
-                        #     mode=mode,
-                        #     amount='Insufficient balance!',
-                        #     loan_count=user.loan_count,
-                        #     cash=user.cash,
-                        #     pending_amount=user.loan,
-
-                        # )
         else:
             msg = 'The market is closed!'
             messages.info(request, msg)
         
-        if request.is_ajax():
-            return JsonResponse({'next_path': reverse('account:loan')})
+        # if request.is_ajax():
+        #     return JsonResponse({'next_path': reverse('account:loan')})
 
         return redirect('account:loan')
 
