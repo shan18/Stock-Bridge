@@ -30,6 +30,7 @@ User = get_user_model()
 START_TIME = timezone.make_aware(getattr(settings, 'START_TIME'))
 STOP_TIME = timezone.make_aware(getattr(settings, 'STOP_TIME'))
 BOTTOMLINE_CASH = getattr(settings, 'BOTTOMLINE_CASH', 1000)
+MAX_LOAN_ISSUE = getattr(settings, 'MAX_LOAN_ISSUE', 1000)
 
 
 @login_required
@@ -107,7 +108,10 @@ class LoanView(LoginRequiredMixin, CountNewsMixin, View):
                 if decision == 'success':
                     messages.success(request, 'Loan issued.')
                 elif decision == 'loan_count_exceeded':
-                    messages.error(request, 'Loan can be issued only 5 times!')
+                    messages.error(
+                        request,
+                        'Loan can be issued only {max_issue} times in a day!'.format(max_issue=MAX_LOAN_ISSUE)
+                    )
                 elif decision == 'bottomline_not_reached':
                     messages.error(
                         request,
