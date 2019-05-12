@@ -6,13 +6,12 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.views import View
-from django.views.generic import DetailView, ListView
-from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonResponse
+from django.views.generic import ListView
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.utils import timezone
 from django.utils.timezone import localtime
 from django.conf import settings
 from django.urls import reverse
-from django.db.models import Sum
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -55,20 +54,13 @@ class UpdateMarketView(LoginRequiredMixin, AdminRequiredMixin, View):
         return HttpResponse('cmp updated')
 
 
-class MarketOverview(LoginRequiredMixin, CountNewsMixin, DetailView):
+class MarketOverview(LoginRequiredMixin, CountNewsMixin, ListView):
     template_name = 'market/overview.html'
-
-    def get_object(self, *args, **kwargs):
-        instance = Company.objects.all()
-        if instance is None:
-            raise Http404('No Companies registered Yet!')
-        return instance
+    queryset = Company.objects.all()
 
     def get_context_data(self, *args, **kwargs):
         context = super(MarketOverview, self).get_context_data(*args, **kwargs)
-        qs = InvestmentRecord.objects.filter(user=self.request.user)
-        context['investments'] = qs
-        context['company_list'] = Company.objects.all()
+        context['investments'] = InvestmentRecord.objects.filter(user=self.request.user)
         return context
 
 
