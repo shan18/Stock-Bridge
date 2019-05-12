@@ -9,6 +9,7 @@
 {% url 'market:overview' as overview_url %}
 {% url 'account:loan' as loan_url %}
 {% url 'news' as news_url %}
+{% url 'instructions' as instructions_url %}
 
 
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #000000;">
@@ -63,10 +64,17 @@
 							{% endif %}
 						</a>
 					</li>
+				{% else %}
+					<li class="nav-item {% if request.path == instructions_url %}active{% endif %}">
+						<a class="nav-link" href="{{ instructions_url }}">Instructions</a>
+					</li>
 				{% endif %}
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				{% if request.user.is_authenticated %}
+					<li class="nav-item {% if request.path == instructions_url %}active{% endif %}">
+						<a class="nav-link" href="{{ instructions_url }}">Instructions</a>
+					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Account
@@ -74,7 +82,6 @@
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item {% if request.path == profile_url %}active{% endif %}" href="{{ profile_url }}">Profile</a>
             <a class="dropdown-item {% if request.path == schedule_url %}active{% endif %}" href="{{ schedule_url }}">Schedules</a>
-            <a class="dropdown-item {% if request.path == instruction_url %}active{% endif %}" href="{{ instruction_url }}">Instructions</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item {% if request.path == logout_url %}active{% endif %}" href="{{ logout_url }}">Logout</a>
 						</div>

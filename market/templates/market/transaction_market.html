@@ -107,7 +107,8 @@
     </form>
   </div>
 </div>
-<div class="row mt-3">
+{% include 'market/snippets/scheduler_shortcut.html' with username=request.user.username %}
+<div class="row mt-1">
   <div class="col-12 text-center">
     How to use scheduler? <a href="{% url 'instructions' %}#rules-2">Click Here!</a>
   </div>
