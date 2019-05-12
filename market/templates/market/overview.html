@@ -27,5 +27,6 @@
 {% if investments %}
     {% include 'snippets/market_overview_table.html' with object_list=investments %}
 {% endif %}
+{% include 'market/snippets/scheduler_shortcut.html' with username=request.user.username %}
 
 {% endblock %}
