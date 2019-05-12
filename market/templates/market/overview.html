@@ -8,13 +8,13 @@
 
 {% block out_content_top %}
   <!-- marquee for cmp -->
-  {% include 'market/snippets/cmp_marquee.html' with company_list=company_list %}
+  {% include 'market/snippets/cmp_marquee.html' with company_list=object_list %}
 {% endblock %}
 
 
 {% block content %}
 
-{% include 'market/snippets/inner_navbar.html' with company_list=company_list %}
+{% include 'market/snippets/inner_navbar.html' with company_list=object_list %}
 
 <div class="row">
   <div class="col-12">
