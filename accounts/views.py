@@ -77,7 +77,7 @@ class LeaderBoardView(CountNewsMixin, View):
         user_qs = User.objects.filter()
         for user in user_qs:
             net_worth = InvestmentRecord.objects.calculate_net_worth(user)
-            data.append((user.username, user.full_name, net_worth, user.coeff_of_variation))
+            data.append((user.username, user.get_full_name(), net_worth, user.coeff_of_variation))
         data = sorted(data, key=lambda d: (-d[2], d[3]))
         
         # Obtain data and rank of current user

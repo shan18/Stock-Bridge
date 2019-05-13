@@ -93,7 +93,7 @@ class User(AbstractBaseUser):
     def get_full_name(self):
         if self.full_name:
             return self.full_name
-        return self.email
+        return self.username
 
     def get_short_name(self):
         return self.username
