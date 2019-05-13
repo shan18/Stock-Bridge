@@ -74,7 +74,7 @@ class LeaderBoardView(CountNewsMixin, View):
 
     def get(self, request, *args, **kwargs):
         data = []
-        user_qs = User.objects.filter()
+        user_qs = User.objects.filter(is_superuser=False)
         for user in user_qs:
             net_worth = InvestmentRecord.objects.calculate_net_worth(user)
             data.append((user.username, user.get_full_name(), net_worth, user.coeff_of_variation))
