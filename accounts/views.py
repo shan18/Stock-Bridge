@@ -10,7 +10,6 @@ from django.views.generic import ListView, DetailView, FormView, CreateView, Del
 from django.views.generic.edit import FormMixin
 from django.utils.safestring import mark_safe
 from django.utils import timezone
-from django.utils.decorators import method_decorator
 from django.urls import reverse, reverse_lazy
 
 from .forms import LoginForm, RegisterForm, ReactivateEmailForm
@@ -75,7 +74,7 @@ class LeaderBoardView(CountNewsMixin, View):
 
     def get(self, request, *args, **kwargs):
         data = []
-        user_qs = User.objects.all()
+        user_qs = User.objects.filter()
         for user in user_qs:
             net_worth = InvestmentRecord.objects.calculate_net_worth(user)
             data.append((user.username, user.full_name, net_worth, user.coeff_of_variation))
