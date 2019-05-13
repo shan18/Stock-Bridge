@@ -1,0 +1,123 @@
+[
+{
+  "model": "market.news",
+  "pk": 2,
+  "fields": {
+    "title": "Welcome Message",
+    "content": "Hello Traders, Welcome to Stock Bridge! Keep on checking the news section frequently.",
+    "is_active": true,
+    "timestamp": "2019-05-13T15:50:47.635Z",
+    "updated": "2019-05-13T15:50:47.635Z"
+  }
+},
+{
+  "model": "market.news",
+  "pk": 3,
+  "fields": {
+    "title": "3 - Doogle - 7",
+    "content": "Doogle penalised $500 million in Europe for not following user privacy regulations.",
+    "is_active": false,
+    "timestamp": "2019-05-13T15:56:17.811Z",
+    "updated": "2019-05-13T15:57:56.925Z"
+  }
+},
+{
+  "model": "market.news",
+  "pk": 4,
+  "fields": {
+    "title": "13 - Doogle - 35",
+    "content": "Doogle CEO Barrry Gauge dies in an accident! New CEO not yet confirmed.",
+    "is_active": false,
+    "timestamp": "2019-05-13T16:01:20.645Z",
+    "updated": "2019-05-13T16:01:31.353Z"
+  }
+},
+{
+  "model": "market.news",
+  "pk": 5,
+  "fields": {
+    "title": "37 - Doogle - 46",
+    "content": "New CEO of Doogle \"Dundar Dhichai\" appointed! The new CEO launches a new web browser soon after his joining.",
+    "is_active": false,
+    "timestamp": "2019-05-13T16:06:01.330Z",
+    "updated": "2019-05-13T16:06:01.330Z"
+  }
+},
+{
+  "model": "market.news",
+  "pk": 6,
+  "fields": {
+    "title": "51 - Doogle - 60",
+    "content": "Doogle's web browser covers 60% market share.",
+    "is_active": false,
+    "timestamp": "2019-05-13T16:08:24.591Z",
+    "updated": "2019-05-13T16:08:24.591Z"
+  }
+},
+{
+  "model": "market.news",
+  "pk": 7,
+  "fields": {
+    "title": "2 - Appel - 11",
+    "content": "Leaks from Appel's next conference indicate launching of a new smartphone zPhone, creating a lot of excitement in the smartphone industry.",
+    "is_active": false,
+    "timestamp": "2019-05-13T16:19:10.672Z",
+    "updated": "2019-05-13T17:40:36.895Z"
+  }
+},
+{
+  "model": "market.news",
+  "pk": 9,
+  "fields": {
+    "title": "18 - Appel - 24",
+    "content": "Multiple reports have been received saying Appel's smartphone battery has started catching fire unexpectedly.",
+    "is_active": false,
+    "timestamp": "2019-05-13T16:23:53.136Z",
+    "updated": "2019-05-13T16:32:04.924Z"
+  }
+},
+{
+  "model": "market.news",
+  "pk": 10,
+  "fields": {
+    "title": "45 - Appel - 60",
+    "content": "Appel enters the laptop market by introducing it's new notebook series \"Bacbook Bro\". Customers report that the laptops have blazing fast performance and premium build quality. Almost all reviews have given the laptop a rating of 9 out of 10.",
+    "is_active": false,
+    "timestamp": "2019-05-13T16:27:41.467Z",
+    "updated": "2019-05-13T17:41:13.986Z"
+  }
+},
+{
+  "model": "market.news",
+  "pk": 11,
+  "fields": {
+    "title": "13 - IT - 23",
+    "content": "EU fined all the internet companies on account of data breach.",
+    "is_active": false,
+    "timestamp": "2019-05-13T16:30:35.081Z",
+    "updated": "2019-05-13T16:33:38.092Z"
+  }
+},
+{
+  "model": "market.news",
+  "pk": 12,
+  "fields": {
+    "title": "26 - OMGC - 41",
+    "content": "Many countries cut their exports to India. Oil Prices have started surging!",
+    "is_active": false,
+    "timestamp": "2019-05-13T16:35:16.040Z",
+    "updated": "2019-05-13T16:35:16.040Z"
+  }
+},
+{
+  "model": "market.news",
+  "pk": 17,
+  "fields": {
+    "title": "2- Zio - 17",
+    "content": "VoLTE launched in India. Internet speeds have boosted!",
+    "is_active": false,
+    "timestamp": "2019-05-13T18:15:59.518Z",
+    "updated": "2019-05-13T18:15:59.518Z"
+  }
+}
+]

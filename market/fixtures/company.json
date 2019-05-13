@@ -6,13 +6,13 @@
     "code": "APL",
     "name": "Appel",
     "cap": "100000000000.00",
-    "cmp": "72.00",
-    "change": "0.00",
+    "cmp": "66.00",
+    "change": "-1.49",
     "cap_type": "large",
-    "stocks_bought": 0,
+    "stocks_bought": 1,
     "industry": "IT Sector",
     "timestamp": "2018-04-28T05:10:03.092Z",
-    "updated": "2019-05-09T11:11:56.088Z"
+    "updated": "2019-05-11T18:58:22.212Z"
   }
 },
 {
@@ -22,13 +22,13 @@
     "code": "DGL",
     "name": "Doogle",
     "cap": "150000000000.00",
-    "cmp": "80.00",
-    "change": "0.00",
+    "cmp": "87.00",
+    "change": "-3.33",
     "cap_type": "large",
     "stocks_bought": 0,
     "industry": "IT Sector",
     "timestamp": "2018-04-28T05:11:04.035Z",
-    "updated": "2019-05-09T11:12:27.816Z"
+    "updated": "2019-05-11T18:58:22.669Z"
   }
 },
 {
@@ -38,13 +38,13 @@
     "code": "FKB",
     "name": "Fakebook",
     "cap": "80000000000.00",
-    "cmp": "67.00",
-    "change": "0.00",
+    "cmp": "84.00",
+    "change": "-5.62",
     "cap_type": "large",
     "stocks_bought": 0,
     "industry": "IT Sector",
     "timestamp": "2018-04-28T05:11:58.668Z",
-    "updated": "2019-05-09T11:12:52.660Z"
+    "updated": "2019-05-11T18:58:23.058Z"
   }
 },
 {
@@ -54,13 +54,13 @@
     "code": "OMGC",
     "name": "OMG-C",
     "cap": "45000000000.00",
-    "cmp": "42.00",
-    "change": "0.00",
+    "cmp": "41.00",
+    "change": "-8.89",
     "cap_type": "mid",
     "stocks_bought": 0,
     "industry": "Oil Sector",
     "timestamp": "2018-04-28T05:13:12.769Z",
-    "updated": "2019-05-09T11:13:54.962Z"
+    "updated": "2019-05-11T18:58:23.457Z"
   }
 },
 {
@@ -70,13 +70,13 @@
     "code": "PNT",
     "name": "Panatonic",
     "cap": "42000000000.00",
-    "cmp": "55.00",
-    "change": "0.00",
+    "cmp": "68.00",
+    "change": "-6.85",
     "cap_type": "mid",
     "stocks_bought": 0,
     "industry": "Consumer Durables Sector",
     "timestamp": "2018-04-28T05:13:55.903Z",
-    "updated": "2019-05-09T11:14:16.763Z"
+    "updated": "2019-05-11T18:58:23.890Z"
   }
 },
 {
@@ -86,13 +86,13 @@
     "code": "SPY",
     "name": "SpaceY",
     "cap": "40000000000.00",
-    "cmp": "45.00",
+    "cmp": "25.00",
     "change": "0.00",
     "cap_type": "mid",
     "stocks_bought": 0,
     "industry": "Manufacturing Sector",
     "timestamp": "2018-04-28T05:15:56.147Z",
-    "updated": "2019-05-09T11:14:26.868Z"
+    "updated": "2019-05-11T18:58:24.278Z"
   }
 },
 {
@@ -102,13 +102,13 @@
     "code": "BDJ",
     "name": "Bodrej",
     "cap": "800000000.00",
-    "cmp": "20.00",
-    "change": "0.00",
+    "cmp": "26.00",
+    "change": "36.84",
     "cap_type": "small",
     "stocks_bought": 0,
     "industry": "Furniture Sector",
     "timestamp": "2018-04-28T05:16:56.926Z",
-    "updated": "2019-05-09T11:15:48.565Z"
+    "updated": "2019-05-11T18:58:25.075Z"
   }
 },
 {
@@ -118,13 +118,13 @@
     "code": "ADB",
     "name": "Adibas",
     "cap": "700000000.00",
-    "cmp": "44.00",
-    "change": "0.00",
+    "cmp": "77.00",
+    "change": "5.48",
     "cap_type": "small",
     "stocks_bought": 0,
     "industry": "Apparels and Shopping",
     "timestamp": "2018-04-28T05:17:34.468Z",
-    "updated": "2019-05-09T11:15:33.834Z"
+    "updated": "2019-05-11T18:58:24.655Z"
   }
 },
 {
@@ -134,13 +134,13 @@
     "code": "ZIO",
     "name": "ZiO",
     "cap": "500000000.00",
-    "cmp": "12.00",
-    "change": "0.00",
+    "cmp": "42.00",
+    "change": "-17.65",
     "cap_type": "small",
     "stocks_bought": 0,
     "industry": "Telecommunication",
     "timestamp": "2018-04-28T05:18:11.990Z",
-    "updated": "2019-05-09T11:15:59.775Z"
+    "updated": "2019-05-11T18:58:25.476Z"
   }
 }
 ]
