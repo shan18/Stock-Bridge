@@ -322,7 +322,7 @@ class News(models.Model):
 def post_save_news_create_receiver(sender, instance, created, *args, **kwargs):
     if created:
         for user in User.objects.all():
-            UserNews.objects.create(user=user, news=instance)
+            UserNews.objects.create(user=user, news=instance, read=not instance.is_active)
     else:
         UserNews.objects.get_by_news(news=instance).update(read=not instance.is_active)
 

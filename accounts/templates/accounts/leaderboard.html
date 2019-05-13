@@ -26,12 +26,10 @@
         </thead>
         <tbody>
             {% for object in current_user %}
-              <tr style="background-color:rgb(224, 129, 129)">
+              <tr style="background: linear-gradient(to right, #59a563, #60d3e0);">
                 <td class="text-center">{{ object.1 }}</td>
                 <td class="text-center">
-                  <a href="{% url 'profile' object.0.0 %}">
                     {{ object.0.1 }}
-                  </a>
                 </td>
                 <td class="text-center">&#8377; {{ object.0.2 }}</td>
               </tr>
