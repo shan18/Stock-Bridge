@@ -174,7 +174,7 @@ class CompanyTransactionView(LoginRequiredMixin, CountNewsMixin, View):
                 messages.error(request, 'Enter a valid quantity!')
         else:
             # msg = 'The market is closed!'
-            msg = 'The market will be live from 7:15 PM'
+            msg = 'The market will be live tomorrow from 9:30 PM'
             messages.info(request, msg)
         url = reverse('market:transaction', kwargs={'code': company.code})
         if request.is_ajax():
