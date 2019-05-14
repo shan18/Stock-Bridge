@@ -50,8 +50,10 @@ class UpdateMarketView(LoginRequiredMixin, AdminRequiredMixin, View):
         for query in schedule_qs:
             if query.perform_transaction(query.company.cmp):
                 TransactionScheduler.objects.get(pk=query.pk).delete()
+        
+        pointer = StocksDatabasePointer.objects.get_pointer().pointer
 
-        return HttpResponse('cmp updated')
+        return HttpResponse('cmp updated - ' + str(pointer))
 
 
 class MarketOverview(LoginRequiredMixin, CountNewsMixin, ListView):
