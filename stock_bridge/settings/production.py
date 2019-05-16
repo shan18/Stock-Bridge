@@ -8,7 +8,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['stockbridge.morphosis.org.in', '.herokuapp.com']
 BASE_URL = 'stockbridge.morphosis.org.in'
 
-START_TIME = datetime(2019, 5, 16, 19, 00, 0)
+START_TIME = datetime(2019, 5, 16, 19, 30, 0)
 STOP_TIME = datetime(2019, 5, 17, 00, 30, 00)
 
 DATABASES = {
