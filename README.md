@@ -1,11 +1,11 @@
-# Stock Bridge 2019
+# Stock Bridge
 
 Keeping in view the real thrill of the market monotony, we are here with the Virtual Simulation of the same thrill and adrenaline rush through the event under the banner of **Morphosis'19, NIT Mizoram**. The virtual share market enables the participants to trade, buy, sell mortgage and showcase their rationality, their mettle against competitive decision making under pressure. The full time active virtual market will be a platform to showcase your inferential, pressure-handling capability.
 
 ## Instructions for setting up the project
 
 1. Clone the repository  
-   `git clone https://github.com/morphosis-nitmz/Stock-Bridge-2019`
+   `git clone https://github.com/morphosis-nitmz/Stock-Bridge`
 
 2. Rename the file **.env-sample** to **.env** and replace the value of `SECRET_KEY` with the secret key of your own project. To generate a new secret key
 
