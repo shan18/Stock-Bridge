@@ -1,0 +1,146 @@
+[
+  {
+    "model": "market.company",
+    "pk": 1,
+    "fields": {
+      "code": "APL",
+      "name": "Appel",
+      "cap": "100000000000.00",
+      "cmp": "72.00",
+      "change": "0.00",
+      "cap_type": "large",
+      "stocks_bought": 0,
+      "industry": "IT Sector",
+      "timestamp": "2018-04-28T05:10:03.092Z",
+      "updated": "2019-05-09T11:11:56.088Z"
+    }
+  },
+  {
+    "model": "market.company",
+    "pk": 2,
+    "fields": {
+      "code": "DGL",
+      "name": "Doogle",
+      "cap": "150000000000.00",
+      "cmp": "80.00",
+      "change": "0.00",
+      "cap_type": "large",
+      "stocks_bought": 0,
+      "industry": "IT Sector",
+      "timestamp": "2018-04-28T05:11:04.035Z",
+      "updated": "2019-05-09T11:12:27.816Z"
+    }
+  },
+  {
+    "model": "market.company",
+    "pk": 3,
+    "fields": {
+      "code": "FKB",
+      "name": "Fakebook",
+      "cap": "80000000000.00",
+      "cmp": "67.00",
+      "change": "0.00",
+      "cap_type": "large",
+      "stocks_bought": 0,
+      "industry": "IT Sector",
+      "timestamp": "2018-04-28T05:11:58.668Z",
+      "updated": "2019-05-09T11:12:52.660Z"
+    }
+  },
+  {
+    "model": "market.company",
+    "pk": 4,
+    "fields": {
+      "code": "OMGC",
+      "name": "OMG-C",
+      "cap": "45000000000.00",
+      "cmp": "42.00",
+      "change": "0.00",
+      "cap_type": "mid",
+      "stocks_bought": 0,
+      "industry": "Oil Sector",
+      "timestamp": "2018-04-28T05:13:12.769Z",
+      "updated": "2019-05-09T11:13:54.962Z"
+    }
+  },
+  {
+    "model": "market.company",
+    "pk": 5,
+    "fields": {
+      "code": "PNT",
+      "name": "Panatonic",
+      "cap": "42000000000.00",
+      "cmp": "55.00",
+      "change": "0.00",
+      "cap_type": "mid",
+      "stocks_bought": 0,
+      "industry": "Consumer Durables Sector",
+      "timestamp": "2018-04-28T05:13:55.903Z",
+      "updated": "2019-05-09T11:14:16.763Z"
+    }
+  },
+  {
+    "model": "market.company",
+    "pk": 6,
+    "fields": {
+      "code": "SPY",
+      "name": "SpaceY",
+      "cap": "40000000000.00",
+      "cmp": "45.00",
+      "change": "0.00",
+      "cap_type": "mid",
+      "stocks_bought": 0,
+      "industry": "Manufacturing Sector",
+      "timestamp": "2018-04-28T05:15:56.147Z",
+      "updated": "2019-05-09T11:14:26.868Z"
+    }
+  },
+  {
+    "model": "market.company",
+    "pk": 7,
+    "fields": {
+      "code": "BDJ",
+      "name": "Bodrej",
+      "cap": "800000000.00",
+      "cmp": "20.00",
+      "change": "0.00",
+      "cap_type": "small",
+      "stocks_bought": 0,
+      "industry": "Furniture Sector",
+      "timestamp": "2018-04-28T05:16:56.926Z",
+      "updated": "2019-05-09T11:15:48.565Z"
+    }
+  },
+  {
+    "model": "market.company",
+    "pk": 8,
+    "fields": {
+      "code": "ADB",
+      "name": "Adibas",
+      "cap": "700000000.00",
+      "cmp": "44.00",
+      "change": "0.00",
+      "cap_type": "small",
+      "stocks_bought": 0,
+      "industry": "Apparels and Shopping",
+      "timestamp": "2018-04-28T05:17:34.468Z",
+      "updated": "2019-05-09T11:15:33.834Z"
+    }
+  },
+  {
+    "model": "market.company",
+    "pk": 9,
+    "fields": {
+      "code": "ZIO",
+      "name": "ZiO",
+      "cap": "500000000.00",
+      "cmp": "12.00",
+      "change": "0.00",
+      "cap_type": "small",
+      "stocks_bought": 0,
+      "industry": "Telecommunication",
+      "timestamp": "2018-04-28T05:18:11.990Z",
+      "updated": "2019-05-09T11:15:59.775Z"
+    }
+  }
+]
