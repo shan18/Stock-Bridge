@@ -5,7 +5,7 @@ Keeping in view the real thrill of the market monotony, we are here with the Vir
 ## Instructions for setting up the project
 
 1. Clone the repository  
-   `git clone https://github.com/morphosis-nitmz/Stock-Bridge`
+   `git clone https://github.com/morphosis-nitmz/Stock-Bridge/tree/heroku`
 
 2. Rename the file **.env-sample** to **.env** and replace the value of `SECRET_KEY` with the secret key of your own project. To generate a new secret key
 
