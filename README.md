@@ -1,5 +1,7 @@
 # Stock Bridge
 
+### Disclaimer: A Demo of this project was hosted on the free dynos on Heroku but now since Herko have stopped the support for free dynos, a demo of the project is no longer available.
+
 Keeping in view the real thrill of the market monotony, we are here with the Virtual Simulation of the same thrill and adrenaline rush through the event under the banner of **Morphosis'19, NIT Mizoram**. The virtual share market enables the participants to trade, buy, sell mortgage and showcase their rationality, their mettle against competitive decision making under pressure. The full time active virtual market will be a platform to showcase your inferential, pressure-handling capability.
 
 ## Instructions for setting up the project
